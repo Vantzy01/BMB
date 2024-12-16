@@ -580,29 +580,6 @@ if (isset($_SESSION['error'])) {
             </div>
         </main>
     </div>
-    
-    <!-- Complaint Submission Modal
-    <div class="modal fade" id="complaintModal" tabindex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="complaintModalLabel">Submit a Complaint</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="complaintForm">
-                        <div class="form-group">
-                            <label for="complaintMessage">Message</label>
-                            <textarea class="form-control" id="complaintMessage" rows="3" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
     <!-- Bottom Navigation -->
     <nav class="bottom-navbar">
