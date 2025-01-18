@@ -130,7 +130,7 @@ $pdf->SetXY(128.8, 132.5);
 $pdf->Cell(34.1, 10, number_format($invoice['Discount']), 0, 1, 'C');
 
 // Calculate the Total (DueAmount - Discount)
-$totalAmount = $invoice['DueAmount'] - $invoice['Discount'];
+$totalAmount = $invoice['DueAmount'] - $invoice['Discount']; 
 
 $pdf->SetXY(163.5, 132.5);
 $pdf->Cell(36, 10, 'Php ' . number_format($totalAmount, 2), 0, 1, 'C');

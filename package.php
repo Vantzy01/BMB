@@ -325,11 +325,15 @@ $conn->close();
             }
         }
 
-        /* Media Query Example for Responsiveness */  
-        @media (max-width: 768px) {
+        /* Responsive Design */
+        @media (max-width: 600px) {
             .modal-content {  
                 margin: 10px;  
-            }  
+            }
+
+            .bottom-navbar span {
+                display: none;
+            }
         }
     </style>
 </head>

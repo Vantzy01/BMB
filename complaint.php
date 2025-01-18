@@ -52,6 +52,13 @@ foreach ($complaints as $complaint) {
         break;
     }
 }
+$hasProcessingComplaint = false;
+foreach ($complaints as $complaint) {
+    if ($complaint['Status'] === 'Processing') {
+        $hasProcessingComplaint = true;
+        break;
+    }
+}
 
 if (isset($_SESSION['success'])) {
     echo "<div class='alert alert-success'>" . $_SESSION['success'] . "</div>";
@@ -398,14 +405,6 @@ if (isset($_SESSION['error'])) {
             text-decoration: none;
         }
 
-
-        /* Media Query Example for Responsiveness */  
-        @media (max-width: 768px) {
-            .modal-content {  
-                margin: 10px;  
-            }  
-        }
-
         .card {
             border: none;
             border-radius: 10px;
@@ -496,6 +495,16 @@ if (isset($_SESSION['error'])) {
             }
             100% {
                 transform: rotate(360deg);
+            }
+        }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .modal-content {  
+                margin: 10px;  
+            }
+
+            .bottom-navbar span {
+                display: none;
             }
         }
     </style>
@@ -776,11 +785,17 @@ if (isset($_SESSION['error'])) {
         // Add event listener to the Send Complaint button
         document.getElementById('sendComplaintBtn').addEventListener('click', function () {
             <?php if ($hasPendingComplaint): ?>
-                // Use custom message box to show the pending complaint message
+                // If a Pending complaint exists
                 $('#customMessageBoxLabel').text('Pending Complaint');
-                $('#customMessageBoxBody').text('You have a pending complaint.');
+                $('#customMessageBoxBody').text('You already have a pending complaint. Please wait until it is resolved.');
+                $('#customMessageBox').modal('show');
+            <?php elseif ($hasProcessingComplaint): ?>
+                // If a complaint is under processing
+                $('#customMessageBoxLabel').text('Processing Complaint');
+                $('#customMessageBoxBody').text('You have a complaint currently being processed. Please check your portal or email for updates.');
                 $('#customMessageBox').modal('show');
             <?php else: ?>
+                // Redirect to the file complaint page if no complaints are pending or processing
                 window.location.href = `filecomplaint.php`;
             <?php endif; ?>
         });

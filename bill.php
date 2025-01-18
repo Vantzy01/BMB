@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
@@ -10,7 +9,6 @@ if (!isset($_SESSION['username'])) {
 $clientID = $_SESSION['clientID'];
 $fullName = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : null;
 
-// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -22,7 +20,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch billing records for the logged-in client
 $sql = "SELECT b.InvoiceNo, b.DueDate, b.Period, p.Plan, b.DueAmount, b.Discount, b.AmountPaid, b.OutstandingBalance, b.Status 
         FROM tblbilling b 
         JOIN tblplan p ON b.PlanID = p.PlanID
@@ -33,7 +30,6 @@ $stmt->bind_param("s", $clientID);
 $stmt->execute();
 $result = $stmt->get_result();
 $bills = $result->fetch_all(MYSQLI_ASSOC);
-
 
 $announcementSql = "SELECT * FROM tblannouncements ORDER BY DateCreated DESC";
 $announcementResult = $conn->query($announcementSql);
@@ -356,14 +352,12 @@ $conn->close();
             margin-top: 15px;
         }
 
-        /* Additional Styling */
         .table td {
             vertical-align: middle;
             padding: 12px;
             /* Add padding for a clean look */
         }
 
-        /* Center align for the no records found message */
         .text-center {
             text-align: center;
         }
@@ -413,13 +407,17 @@ $conn->close();
         100% {
             transform: rotate(360deg);
         }
-        } 
+        }
 
-        /* Media Query Example for Responsiveness */  
-        @media (max-width: 768px) {
+        /* Responsive Design */
+        @media (max-width: 600px) {
             .modal-content {  
                 margin: 10px;  
-            }  
+            }
+
+            .bottom-navbar span {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -430,18 +428,13 @@ $conn->close();
     </div>
     <!-- Top Navbar -->
     <header class="top-navbar">
-        <!-- Sidebar Toggle Button -->
         <div class="collapse-btn" id="toggleSidebar">
             <i class="fas fa-bars"></i>
         </div>
         <div class="top-title">
             <a> BMB CLIENT PORTAL</a>
         </div>
-        <!-- <div>
-            <i class="fas fa-user-circle"></i> <span id="client-name"><?php echo htmlspecialchars($fullName); ?></span> 
-        </div> -->
         <div class="notification-icon">
-            <!-- Notification Bell Icon -->
             <i class="fas fa-bell" id="notificationBell"></i>
         </div>
     </header>

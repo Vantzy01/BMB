@@ -1,9 +1,6 @@
 <?php
 session_start();
 include('db_connection.php');
-
-
-// Fetch unique periods for the dropdown
 $periodsQuery = "SELECT DISTINCT Period FROM tblbilling ORDER BY Period DESC";
 $periodsResult = $conn->query($periodsQuery);
 ?>
@@ -17,8 +14,30 @@ $periodsResult = $conn->query($periodsQuery);
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
     <title>Billing Records</title>
     <style>
-        /* Modern styling for the page */
         body { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; }
+        /* Top Navigation Bar */
+        .top-nav {
+            background-color: #2C3E50;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            padding: 1em 2em;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav h1 {
+            font-size: 1.5em;
+        }
+
+        .profile a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            background-color: #e74c3c;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
         .container { max-width: 1200px; margin: auto; padding: 20px; }
         .filter-bar { display: flex; gap: 15px; margin-bottom: 20px; }
         .table-container { overflow-x: auto;}
@@ -28,6 +47,8 @@ $periodsResult = $conn->query($periodsQuery);
         th { background-color: #3498db; color: #fff; font-weight: bold; }
         tr:nth-child(even) { background-color: #f2f2f2; }
         tr:hover { background-color: #f1f1f1; }
+        table th:nth-child(6) {text-align: center;}
+        table td:nth-child(6) {text-align: center;}
         .action-viewbtn { padding: 6px 12px; background: #3498db; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
         .action-viewbtn:hover { background: #2980b9; }
         /* Styling for action buttons */
@@ -46,7 +67,7 @@ $periodsResult = $conn->query($periodsQuery);
 
         /* Colors for different button statuses */
         .action-btn.pay-btn {
-            background-color: #28a745; /* Green */
+            background-color: #28a745;
         }
 
         .action-btn.pay-btn:hover {
@@ -54,30 +75,26 @@ $periodsResult = $conn->query($periodsQuery);
         }
 
         .action-btn.paid-btn {
-            background-color: #6c757d; /* Gray */
+            background-color: #6c757d;
             cursor: not-allowed;
         }
 
         .action-btn.waiting-btn {
-            background-color: #ffc107; /* Yellow */
+            background-color: #ffc107;
             cursor: not-allowed;
         }
 
-        /* Icons styling */
-        .action-btn i {
-            font-size: 16px;
-        }
 
         /* Modal Styling */
         #billingModal {
-            display: none; /* Hidden by default */
+            display: none;
             position: fixed;
             z-index: 10;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            background-color: rgba(0, 0, 0, 0.5);
         }
 
         .modal-content {
@@ -124,15 +141,14 @@ $periodsResult = $conn->query($periodsQuery);
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            overflow-y: auto; /* Ensure the modal container itself can scroll if needed */
+            overflow-y: auto;
         }
 
-        /* Modal Content */
         .modal-content {
             background-color: #fff;
             width: 100%;
             max-width: 500px;
-            max-height: 100vh; /* Restrict height to 80% of viewport */
+            max-height: 100vh;
             padding: 20px 30px;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -141,7 +157,6 @@ $periodsResult = $conn->query($periodsQuery);
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        /* Close Button */
         .close-modal {
             position: absolute;
             top: 10px;
@@ -226,45 +241,42 @@ $periodsResult = $conn->query($periodsQuery);
         }
 
         .paid-btn {
-            background-color: #ccc; /* Grey for "Already Paid" button */
+            width: auto;
+            height: auto;
+            background-color: #ccc;
             color: #666;
             cursor: not-allowed;
         }
 
-        /* Fade-in animation */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .top-nav {
-            background-color: #2C3E50;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            padding: 1em;
-            align-items: center;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 1em;
-        }
-
+        /* Bottom Navigation Bar */
         .bottom-nav {
             display: flex;
             justify-content: space-around;
             background-color: #2C3E50;
-            padding: 1em;
+            padding: 0.5em 0;
             position: fixed;
             bottom: 0;
             width: 100%;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .bottom-nav a {
             color: white;
             text-decoration: none;
+            font-size: 1em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3em;
+        }
+
+        .bottom-nav a i {
             font-size: 1.2em;
         }
 
@@ -273,16 +285,142 @@ $periodsResult = $conn->query($periodsQuery);
             padding-top: 0.5em;
         }
 
+        .bottom-nav a span {
+            font-size: 0.75em;
+        }
+        /* Responsive Design */
+        @media (max-width: 560px) {
+            .top-nav h1 {
+                font-size: 1em;
+            }
+
+            .filter-bar { display: flex; gap: 5px;}
+            .filter-bar select, .filter-bar input[type="text"] { padding: 10px; font-size: 10px; width: 100%; max-width: 300px; }
+            .card p {
+                font-size: 1.5em;
+            }
+
+            th:first-child,
+            td:first-child{
+                display:none;
+            }
+
+            .card h2 {
+                font-size: 1em;
+            }
+
+            .bottom-nav a span {
+                display: none;
+            }
+
+            .bottom-nav a i {
+                font-size: 1.8em;
+            }
+
+            table { width: 100%; background: #fff; border-radius: 2px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+            th{font-size: 7px;}
+            td{font-size: 6px;}
+            th, td { padding: 6px 4px; text-align: left;}
+            tbody td {
+                border: none;
+                padding: 6px 2px;
+            }
+
+            /* Style buttons for mobile */
+            .action-btn,
+            .action-viewbtn,
+            .pay-btn{
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 2px 5px;
+            }
+
+            .action-btn.pay-btn {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 2px 5px;
+            }
+
+            .action-btn.pay-btn:hover {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 2px 5px;
+            }
+
+            .action-btn.paid-btn {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 2px 5px;
+            }
+
+            .action-btn.waiting-btn {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 2px 5px;
+            }
+        }
+
+        /* Responsive Design 830px*/
+        @media (min-width: 561px) and (max-width: 850px) {
+            .bottom-nav a i {
+                font-size: 1.3em;
+            }
+
+            .filter-bar { display: flex; gap: 8px;}
+            .filter-bar select, .filter-bar input[type="text"] { padding: 10px; font-size: 12px; width: 100%; max-width: 300px; }
+            table { font-size: 10px; width: 100%; background: #fff; border-radius: 2px; text-align: left; overflow: auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+            th, td { padding: 7px 5px; text-align: left; }
+            th { background-color: #3498db; color: #fff;}
+            tbody td {
+                text-align: left;
+                border: none;
+            }
+
+            /* Style buttons for mobile */
+            .action-btn,
+            .action-viewbtn,
+            .pay-btn{
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 4px 5px;
+            }
+
+            .action-btn.pay-btn {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 4px 5px;
+            }
+
+            .action-btn.pay-btn:hover {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 4px 5px;
+            }
+
+            .action-btn.paid-btn {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 4px 5px;
+            }
+
+            .action-btn.waiting-btn {
+                margin-bottom: 1px;
+                font-size: 6px;
+                padding: 4px 5px;
+            }
+        }
+        
     </style>
 </head>
 <body>
     <!-- Top Navigation Bar -->
     <header>
         <nav class="top-nav">
-            <h1>Collector Dashboard</h1>
+            <h1><?php echo $_SESSION['FullName']; ?></h1>
             <div class="profile">
-                <span><?php echo $_SESSION['FullName']; ?></span>
-                <a href="coll_logout.php">Logout</a>
+                <a href="coll_logout.php" style="color: white;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
             </div>
         </nav>
     </header>
@@ -379,13 +517,28 @@ $periodsResult = $conn->query($periodsQuery);
     <!-- Bottom Navigation Bar -->
     <footer>
         <nav class="bottom-nav">
-            <a href="collector_dash.php">Dashboard</a>
-            <a href="collector_billing.php" class="active">Billing</a>
-            <a href="collector_collection.php">Collection</a>
-            <a href="collector_map.php">Map</a>
-            <a href="collector_announcement.php">Announcements</a>
+            <a href="collector_dash.php" >
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="collector_billing.php" class="active">
+                <i class="fas fa-file-invoice"></i>
+                <span>Billing</span>
+            </a>
+            <a href="collector_collection.php">
+                <i class="fas fa-wallet"></i>
+                <span>Collection</span>
+            </a>
+            <a href="collector_map.php">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Map</span>
+            </a>
+            <a href="collector_announcement.php">
+                <i class="fas fa-bullhorn"></i>
+                <span>Announcements</span>
+            </a>
         </nav>
-    </footer>
+    </footer>    
     
     <script>
         function fetchBillingData() {
@@ -414,20 +567,28 @@ $periodsResult = $conn->query($periodsQuery);
             // AJAX to fetch billing details
             const xhr = new XMLHttpRequest();
             xhr.open("GET", `fetch_billing_details.php?invoiceNo=${invoiceNo}`, true);
-            xhr.onload = function() {
+            xhr.onload = function () {
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
-                    // Populate modal fields
+
+                    // Dynamically populate modal fields with inline styles
                     document.getElementById("modalInvoiceNo").innerText = data.InvoiceNo;
                     document.getElementById("modalClientID").innerText = data.ClientID;
                     document.getElementById("modalDueDate").innerText = data.DueDate;
                     document.getElementById("modalPeriod").innerText = data.Period;
                     document.getElementById("modalPlan").innerText = data.Plan;
-                    document.getElementById("modalDueAmount").innerText = `$${data.DueAmount}`;
-                    document.getElementById("modalDiscount").innerText = `$${data.Discount}`;
-                    document.getElementById("modalAmountPaid").innerText = `$${data.AmountPaid}`;
-                    document.getElementById("modalOutstandingBalance").innerText = `$${data.OutstandingBalance}`;
-                    document.getElementById("modalStatus").innerText = data.Status;
+                    document.getElementById("modalDueAmount").innerText = `PHP ${data.DueAmount}`;
+                    document.getElementById("modalDiscount").innerText = `PHP ${data.Discount}`;
+                    document.getElementById("modalAmountPaid").innerText = `PHP ${data.AmountPaid}`;
+                    document.getElementById("modalOutstandingBalance").innerText = `PHP ${data.OutstandingBalance}`;
+                    document.getElementById("modalStatus").innerText = `${data.Status}`;
+
+                    // Apply right alignment dynamically
+                    const modalDataFields = document.querySelectorAll('#billingModal .data');
+                    modalDataFields.forEach(field => {
+                        field.style.textAlign = "right"; // Align text to the right
+                        field.style.paddingRight = "100px"; // Add some spacing
+                    });
 
                     // Show modal
                     document.getElementById("billingModal").style.display = "block";
@@ -436,10 +597,10 @@ $periodsResult = $conn->query($periodsQuery);
             xhr.send();
         }
 
+
         function closeModal() {
             document.getElementById("billingModal").style.display = "none";
         }
-
 
         function openPaymentModal(invoiceNo) {
             // Generate unique ReferenceNo
@@ -513,6 +674,10 @@ $periodsResult = $conn->query($periodsQuery);
 
         function closePaymentModal() {
             document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function openInvoice(invoiceNo) {
+            window.open(`invoice.php?invoiceNo=${invoiceNo}`, '_blank');
         }
 
     </script>

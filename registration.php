@@ -40,160 +40,206 @@ $options = fetchPackages($conn);
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            color: #fff;
-            background: url('Images/hero-background.jpg') no-repeat center center/cover;
-            background-size: cover;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #121212;
-            position: relative;
-        }
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        color: #fff;
+        background: url('Images/hero-background.jpg') no-repeat center center/cover;
+        background-size: cover;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #121212;
+        position: relative;
+    }
 
-        /* Overlay */
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1;
-        }
+    /* Overlay */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+    }
 
-        /* Registration Form */
+    /* Registration Form */
+    .registration-container {
+        position: relative;
+        z-index: 2;
+        width: 90%; /* Changed from fixed width to percentage */
+        max-width: 600px;
+        margin: 20px auto; /* Reduced margin for smaller devices */
+        padding: 30px 20px; /* Adjusted padding for smaller devices */
+        background-color: rgba(31, 31, 31);
+        border-radius: 10px;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
+        text-align: center;
+        color: #fff;
+    }
+
+    .registration-container h2 {
+        margin-bottom: 20px;
+        font-size: 1.8rem; /* Adjusted font size */
+    }
+
+    .form-group {
+        margin-bottom: 15px; /* Reduced margin */
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 1rem;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: calc(100% - 30px);
+        padding: 10px 15px; /* Reduced padding */
+        border: 1px solid #333;
+        border-radius: 5px;
+        background-color: #2a2a2a;
+        color: #fff;
+        font-size: 0.9rem; /* Adjusted font size */
+        transition: border 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #00aaff;
+    }
+
+    .input-icon {
+        position: relative;
+    }
+
+    .input-icon input {
+        padding-left: 35px; /* Adjusted for icons */
+    }
+
+    .input-icon i {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        color: white;
+        font-size: 0.9rem; /* Adjusted icon size */
+    }
+
+    .cta {
+        padding: 12px 20px; /* Reduced padding */
+        background-color: #00aaff;
+        color: #fff;
+        font-size: 1em; /* Adjusted font size */
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .cta:hover {
+        background-color: #0088cc;
+    }
+
+    .registration-container p {
+        margin-top: 15px; /* Adjusted spacing */
+    }
+
+    .registration-container a {
+        color: #00aaff;
+        text-decoration: none;
+    }
+
+    .registration-container a:hover {
+        color: #0088cc;
+    }
+
+    /* Map Styling */
+    #map {
+        height: 300px; /* Adjusted map height for smaller screens */
+        width: 100%;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .form-group-checkbox {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .form-group-checkbox input[type="checkbox"] {
+        width: auto;
+        margin-right: 10px;
+    }
+
+    .instruction-text {
+        font-size: 0.8rem; /* Adjusted font size */
+        color: #bbb;
+        margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+        /* For tablets and small screens */
         .registration-container {
-            position: relative;
-            z-index: 2;
-            width: 600px;
-            margin: 50px auto;
-            padding: 40px 30px;
-            background-color: rgba(31, 31, 31);
-            border-radius: 10px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
-            text-align: center;
-            color: #fff;
+            padding: 20px;
         }
 
         .registration-container h2 {
-            margin-bottom: 30px;
-            font-size: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
+            font-size: 1.5rem;
         }
 
         .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
         }
 
-        /* Add a consistent width for inputs and select */
-        .form-group input, 
+        .form-group input,
         .form-group select {
-            width: calc(100% - 30px); /* Adjust to fit icons or keep consistent */
-            padding: 12px 15px;
-            border: 1px solid #333;
-            border-radius: 5px;
-            background-color: #2a2a2a;
-            color: #fff;
-            font-size: 1rem;
-            transition: border 0.3s;
-        }
-
-        .form-group input:focus, 
-        .form-group select:focus {
-            border-color: #00aaff;
-        }
-
-        /* Input Icon Wrapper */
-        .input-icon {
-            position: relative;
-        }
-
-        .input-icon input {
-            padding-left: 40px;
-        }
-
-        .input-icon i {
-            position: absolute;
-            top: 50%;
-            left: 15px;
-            transform: translateY(-50%);
-            color: white;
+            font-size: 0.85rem; /* Reduced font size */
         }
 
         .cta {
-            padding: 15px 30px;
-            background-color: #00aaff;
-            color: #fff;
-            font-size: 1.2em;
-            border-radius: 5px;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            width: 100%;
-            margin-top: 20px;
+            font-size: 0.9em; /* Reduced font size */
+        }
+    }
+
+    @media (max-width: 480px) {
+        /* For mobile devices */
+        .registration-container {
+            padding: 15px; /* Reduced padding */
         }
 
-        .cta:hover {
-            background-color: #0088cc;
+        .registration-container h2 {
+            font-size: 1.3rem; /* Further reduced heading size */
         }
 
-        .registration-container p {
-            margin-top: 20px;
+        .form-group input,
+        .form-group select {
+            padding: 8px 10px; /* Adjusted padding */
+            font-size: 0.8rem; /* Reduced font size */
+            padding-left: 30px;
         }
 
-        .registration-container a {
-            color: #00aaff;
-            text-decoration: none;
-        }
-
-        .registration-container a:hover {
-            color: #0088cc;
-        }
-
-        /* Map Styling */
-        #map {
-            height: 400px;
-            width: 100%;
-            margin-bottom: 20px;
-            border-radius: 5px;
-        }
-        
-        /* Checkbox styling */
-        .form-group-checkbox {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .form-group-checkbox input[type="checkbox"] {
-            width: auto;
-            margin-right: 10px;
-        }
-
-        /* Instructional Text */
         .instruction-text {
-            font-size: 0.9rem;
-            color: #bbb;
-            margin-bottom: 15px;
+            font-size: 0.75rem; /* Adjusted font size */
         }
 
-        /* Icon for Terms and Conditions */
-        .form-group-checkbox label {
-            margin: 0;
-            font-size: 0.9rem;
-            color: #fff;
+        .cta {
+            font-size: 0.85em; /* Further reduced font size */
         }
-    </style>
+
+        #map {
+            height: 250px; /* Adjusted map height */
+        }
+    }
+</style>
+
 </head>
 <body>
     <!-- Background overlay -->

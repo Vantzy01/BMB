@@ -95,6 +95,45 @@
         .login-container a:hover {
             color: #0088cc;
         }
+
+        /* General responsive design for small screens */
+        @media screen and (max-width: 430px) {
+            /* Adjust login container */
+            .login-container {
+                max-width: 90%; /* Reduce width to fit smaller screens */
+                padding: 15px;  /* Reduce padding */
+            }
+
+            /* Adjust text size */
+            .login-container h2 {
+                font-size: 1.2rem; /* Smaller heading size */
+            }
+
+            .form-group label {
+                font-size: 0.9rem; /* Smaller label size */
+            }
+
+            .form-group input {
+                font-size: 0.9rem; /* Adjust input text size */
+                padding: 8px; /* Slightly smaller padding */
+            }
+
+            /* Adjust button size */
+            .cta {
+                font-size: 1rem; /* Slightly smaller button text */
+                padding: 12px; /* Smaller padding for the button */
+            }
+
+            /* Adjust paragraph and link text size */
+            .login-container p {
+                font-size: 0.9rem; /* Adjust paragraph size */
+            }
+
+            .login-container a {
+                font-size: 0.9rem; /* Adjust link size */
+            }
+        }
+
         
     </style>
 </head>

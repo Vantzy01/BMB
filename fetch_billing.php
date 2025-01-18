@@ -42,9 +42,8 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         $Status = $row['Status'];
-        $buttonText = 'Pay';
         $buttonClass = 'pay-btn';
-        $buttonIcon = '<i class="fas fa-money-bill-wave"></i>'; // Pay icon
+        $buttonIcon = '<i class="fas fa-money-bill-wave"></i>';
         $disabled = '';
 
         // Check for "Waiting" status in tblpayment
@@ -55,12 +54,10 @@ if ($result->num_rows > 0) {
         $paymentResult = $paymentStmt->get_result();
 
         if ($Status === 'Paid') {
-            $buttonText = 'Paid';
-            $buttonClass = 'paid-btn';
+            $buttonClass = 'paid-btn ';
             $buttonIcon = '<i class="fas fa-check-circle"></i>'; // Check icon
             $disabled = 'disabled';
         } elseif ($paymentResult->num_rows > 0) {
-            $buttonText = 'Waiting';
             $buttonClass = 'waiting-btn';
             $buttonIcon = '<i class="fas fa-hourglass-half"></i>'; // Hourglass icon
             $disabled = 'disabled';
@@ -74,10 +71,13 @@ if ($result->num_rows > 0) {
         echo "<td>{$row['Status']}</td>";
         echo "<td>
                 <button class='action-viewbtn' onclick='viewDetails(\"{$row['InvoiceNo']}\")'> 
-                    <i class='fas fa-eye'></i> View
+                    <i class='fas fa-eye'></i>
+                </button>
+                <button class='action-viewbtn' onclick='openInvoice(\"{$row['InvoiceNo']}\")'> 
+                    <i class='fas fa-print'></i>
                 </button>
                 <button class='action-btn $buttonClass' onclick='openPaymentModal(\"{$row['InvoiceNo']}\")' $disabled>
-                    $buttonIcon $buttonText
+                    $buttonIcon
                 </button>
               </td>";
         echo "</tr>";

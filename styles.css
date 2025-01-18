@@ -126,6 +126,8 @@ header nav a:hover {
     color: #fff;
 }
 
+
+
 /* Media Queries for Responsive Design */
 @media (min-width: 768px) {
     .service-cards {
@@ -254,43 +256,6 @@ header nav a:hover {
     color: #fff;
 }
 
-/* Testimonials Section Styles */
-.testimonials {
-    padding: 60px 20px;
-    background-color: #121212;
-    text-align: center;
-}
-
-.testimonials h2 {
-    font-size: 2.5em;
-    margin-bottom: 40px;
-    color: #fff;
-}
-
-.testimonial-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.testimonial-card {
-    background-color: #1f1f1f;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    color: #fff;
-}
-
-.testimonial-card p {
-    font-size: 1.2em;
-    font-style: italic;
-    margin-bottom: 10px;
-}
-
-.testimonial-card h4 {
-    font-size: 1.2em;
-    color: #00aaff;
-}
 
 /* Media Queries for Responsive Design */
 @media (min-width: 768px) {

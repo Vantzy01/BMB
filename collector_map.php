@@ -42,8 +42,10 @@ while ($row = mysqli_fetch_assoc($result)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collector Client Mapping</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -51,45 +53,64 @@ while ($row = mysqli_fetch_assoc($result)) {
             color: #333;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
+            background-color: #f4f7fa;
             overflow: hidden;
         }
 
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 1em;
-        }
-        
+        /* Top Navigation Bar */
         .top-nav {
             background-color: #2C3E50;
             color: white;
             display: flex;
             justify-content: space-between;
-            padding: 1em;
+            padding: 1em 2em;
             align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav h1 {
+            font-size: 1.5em;
+        }
+
+        .profile a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 0.5em 1em;
+            background-color: #e74c3c;
+            border-radius: 5px;
+            font-size: 0.9em;
         }
 
         #map {
-            flex-grow: 1;
+            height: 100vh;
             width: 100%;
         }
 
+        /* Bottom Navigation Bar */
         .bottom-nav {
             display: flex;
             justify-content: space-around;
             background-color: #2C3E50;
-            padding: 1em;
-            position: relative;
+            padding: 0.5em 0;
+            position: fixed;
+            bottom: 0;
             width: 100%;
-            z-index: 10;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
         }
 
         .bottom-nav a {
             color: white;
             text-decoration: none;
+            font-size: 1em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3em;
+        }
+
+        .bottom-nav a i {
             font-size: 1.2em;
         }
 
@@ -98,12 +119,16 @@ while ($row = mysqli_fetch_assoc($result)) {
             padding-top: 0.5em;
         }
 
+        .bottom-nav a span {
+            font-size: 0.75em;
+        }
+
         .panel {
             position: absolute;
             top: 130px;
             right: 30px;
             width: 400px;
-            height: 655px;
+            max-height: 650px;
             padding: 20px;
             background-color: #ffffff;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -143,7 +168,7 @@ while ($row = mysqli_fetch_assoc($result)) {
         }
 
         .panel h4 {
-            font-size: 1.2em;
+            font-size: 1em;
             color: #333;
             display: flex;
             align-items: center;
@@ -157,19 +182,31 @@ while ($row = mysqli_fetch_assoc($result)) {
             margin: 5px 0;
         }
 
-        .icon {
-            font-size: 1.2em;
-            color: #3498DB;
+        .info-section {
+            margin: 20px;
         }
 
-        .info-section {
-            margin-bottom: 15px;
+        .info-section h4 {
+            flex:1;
+            text-align: middle;
+            font-size: 10px;
+            color: #333;
         }
 
         .info-section p {
-            margin: 3px 0;
+            margin: 5px 0;
             display: flex;
-            align-items: center;
+            justify-content: space-between;
+        }
+
+        .info-section strong {
+            flex: 1;
+            text-align: left;
+        }
+
+        .info-section span {
+            flex: 1;
+            text-align: right;
         }
 
         .landmark {
@@ -226,7 +263,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         #searchBar {
             width: 100%;
-            padding: 15px 40px 15px 35px; /* Adjust padding for icons */
+            padding: 15px 40px 15px 35px;
             font-size: 1em;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -246,12 +283,12 @@ while ($row = mysqli_fetch_assoc($result)) {
 
         .clear-icon {
             right: 10px;
-            display: none; /* Hide initially */
+            display: none;
         }
 
         #searchBar:focus + .clear-icon,
         #searchBar:not(:placeholder-shown) + .clear-icon {
-            display: block; /* Show clear icon when there's input */
+            display: block;
         }
 
         .dropdown-panel {
@@ -285,15 +322,40 @@ while ($row = mysqli_fetch_assoc($result)) {
             font-size: 1.2em;
             color: #ff5a5f;
         }
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .top-nav h1 {
+                font-size: 1em;
+            }
+            .card p {
+                font-size: 1.5em;
+            }
+
+            .card h2 {
+                font-size: 1em;
+            }
+
+            .bottom-nav a span {
+                display: none;
+            }
+
+            .bottom-nav a i {
+                font-size: 1.8em;
+            }
+        }
     </style>
 </head>
 <body>
-    <header class="top-nav">
-        <h2>Collector Dashboard</h2>
-        <div class="profile">
-            <span><?php echo $_SESSION['FullName']; ?></span>
-            <a href="coll_logout.php">Logout</a>
-        </div>
+    <!-- Top Navigation Bar -->
+    <header>
+        <nav class="top-nav">
+            <h1><?php echo $_SESSION['FullName']; ?></h1>
+            <div class="profile">
+                <a href="coll_logout.php" style="color: white;">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </nav>
     </header>
 
     <div id="map"></div>
@@ -312,47 +374,59 @@ while ($row = mysqli_fetch_assoc($result)) {
             <button onclick="closePanel()" class="close-btn">x</button>
         </div>
 
-        <!-- Location Section -->
         <div class="info-section">
-            <h4><span class="icon">&#x1F3E0;</span> Location</h4>
+            <h4>Location</h4>
             <p id="clientAddress">Address: N/A</p>
             <p id="clientCoordinates">Coordinates: N/A</p>
+            <hr>
+            <h4>Contact Information</h4>
+            <p><strong>Mobile:</strong> <span id="clientMobile">N/A</span></p>
+            <p><strong>Email:</strong> <span id="clientEmail">N/A</span></p>
+            <hr>
+            <h4>Subscription Plan</h4>
+            <p><strong>Plan: </strong> <span id="clientPlan">N/A</span></p>
+            <p><strong>Monthly Bill: </strong> ₱<span id="clientMonthlyCost">N/A</span></p>
+            <p><strong>Due Date: </strong> <span id="clientDueDate">N/A</span></p>
+            <hr>
+            <div id="landmarkImage" class="landmark">
+                No Landmark Found
+            </div>
         </div>
 
-        <!-- Contact Information Section -->
-        <div class="info-section">
-            <h4><span class="icon">&#x1F4E7;</span> Contact Information</h4>
-            <p><strong>Mobile: </strong> <span id="clientMobile">N/A</span></p>
-            <p><strong>Email: </strong> <span id="clientEmail">N/A</span></p>
-        </div>
-
-        <!-- Subscription Plan Section -->
-        <div class="info-section">
-            <h4><span class="icon">&#x1F4B8;</span> Subscription Plan</h4>
-            <p><strong>Plan:</strong> <span id="clientPlan">N/A</span></p>
-            <p><strong>Monthly Bill:</strong> ₱<span id="clientMonthlyCost">N/A</span></p>
-            <p><strong>Due Date:</strong> <span id="clientDueDate">N/A</span></p>
-        </div>
-
-        <!-- Landmark Image Section -->
-        <div id="landmarkImage" class="landmark">
-            No Landmark Found
-        </div>
+        
     </div>
     
-    <footer class="bottom-nav">
-        <a href="collector_dash.php">Dashboard</a>
-        <a href="collector_billing.php">Billing</a>
-        <a href="collector_collection.php">Collection</a>
-        <a href="collector_map.php" class="active">Map</a>
-        <a href="collector_announcement.php">Announcements</a>
+    <!-- Bottom Navigation Bar -->
+    <footer>
+        <nav class="bottom-nav">
+            <a href="collector_dash.php">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="collector_billing.php">
+                <i class="fas fa-file-invoice"></i>
+                <span>Billing</span>
+            </a>
+            <a href="collector_collection.php">
+                <i class="fas fa-wallet"></i>
+                <span>Collection</span>
+            </a>
+            <a href="collector_map.php" class="active">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Map</span>
+            </a>
+            <a href="collector_announcement.php">
+                <i class="fas fa-bullhorn"></i>
+                <span>Announcements</span>
+            </a>
+        </nav>
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
         // Initialize the map
-        var map = L.map('map').setView([16.99088, 121.6358], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+        var map = L.map('map').setView([16.99088, 121.6358], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 20}).addTo(map);
 
         // Add client markers
         var clients = <?php echo json_encode($clientData); ?>;
@@ -367,7 +441,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             document.getElementById("clientName").textContent = client.FullName;
             document.getElementById("clientAddress").textContent = `Address: ${client.Address}`;
             document.getElementById("clientCoordinates").textContent = `Coordinates: ${client.Latitude}, ${client.Longitude}`;
-            document.getElementById("clientMobile").textContent = client.MobileNumber;
+            document.getElementById("clientMobile").textContent = `${client.MobileNumber}`;
             document.getElementById("clientEmail").textContent = client.Email;
             document.getElementById("clientPlan").textContent = client.Plan;
             document.getElementById("clientMonthlyCost").textContent = client.MonthlyCost;

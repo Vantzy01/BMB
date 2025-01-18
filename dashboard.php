@@ -441,11 +441,15 @@ body {
 
 
 /* Media Query Example for Responsiveness */  
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .modal-content {  
         margin: 10px;  
-    }  
-}  
+    }
+
+    .bottom-navbar span {
+        display: none;
+    }
+}
 </style>
 </head>
 
@@ -547,6 +551,7 @@ body {
             </div>
         </main>
     </div>
+
     <!-- Bottom Navigation -->
     <nav class="bottom-navbar">
         <a href="package.php" class="nav-item">
@@ -570,6 +575,7 @@ body {
             <span>Password</span>
         </a>
     </nav>
+
     <!-- Modal Structure -->
     <div class="modal fade" id="billModal" tabindex="-1" aria-labelledby="billModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -617,6 +623,7 @@ body {
             </div>
         </div>
     </div>
+
     <!-- Payment Details Modal -->
     <div class="modal fade" id="paymentMethodModal" tabindex="-1" aria-labelledby="paymentMethodLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -646,6 +653,7 @@ body {
             </div>
         </div>
     </div>
+
     <!-- Announcement Detail Modal -->
     <div class="modal fade" id="announcementDetailModal" tabindex="-1" aria-labelledby="announcementDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -699,8 +707,6 @@ body {
                 });
             });
         });
-
-
         $('.btn-invoice').click(function() {
             window.open('invoice.php?invoiceNo=<?php echo $latestBill["InvoiceNo"]; ?>', '_blank');
         });
