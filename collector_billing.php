@@ -15,7 +15,15 @@ $periodsResult = $conn->query($periodsQuery);
     <title>Billing Records</title>
     <style>
         body { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; }
+        
         /* Top Navigation Bar */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
         .top-nav {
             background-color: #2C3E50;
             color: white;
@@ -38,11 +46,11 @@ $periodsResult = $conn->query($periodsQuery);
             border-radius: 5px;
             font-size: 0.9em;
         }
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .container { max-width: 1800px; margin: auto; padding: 20px; margin-top: 120px; margin-bottom: 120px;}
         .filter-bar { display: flex; gap: 15px; margin-bottom: 20px; }
         .table-container { overflow-x: auto;}
         .filter-bar select, .filter-bar input[type="text"] { padding: 10px; font-size: 16px; width: 100%; max-width: 300px; }
-        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        table {width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
         th, td { padding: 8px 10px; text-align: left; }
         th { background-color: #3498db; color: #fff; font-weight: bold; }
         tr:nth-child(even) { background-color: #f2f2f2; }
@@ -89,47 +97,78 @@ $periodsResult = $conn->query($periodsQuery);
         #billingModal {
             display: none;
             position: fixed;
-            z-index: 10;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow: auto;
         }
 
         .modal-content {
-            background-color: #fff;
+            background: linear-gradient(to bottom right, #ffffff, #f0f3f7);
             margin: 10% auto;
-            padding: 20px;
+            padding: 20px 30px;
             width: 90%;
             max-width: 500px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            font-family: 'Poppins', sans-serif;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         .close-modal {
-            color: #aaa;
-            float: right;
-            font-size: 24px;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 20px;
             cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
         }
 
         .close-modal:hover {
-            color: #333;
+            color: #e74c3c;
+            transform: scale(1.2);
         }
 
         .modal-content h3 {
-            font-size: 1.5em;
+            font-size: 1.8em;
             color: #3498db;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
         }
 
         .modal-details p {
-            font-size: 1em;
+            display: flex;
+            justify-content: space-between;
             margin: 8px 0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #555;
         }
 
-        /* Modal Background Overlay */
+        .modal-details strong {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* Payment Modal Background Overlay */
         #paymentModal {
             display: flex;
             align-items: center;
@@ -144,59 +183,62 @@ $periodsResult = $conn->query($periodsQuery);
             overflow-y: auto;
         }
 
+        /* Modal Content */
         .modal-content {
-            background-color: #fff;
-            width: 100%;
+            background: linear-gradient(to bottom right, #ffffff, #f9f9f9);
+            width: 90%;
             max-width: 500px;
-            max-height: 100vh;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
             font-family: 'Poppins', sans-serif;
             position: relative;
             animation: fadeIn 0.3s ease-in-out;
         }
 
+        /* Close Button */
         .close-modal {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 1.5em;
+            top: 15px;
+            right: 20px;
+            font-size: 1.8em;
             color: #aaa;
             cursor: pointer;
             transition: color 0.3s;
         }
 
         .close-modal:hover {
-            color: #333;
+            color: #e74c3c;
         }
 
         /* Modal Heading */
         .modal-content h3 {
-            color: #3498db;
             font-size: 1.8em;
-            margin-bottom: 15px;
+            color: #3498db;
+            margin-bottom: 20px;
             text-align: center;
+            font-weight: bold;
         }
 
         /* Form Styling */
         #paymentForm label {
             font-weight: bold;
-            color: #333;
+            color: #555;
             display: block;
             margin-bottom: 5px;
             font-size: 1em;
         }
 
         #paymentForm input[type="text"],
-        #paymentForm input[type="number"] {
+        #paymentForm input[type="number"],
+        #paymentForm select{
             width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             font-size: 1em;
-            transition: border-color 0.3s;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease-in-out;
         }
 
         #paymentForm input[type="text"]:focus,
@@ -208,15 +250,15 @@ $periodsResult = $conn->query($periodsQuery);
         /* Buttons */
         #paymentForm .btn-submit {
             background-color: #3498db;
-            color: #fff;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
+            color: white;
+            padding: 15px;
             font-size: 1em;
             font-weight: bold;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease-in-out;
         }
 
         #paymentForm .btn-submit:hover {
@@ -225,15 +267,15 @@ $periodsResult = $conn->query($periodsQuery);
 
         #paymentForm .btn-cancel {
             background-color: #e74c3c;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
+            color: white;
+            padding: 15px;
             font-size: 1em;
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
             width: 100%;
             margin-top: 10px;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s ease-in-out;
         }
 
         #paymentForm .btn-cancel:hover {
@@ -241,16 +283,9 @@ $periodsResult = $conn->query($periodsQuery);
         }
 
         .paid-btn {
-            width: auto;
-            height: auto;
-            background-color: #ccc;
+            background-color: #bbb;
             color: #666;
             cursor: not-allowed;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Bottom Navigation Bar */
@@ -288,6 +323,7 @@ $periodsResult = $conn->query($periodsQuery);
         .bottom-nav a span {
             font-size: 0.75em;
         }
+        
         /* Responsive Design */
         @media (max-width: 560px) {
             .top-nav h1 {
@@ -296,17 +332,9 @@ $periodsResult = $conn->query($periodsQuery);
 
             .filter-bar { display: flex; gap: 5px;}
             .filter-bar select, .filter-bar input[type="text"] { padding: 10px; font-size: 10px; width: 100%; max-width: 300px; }
-            .card p {
-                font-size: 1.5em;
-            }
-
             th:first-child,
             td:first-child{
                 display:none;
-            }
-
-            .card h2 {
-                font-size: 1em;
             }
 
             .bottom-nav a span {
@@ -358,10 +386,85 @@ $periodsResult = $conn->query($periodsQuery);
                 font-size: 6px;
                 padding: 2px 5px;
             }
+
+            /* Modal Styling*/
+            #billingModal {
+                display: none;
+                position: fixed;
+                z-index: 10;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            .modal-content {
+                background-color: #fff;
+                margin: 150px auto;
+                padding: 25px;
+                width: 80%;
+                max-width: 300px;
+                border-radius: 8px;
+                font-size: 12px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .close-modal {
+                color: #aaa;
+                float: right;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .close-modal:hover {
+                color: #3498db;
+            }
+
+            .modal-content h3 {
+                font-size: 1.5em;
+                color: #3498db;
+                margin-bottom: 30px;
+            }
+
+            .modal-details p {
+                display: flex;
+                padding: 0 2px;
+                justify-content: space-between;
+            }
+            .modal-details p span {
+                text-align: right;
+                margin-left: auto;
+            }
+
+            /* Payment Modal */
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .modal-content h3 {
+                font-size: 1.5em;
+            }
+
+            #paymentForm label {
+                font-size: 0.9em;
+            }
+
+            #paymentForm input[type="text"],
+            #paymentForm input[type="number"] {
+                font-size: 0.9em;
+            }
+
+            #paymentForm .btn-submit,
+            #paymentForm .btn-cancel {
+                font-size: 0.9em;
+                padding: 12px;
+            }
         }
 
         /* Responsive Design 830px*/
-        @media (min-width: 561px) and (max-width: 850px) {
+        @media (min-width: 561px) and (max-width: 880px) {
             .bottom-nav a i {
                 font-size: 1.3em;
             }
@@ -408,6 +511,71 @@ $periodsResult = $conn->query($periodsQuery);
                 font-size: 6px;
                 padding: 4px 5px;
             }
+
+            /* Modal Styling iedit mo to*/
+            #billingModal {
+                display: none;
+                position: fixed;
+                z-index: 10;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+
+            .modal-content {
+                background-color: #fff;
+                margin: 25% auto;
+                padding: 25px;
+                width: 80%;
+                max-width: 300px;
+                border-radius: 8px;
+                font-size: 12px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            .close-modal {
+                color: #aaa;
+                float: right;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+            .close-modal:hover {
+                color: #3498db;
+            }
+
+            .modal-content h3 {
+                font-size: 1.5em;
+                color: #3498db;
+                margin-bottom: 30px;
+            }
+
+            .modal-details p {
+                display: flex;
+                padding: 0 2px;
+                justify-content: space-between;
+            }
+            .modal-details p span {
+                text-align: right;
+                margin-left: auto;
+            }
+
+            /* Payment Modal */
+            .modal-content {
+                width: 85%;
+                max-width: 450px;
+            }
+
+            #paymentForm label {
+                font-size: 1em;
+            }
+
+            #paymentForm input[type="text"],
+            #paymentForm input[type="number"] {
+                font-size: 1em;
+            }
         }
         
     </style>
@@ -430,7 +598,7 @@ $periodsResult = $conn->query($periodsQuery);
         <!-- Filter Bar -->
         <div class="filter-bar">
             <select id="periodSelect" name="period">
-                <option value="">Select Period</option>
+                <option value="">All Period</option>
                 <?php while ($periodRow = $periodsResult->fetch_assoc()): ?>
                     <option value="<?php echo $periodRow['Period']; ?>"><?php echo $periodRow['Period']; ?></option>
                 <?php endwhile; ?>
@@ -464,7 +632,7 @@ $periodsResult = $conn->query($periodsQuery);
     <!-- Modal Structure -->
     <div id="billingModal" style="display: none;">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
+        <span class="close-modal" onclick="closeModal()">&times;</span>
             <h3>Billing Details</h3>
             <div class="modal-details">
                 <p><strong>Invoice No:</strong> <span id="modalInvoiceNo"></span></p>
@@ -496,18 +664,21 @@ $periodsResult = $conn->query($periodsQuery);
                 <label>Client ID:</label>
                 <input type="text" id="paymentClientID" readonly>
 
-                <label>Payment Method:</label>
-                <input type="text" value="Home Collector" readonly>
-
                 <label>Period:</label>
                 <input type="text" id="paymentPeriod" readonly>
-
-                <label>Amount:</label>
-                <input type="number" id="paymentAmount" min="1" required>
 
                 <label>Last Bill (Outstanding Balance):</label>
                 <input type="text" id="paymentLastBill" readonly>
 
+                <label>Amount:</label>
+                <input type="number" id="paymentAmount" min="1" required>
+                
+                <label for="paymentMethod">Payment Method:</label>
+                <select id="paymentMethod" name="paymentMethod">
+                    <option value="Cash">Cash</option>
+                    <option value="GCash">E-Payment</option>
+                </select>    
+                
                 <button class="btn-submit"type="button" onclick="savePayment()">Save Payment</button>
                 <button class="btn-cancel"type="button" onclick="closePaymentModal()">Cancel</button>
             </form>
@@ -619,7 +790,6 @@ $periodsResult = $conn->query($periodsQuery);
                     document.getElementById("paymentClientID").value = data.ClientID;
                     document.getElementById("paymentPeriod").value = data.Period;
                     document.getElementById("paymentLastBill").value = data.OutstandingBalance;
-
                     document.getElementById("paymentModal").style.display = "block";
                 }
             };
@@ -646,12 +816,13 @@ $periodsResult = $conn->query($periodsQuery);
                 ReferenceNo: document.getElementById("paymentReferenceNo").value,
                 InvoiceNo: document.getElementById("paymentInvoiceNo").value,
                 ClientID: document.getElementById("paymentClientID").value,
-                PaymentMethod: "Home Collector",
+                PaymentMethod: document.getElementById("paymentMethod").value,
                 Period: document.getElementById("paymentPeriod").value,
                 Amount: paymentAmount,
                 PaymentStatus: "Waiting",
                 PaymentDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
-                LastBill: lastBill
+                LastBill: lastBill,
+                CollectedBy: "Collector"
             };
 
             // AJAX to save payment

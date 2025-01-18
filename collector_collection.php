@@ -24,17 +24,20 @@ $result = $conn->query($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collector Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <title>Collector Collection</title>
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7fa;
+        /* General styling */
+        body { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
         }
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        .container { max-width: 1800px; margin: auto; padding: 20px; margin-top: 120px; margin-bottom: 120px;}
         /* Top Navigation Bar */
         .top-nav {
             background-color: #2C3E50;
@@ -50,12 +53,6 @@ $result = $conn->query($query);
             font-size: 1.5em;
         }
 
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 1em;
-        }
-
         .profile a {
             color: #ecf0f1;
             text-decoration: none;
@@ -68,17 +65,52 @@ $result = $conn->query($query);
         /* Table styling */
         .table-container {
             overflow-x: auto;
+            padding: 10px 0;
         }
 
-        table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-        th, td { padding: 8px 10px; text-align: left; }
-        th { background-color: #3498db; color: #fff; font-weight: bold; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        tr:hover { background-color: #f1f1f1; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-        .icon {
-            color: #ffffff;
-            margin-right: 1px;
+        th {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+            text-align: left;
+            padding: 12px 15px;
+            font-size: 1em;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 15px;
+            font-size: 0.95em;
+            color: #555;
+            vertical-align: middle;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f8ff;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td, th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         /* Bottom Navigation Bar */
@@ -86,48 +118,44 @@ $result = $conn->query($query);
             display: flex;
             justify-content: space-around;
             background-color: #2C3E50;
-            padding: 0.5em 0; /* Reduce padding for a smaller nav */
+            padding: 0.5em 0;
             position: fixed;
             bottom: 0;
             width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for modern design */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .bottom-nav a {
             color: white;
             text-decoration: none;
-            font-size: 1em; /* Reduce font size for a smaller UI */
+            font-size: 1em;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.3em; /* Space between icon and label */
+            gap: 0.3em;
         }
 
         .bottom-nav a i {
-            font-size: 1.2em; /* Adjust icon size */
+            font-size: 1.2em;
         }
 
         .bottom-nav .active {
-            border-top: 2px solid #3498DB; /* Active indicator */
-            padding-top: 0.5em; /* Slight padding to align with design */
+            border-top: 2px solid #3498DB;
+            padding-top: 0.5em;
         }
 
         .bottom-nav a span {
-            font-size: 0.75em; /* Smaller label text */
+            font-size: 0.75em;
         }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
+                /* Responsive adjustments */
+                @media (max-width: 560px) {
             .top-nav h1 {
                 font-size: 1em;
             }
-            .card p {
-                font-size: 1.5em;
-            }
-
-            .card h2 {
-                font-size: 1em;
+            .container h2{
+                font-size: 0.9em;
             }
 
             .bottom-nav a span {
@@ -137,7 +165,17 @@ $result = $conn->query($query);
             .bottom-nav a i {
                 font-size: 1.8em;
             }
+
+            table { width: 100%; background: #fff; border-radius: 2px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+            th{font-size: 7px;}
+            td{font-size: 6px;}
+            th, td { padding: 6px 4px; text-align: left;}
+            tbody td {
+                border: none;
+                padding: 6px 2px;
+            }
         }
+
     </style>
 </head>
 <body>
@@ -154,18 +192,17 @@ $result = $conn->query($query);
     </header>
 
     <div class="container">
-        <h2><i class="fas fa-hand-holding-usd"></i> Collected Payments Awaiting Approval</h2>
+        <h2>Collected Payments Awaiting Approval</h2>
         <div class="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th><i class="fas fa-hashtag icon"></i> Reference No</th>
-                        <th><i class="fas fa-file-invoice icon"></i> Invoice No</th>
-                        <th><i class="fas fa-user icon"></i> Client</th>
-                        <th><i class="fas fa-calendar icon"></i> Period</th>
-                        <th><i class="fas fa-money-bill-wave icon"></i> Amount</th>
-                        <th><i class="fas fa-calendar-day icon"></i> Payment Date</th>
-                        <!-- <th><i class="fas fa-wallet icon"></i> Last Bill</th> -->
+                        <th>Reference No</th>
+                        <th>Client</th>
+                        <th>Period</th>
+                        <th>Amount</th>
+                        <th>Payment Date</th>
+                        <th>Last Bill</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,12 +210,11 @@ $result = $conn->query($query);
                         <?php while ($row = $result->fetch_assoc()): ?>
                             <tr>
                                 <td><?php echo htmlspecialchars($row['ReferenceNo']); ?></td>
-                                <td><?php echo htmlspecialchars($row['InvoiceNo']); ?></td>
                                 <td><?php echo htmlspecialchars($row['FullName']); ?></td>
                                 <td><?php echo htmlspecialchars($row['Period']); ?></td>
                                 <td>&#8369;<?php echo number_format($row['Amount'], 2); ?></td>
                                 <td><?php echo date("M d, Y h:i A", strtotime($row['PaymentDate'])); ?></td>
-                                <!-- <td>&#8369;<?php echo number_format($row['LastBill'], 2); ?></td> -->
+                                <td>&#8369;<?php echo number_format($row['LastBill'], 2); ?></td>
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
@@ -195,7 +231,7 @@ $result = $conn->query($query);
     <!-- Bottom Navigation Bar -->
     <footer>
         <nav class="bottom-nav">
-            <a href="collector_dash.php" >
+            <a href="collector_dash.php">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
@@ -216,6 +252,7 @@ $result = $conn->query($query);
                 <span>Announcements</span>
             </a>
         </nav>
-    </footer>    
+    </footer> 
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('db_connection.php');
 // Validate if the user is logged in, otherwise redirect to login page
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -16,14 +17,9 @@ $fullName = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : null;
 if (!$clientID) {
     die("Client ID is not available.");
 }
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+
+
+
 // Fetch plan details based on the client's current plan
 $planSql = "SELECT p.* FROM tblplan p
             JOIN tblclient c ON c.PlanID = p.PlanID

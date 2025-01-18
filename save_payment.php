@@ -3,11 +3,11 @@ include('db_connection.php');
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$query = "INSERT INTO tblpayment (ReferenceNo, InvoiceNo, ClientID, PaymentMethod, Period, Amount, PaymentStatus, PaymentDate, LastBill)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$query = "INSERT INTO tblpayment (ReferenceNo, InvoiceNo, ClientID, PaymentMethod, Period, Amount, PaymentStatus, PaymentDate, LastBill, CollectedBy)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($query);
 $stmt->bind_param(
-    "sssssdsss",
+    "sssssdssss",
     $data['ReferenceNo'],
     $data['InvoiceNo'],
     $data['ClientID'],
@@ -16,7 +16,8 @@ $stmt->bind_param(
     $data['Amount'],
     $data['PaymentStatus'],
     $data['PaymentDate'],
-    $data['LastBill']
+    $data['LastBill'],
+    $data['CollectedBy']
 );
 
 if ($stmt->execute()) {

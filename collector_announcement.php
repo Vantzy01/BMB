@@ -1,10 +1,9 @@
 <?php
 session_start();
-include('db_connection.php'); // Include database connection
+include('db_connection.php');
 
-// Check if the CollectorID is set in the session
 if (!isset($_SESSION['CollectorID'])) {
-    header("Location: collector_login.php"); // Redirect to login if not set
+    header("Location: collector_login.php");
     exit;
 }
 
@@ -13,7 +12,6 @@ $collectorID = $_SESSION['CollectorID'];
 $query = "SELECT Title, Message, DateCreated FROM tblannouncements ORDER BY DateCreated DESC";
 $result = $conn->query($query);
 ?> 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +23,14 @@ $result = $conn->query($query);
     <style>
         /* General styling */
         body { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; }
-        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .container { max-width: 1800px; margin: auto; padding: 20px; margin-top: 120px; margin-bottom: 120px;}
         /* Top Navigation Bar */
         .top-nav {
             background-color: #2C3E50;
@@ -55,35 +60,35 @@ $result = $conn->query($query);
             display: flex;
             justify-content: space-around;
             background-color: #2C3E50;
-            padding: 0.5em 0; /* Reduce padding for a smaller nav */
+            padding: 0.5em 0;
             position: fixed;
             bottom: 0;
             width: 100%;
-            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for modern design */
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .bottom-nav a {
             color: white;
             text-decoration: none;
-            font-size: 1em; /* Reduce font size for a smaller UI */
+            font-size: 1em;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.3em; /* Space between icon and label */
+            gap: 0.3em;
         }
 
         .bottom-nav a i {
-            font-size: 1.2em; /* Adjust icon size */
+            font-size: 1.2em;
         }
 
         .bottom-nav .active {
-            border-top: 2px solid #3498DB; /* Active indicator */
-            padding-top: 0.5em; /* Slight padding to align with design */
+            border-top: 2px solid #3498DB;
+            padding-top: 0.5em;
         }
 
         .bottom-nav a span {
-            font-size: 0.75em; /* Smaller label text */
+            font-size: 0.75em;
         }
 
         /* Announcement card styling */
@@ -91,17 +96,17 @@ $result = $conn->query($query);
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px; /* Spacing between cards */
+            margin-bottom: 15px;
             padding: 20px;
             transition: transform 0.3s ease;
             cursor: pointer;
             overflow: hidden;
-            max-height: 80px; /* Default collapsed height */
+            max-height: 80px;
             position: relative;
         }
 
         .announcement-card.expanded {
-            max-height: 1000px; /* Expanded height */
+            max-height: 1000px;
             transition: max-height 1s ease;
         }
 
@@ -133,7 +138,7 @@ $result = $conn->query($query);
         .announcement-message {
             color: #555;
             line-height: 1.6;
-            display: none; /* Hide message initially */
+            display: none;
         }
 
         /* Show message when expanded */
@@ -141,7 +146,7 @@ $result = $conn->query($query);
             display: block;
         }
         /* Responsive Design */
-        @media (max-width: 600px) {
+        @media (max-width: 560px) {
             .top-nav h1 {
                 font-size: 1em;
             }
@@ -178,7 +183,6 @@ $result = $conn->query($query);
 
     <div class="container">
         <h2><i class="fas fa-bullhorn"></i> Announcements</h2>
-
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="announcement-card" onclick="toggleExpand(this)">
@@ -200,7 +204,7 @@ $result = $conn->query($query);
     <!-- Bottom Navigation Bar -->
     <footer>
         <nav class="bottom-nav">
-            <a href="collector_dash.php" >
+            <a href="collector_dash.php">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>

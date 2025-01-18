@@ -1,3 +1,51 @@
+<?php
+include('db_connection.php');
+
+session_start();
+
+$error_message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $inputUsername = trim($_POST['username']);
+    $inputPassword = trim($_POST['password']);
+
+    // Validate form fields
+    if (empty($inputUsername) || empty($inputPassword)) {
+        $error_message = "Please fill in all fields.";
+    } else {
+        // Check credentials in the database
+        $sql = "SELECT * FROM tblclient WHERE Username = ? AND Password = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $inputUsername, $inputPassword);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            // User found, fetch client data
+            $row = $result->fetch_assoc();
+            $_SESSION['username'] = $row['Username'];
+            $_SESSION['fullname'] = $row['FullName'];
+            $_SESSION['clientID'] = $row['ClientID'];
+            $_SESSION['planID'] = $row['PlanID'];
+
+            // Redirect to the dashboard with query parameters
+            $clientID = $row['ClientID'];
+            $planID = $row['PlanID'];
+            $fullName = urlencode($row['FullName']);
+            header("Location: dashboard.php?clientID=$clientID&planID=$planID&fullName=$fullName");
+            exit();
+        } else {
+            // Invalid credentials
+            $error_message = "Invalid username or password.";
+        }
+
+        $stmt->close();
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +60,6 @@
             font-family: 'Poppins', sans-serif;
             color: #fff;
             background: url('Images/hero-background.jpg') no-repeat center center/cover;
-            background-size: cover;
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -66,6 +113,14 @@
             color: #fff;
         }
 
+        .error-message {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-top: -5px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
         .cta {
             padding: 15px 30px;
             background-color: #00aaff;
@@ -95,56 +150,13 @@
         .login-container a:hover {
             color: #0088cc;
         }
-
-        /* General responsive design for small screens */
-        @media screen and (max-width: 430px) {
-            /* Adjust login container */
-            .login-container {
-                max-width: 90%; /* Reduce width to fit smaller screens */
-                padding: 15px;  /* Reduce padding */
-            }
-
-            /* Adjust text size */
-            .login-container h2 {
-                font-size: 1.2rem; /* Smaller heading size */
-            }
-
-            .form-group label {
-                font-size: 0.9rem; /* Smaller label size */
-            }
-
-            .form-group input {
-                font-size: 0.9rem; /* Adjust input text size */
-                padding: 8px; /* Slightly smaller padding */
-            }
-
-            /* Adjust button size */
-            .cta {
-                font-size: 1rem; /* Slightly smaller button text */
-                padding: 12px; /* Smaller padding for the button */
-            }
-
-            /* Adjust paragraph and link text size */
-            .login-container p {
-                font-size: 0.9rem; /* Adjust paragraph size */
-            }
-
-            .login-container a {
-                font-size: 0.9rem; /* Adjust link size */
-            }
-        }
-
-        
     </style>
 </head>
 <body>
-    <!-- Background overlay -->
     <div class="overlay"></div>
-
-    <!-- Login container -->
     <div class="login-container">
         <h2>Login to BMB Internet Service</h2>
-        <form action="authenticate.php" method="post">
+        <form action="" method="post">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required>
@@ -153,6 +165,9 @@
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
             </div>
+            <?php if (!empty($error_message)): ?>
+                <div class="error-message"><?php echo $error_message; ?></div>
+            <?php endif; ?>
             <button type="submit" class="cta">Login</button>
         </form>
         <p>Don't have an account? <a href="registration.php">Register here</a></p>

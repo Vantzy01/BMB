@@ -1,19 +1,7 @@
 <?php
 session_start();
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 // Function to decrypt password
 function caesar_decrypt($ciphertext, $shift) {
@@ -64,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $conn->close();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,6 +61,7 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
+        /* Global Styling */
         body {
             margin: 0;
             padding: 0;
@@ -85,7 +73,6 @@ $conn->close();
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #121212;
             position: relative;
             overflow: hidden;
         }
@@ -100,6 +87,7 @@ $conn->close();
             z-index: 1;
         }
 
+        /* Smooth Entry Animation */
         .login-container {
             background-color: #1f1f1f;
             padding: 30px;
@@ -110,11 +98,21 @@ $conn->close();
             max-width: 400px;
             z-index: 2;
             margin: auto;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeIn 0.2s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .login-container h2 {
-            margin-bottom: 30px;
-            font-size: 26px;
+            margin-bottom: 20px;
+            font-size: 28px;
             color: white;
         }
 
@@ -123,8 +121,13 @@ $conn->close();
             align-items: center;
             background-color: #333;
             border-radius: 5px;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group:hover {
+            box-shadow: 0 3px 10px rgba(255, 255, 255, 0.1);
         }
 
         .input-group i {
@@ -157,11 +160,12 @@ $conn->close();
             font-size: 16px;
             font-weight: bold;
             width: 100%;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         .login-container button:hover {
             background-color: #2980b9;
+            transform: translateY(-3px);
         }
 
         .login-container p {
@@ -183,6 +187,7 @@ $conn->close();
             color: #2980b9;
         }
 
+        /* Responsive Design */
         @media (max-width: 600px) {
             .login-container {
                 padding: 20px;
@@ -197,12 +202,29 @@ $conn->close();
                 padding: 10px;
             }
         }
+
+        @media (max-width: 480px) {
+            .login-container {
+                width: 80%;
+                padding: 15px;
+            }
+
+            .login-container h2 {
+                font-size: 20px;
+            }
+
+            .login-container button {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Background overlay -->
     <div class="overlay"></div>
 
+    <!-- Login Form -->
     <div class="login-container">
         <h2>Collector Login</h2>
         <form method="POST" action="collector_login.php">

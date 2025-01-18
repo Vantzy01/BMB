@@ -47,9 +47,12 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
             background-color: #f4f7fa;
             
         }
-
-        header{
-            position: relative;
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
         /* Top Navigation Bar */
@@ -78,6 +81,7 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
 
         /* Dashboard Section */
         .dashboard {
+            margin-top: 150px;
             padding: 2em;
             background-color: #f4f7fa;
             margin-bottom: 50px;
@@ -161,7 +165,7 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
         }
 
         /* Responsive Design */
-        @media (max-width: 600px) {
+        @media (max-width: 560px) {
             .top-nav h1 {
                 font-size: 1em;
             }
