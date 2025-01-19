@@ -35,7 +35,7 @@ $conn->close();
 
 <head>
     <meta charset="UTF-8">
-    <title>Billing - BMB Internet Service</title>
+    <title>Billing - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
@@ -423,7 +423,7 @@ $conn->close();
             <i class="fas fa-bars"></i>
         </div>
         <div class="top-title">
-            <a> BMB CLIENT PORTAL</a>
+            <a> BMB Cell and Computer Shop</a>
         </div>
         <div class="notification-icon">
             <i class="fas fa-bell" id="notificationBell"></i>

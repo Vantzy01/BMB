@@ -65,7 +65,7 @@ if (isset($_SESSION['error'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Client Complaints - BMB Internet Service</title>
+    <title>Complaint - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
@@ -507,7 +507,7 @@ if (isset($_SESSION['error'])) {
             <i class="fas fa-bars"></i>
         </div>
         <div class="top-title">
-            <a> BMB Internet Service Aurora</a>
+            <a> BMB Cell and Computer Shop</a>
         </div>
         <div class="notification-icon">
             <i class="fas fa-bell" id="notificationBell"></i>

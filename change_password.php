@@ -63,7 +63,7 @@ $conn->close();
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Change Password - BMB Internet Service</title>
+    <title>Change Password - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
@@ -327,7 +327,7 @@ body {
             <i class="fas fa-bars"></i>
         </div>
         <div class="top-title">
-            <a> BMB CLIENT PORTAL</a>
+            <a> BMB Cell and Computer Shop</a>
         </div>
         <!-- <div>
             <i class="fas fa-user-circle"></i> <span id="client-name"><?php echo htmlspecialchars($fullName); ?></span> 
