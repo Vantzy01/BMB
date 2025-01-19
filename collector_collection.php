@@ -2,7 +2,6 @@
 session_start();
 include('db_connection.php'); 
 
-// Check if the CollectorID is set in the session
 if (!isset($_SESSION['CollectorID'])) {
     header("Location: collector_login.php"); // Redirect to login if not set
     exit;

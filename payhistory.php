@@ -1,16 +1,7 @@
 <?php
 session_start();
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 // Check if the client is logged in
 if (!isset($_SESSION['clientID'])) {

@@ -1,17 +1,7 @@
 <?php
 require_once('fpdf/fpdf.php');
 
-// Database connection setup
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 $invoiceNo = $_GET['invoiceNo'];
 

@@ -2,12 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $planID = $_POST['planID'];
 
-    // Database connection
-    $conn = new mysqli("localhost", "root", "", "dbinternet");
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+    include('db_connection.php');
 
     $sql = "SELECT Plan, MonthlyCost, Description FROM tblplan WHERE PlanID = ?";
     $stmt = $conn->prepare($sql);

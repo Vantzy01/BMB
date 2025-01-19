@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Check if the user is logged in
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
@@ -11,17 +10,7 @@ $clientID = $_SESSION['clientID'];
 $fullName = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : null;
 $message = "";
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 // Handle the password change request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

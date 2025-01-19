@@ -1,16 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 session_start();
 
@@ -18,7 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $inputUsername = trim($_POST['username']);
     $inputPassword = trim($_POST['password']);
 
-    // Validate form fields
     if (empty($inputUsername) || empty($inputPassword)) {
         echo "<script>alert('Please fill in all fields.'); window.location.href = 'login.php';</script>";
         exit();

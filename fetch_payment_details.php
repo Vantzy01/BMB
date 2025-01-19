@@ -10,17 +10,7 @@ if (!isset($_SESSION['username'])) {
 $clientID = $_SESSION['clientID'];
 $invoiceNo = isset($_POST['invoiceNo']) ? $_POST['invoiceNo'] : '';
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 // Fetch payment history for the given invoice number
 $sql = "SELECT ReferenceNo, PaymentMethod, Amount, PaymentStatus, PaymentDate 

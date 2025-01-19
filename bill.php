@@ -9,16 +9,7 @@ if (!isset($_SESSION['username'])) {
 $clientID = $_SESSION['clientID'];
 $fullName = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : null;
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 $sql = "SELECT b.InvoiceNo, b.DueDate, b.Period, p.Plan, b.DueAmount, b.Discount, b.AmountPaid, b.OutstandingBalance, b.Status 
         FROM tblbilling b 

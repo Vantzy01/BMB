@@ -1,19 +1,19 @@
 <?php
 session_start();
 include('db_connection.php');
-// Validate if the user is logged in, otherwise redirect to login page
+
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
     exit();
 }
-// Use the session variable for clientID, if available
+
 if (isset($_GET['clientID'])) {
     $_SESSION['clientID'] = $_GET['clientID'];
 }
-// Ensure clientID is set correctly
+
 $clientID = isset($_SESSION['clientID']) ? $_SESSION['clientID'] : null;
 $fullName = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : null;
-// Check for a valid clientID before proceeding
+
 if (!$clientID) {
     die("Client ID is not available.");
 }

@@ -12,17 +12,7 @@ if (isset($_GET['clientID'])) {
 
 $clientID = isset($_SESSION['clientID']) ? $_SESSION['clientID'] : null;
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 // Fetch topics for dropdown
 $sql = "SELECT Type FROM tbltype";

@@ -7,18 +7,7 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 // Handle the save complaint form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

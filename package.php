@@ -11,16 +11,7 @@ if (!isset($_SESSION['username'])) {
 $clientName = $_SESSION['fullname'];
 $clientID = $_SESSION['clientID'];
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "dbinternet";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+include('db_connection.php');
 
 $sql = "
     SELECT 
