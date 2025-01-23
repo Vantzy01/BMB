@@ -31,7 +31,7 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->AddFont("CenturyGothic", "", "07558_CenturyGothic.php");
 
 // Set background image
-$img_file = 'C:/xampp/htdocs/BMB/Images/invoice2.jpg';
+$img_file = 'C:/xampp/htdocs/BMB/Images/invoice.jpg';
 if (!file_exists($img_file)) {
     die('Image not found: ' . $img_file);
 }

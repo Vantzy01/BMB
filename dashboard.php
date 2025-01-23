@@ -18,8 +18,6 @@ if (!$clientID) {
     die("Client ID is not available.");
 }
 
-
-
 // Fetch plan details based on the client's current plan
 $planSql = "SELECT p.* FROM tblplan p
             JOIN tblclient c ON c.PlanID = p.PlanID
@@ -112,11 +110,6 @@ body {
     border-top-right-radius: 8px;
 }
 
-.wrapper {
-    display: flex;
-    flex: 1;
-}
-
 .sidebar {
     height: 100%;
     width: 250px;
@@ -193,6 +186,11 @@ body {
 }
 .top-navbar .notification-icon {
     cursor: pointer;
+}
+
+.wrapper {
+    display: flex;
+    flex: 1;
 }
 
 .main-content {
@@ -482,7 +480,7 @@ body {
         <a href="logout.php" onclick="return confirm('Are you sure you want to logout?');">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
-    </nav>
+    </nav> 
     <!-- Notification Dropdown -->
     <div class="notification-dropdown" id="announcementDropdown">
         <div class="notification-dropdown-header">Announcements</div>
