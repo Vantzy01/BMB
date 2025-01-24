@@ -24,8 +24,7 @@ $options = fetchPackages($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - BMB Internet Service</title>
-
+    <title>Register - BMB Cell and Computer Shop</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -58,10 +57,10 @@ $options = fetchPackages($conn);
     .registration-container {
         position: relative;
         z-index: 2;
-        width: 90%; /* Changed from fixed width to percentage */
+        width: 90%;
         max-width: 600px;
-        margin: 20px auto; /* Reduced margin for smaller devices */
-        padding: 30px 20px; /* Adjusted padding for smaller devices */
+        margin: 20px auto;
+        padding: 30px 20px;
         background-color: rgba(31, 31, 31);
         border-radius: 10px;
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
@@ -71,11 +70,11 @@ $options = fetchPackages($conn);
 
     .registration-container h2 {
         margin-bottom: 20px;
-        font-size: 1.8rem; /* Adjusted font size */
+        font-size: 1.8rem;
     }
 
     .form-group {
-        margin-bottom: 15px; /* Reduced margin */
+        margin-bottom: 15px;
         text-align: left;
     }
 
@@ -88,12 +87,12 @@ $options = fetchPackages($conn);
     .form-group input,
     .form-group select {
         width: calc(100% - 30px);
-        padding: 10px 15px; /* Reduced padding */
+        padding: 10px 15px;
         border: 1px solid #333;
         border-radius: 5px;
         background-color: #2a2a2a;
         color: #fff;
-        font-size: 0.9rem; /* Adjusted font size */
+        font-size: 0.9rem;
         transition: border 0.3s;
     }
 
@@ -107,7 +106,7 @@ $options = fetchPackages($conn);
     }
 
     .input-icon input {
-        padding-left: 35px; /* Adjusted for icons */
+        padding-left: 35px;
     }
 
     .input-icon i {
@@ -116,14 +115,14 @@ $options = fetchPackages($conn);
         left: 10px;
         transform: translateY(-50%);
         color: white;
-        font-size: 0.9rem; /* Adjusted icon size */
+        font-size: 0.9rem; 
     }
 
     .cta {
-        padding: 12px 20px; /* Reduced padding */
+        padding: 12px 20px;
         background-color: #00aaff;
         color: #fff;
-        font-size: 1em; /* Adjusted font size */
+        font-size: 1em;
         border-radius: 5px;
         border: none;
         cursor: pointer;
@@ -137,7 +136,7 @@ $options = fetchPackages($conn);
     }
 
     .registration-container p {
-        margin-top: 15px; /* Adjusted spacing */
+        margin-top: 15px;
     }
 
     .registration-container a {
@@ -151,7 +150,7 @@ $options = fetchPackages($conn);
 
     /* Map Styling */
     #map {
-        height: 300px; /* Adjusted map height for smaller screens */
+        height: 300px;
         width: 100%;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -169,13 +168,12 @@ $options = fetchPackages($conn);
     }
 
     .instruction-text {
-        font-size: 0.8rem; /* Adjusted font size */
+        font-size: 0.8rem;
         color: #bbb;
         margin-bottom: 10px;
     }
 
     @media (max-width: 768px) {
-        /* For tablets and small screens */
         .registration-container {
             padding: 20px;
         }
@@ -190,41 +188,40 @@ $options = fetchPackages($conn);
 
         .form-group input,
         .form-group select {
-            font-size: 0.85rem; /* Reduced font size */
+            font-size: 0.85rem;
         }
 
         .cta {
-            font-size: 0.9em; /* Reduced font size */
+            font-size: 0.9em;
         }
     }
 
     @media (max-width: 480px) {
-        /* For mobile devices */
         .registration-container {
-            padding: 15px; /* Reduced padding */
+            padding: 15px;
         }
 
         .registration-container h2 {
-            font-size: 1.3rem; /* Further reduced heading size */
+            font-size: 1.3rem;
         }
 
         .form-group input,
         .form-group select {
-            padding: 8px 10px; /* Adjusted padding */
-            font-size: 0.8rem; /* Reduced font size */
+            padding: 8px 10px;
+            font-size: 0.8rem;
             padding-left: 30px;
         }
 
         .instruction-text {
-            font-size: 0.75rem; /* Adjusted font size */
+            font-size: 0.75rem;
         }
 
         .cta {
-            font-size: 0.85em; /* Further reduced font size */
+            font-size: 0.85em;
         }
 
         #map {
-            height: 250px; /* Adjusted map height */
+            height: 250px; 
         }
     }
 </style>
@@ -238,7 +235,6 @@ $options = fetchPackages($conn);
     <div class="registration-container">
         <h2>Register for BMB Internet Service</h2>
         <form id="registrationForm" action="register.php" method="post" onsubmit="return validateForm()">
-            
             <div class="form-group input-icon">
                 <input type="text" id="fullName" name="fullName" placeholder="Full name" required>
                 <i class="fas fa-user"></i>

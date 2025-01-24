@@ -39,9 +39,10 @@
             padding: 30px 30px;
         }
 
-        header .logo {
-            font-weight: bold;
+        header .logo a {
+            text-decoration: none;
             color: #00aaff;
+            font-weight: bold;
         }
 
         header nav {
@@ -998,7 +999,9 @@
     <!-- Header Section -->
     <header>
         <div class="container">
-            <div class="logo">BMB Aurora</div>
+        <div class="logo">
+            <a href="index.php">BMB Aurora</a>
+        </div>
             <nav>
                 <ul class="nav-links">
                     <li><a href="#hero">Home</a></li>
