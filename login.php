@@ -52,7 +52,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
-    <title>Login - BMB Internet Service</title>
+    <title>Login - BMB Cell</title>
     <style>
         body {
             margin: 0;
@@ -155,7 +155,7 @@ $conn->close();
 <body>
     <div class="overlay"></div>
     <div class="login-container">
-        <h2>Login to BMB Internet Service</h2>
+        <h2>Login</h2>
         <form action="" method="post">
             <div class="form-group">
                 <label for="username">Username:</label>

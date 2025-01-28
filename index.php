@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BMB Internet Service</title>
+    <meta name="author" content="Vanguard">
+    <meta name="description" content="BMB Cell System">
+    <meta name="keywords" content="BMB Cell Aurora, BMB Cell, Aurora">
+    <link rel="icon" href="Images/logo.ico"/>
+    <title>BMB Cell Aurora</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
     <style>
         body {
+            top: 0; 
             margin: 0;
             font-family: 'Poppins', sans-serif;
             color: #fff;
-            background-color: #121212;
+            background-color: rgb(243, 245, 250);
             scroll-behavior: smooth;
         }
 
@@ -28,7 +33,7 @@
         }
 
         header.scrolled {
-            background-color:  #1e293b; /* Change to the desired color when scrolled */
+            background-color:  #1e293b;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
@@ -39,10 +44,9 @@
             padding: 30px 30px;
         }
 
-        header .logo a {
-            text-decoration: none;
-            color: #00aaff;
+        header .logo {
             font-weight: bold;
+            color: #00aaff;
         }
 
         header nav {
@@ -60,7 +64,7 @@
         header nav .nav-links a {
             text-decoration: none;
             color: #fff;
-            font-weight: 500;
+            font-weight: bold;
             padding: 5px 10px;
             transition: color 0.3s ease, background-color 0.3s ease;
             border-radius: 5px;
@@ -78,7 +82,7 @@
         }
 
         /* Responsive Navigation Links */
-        @media (max-width: 819px) {
+        @media (max-width: 920px) {
             header nav .nav-links {
                 margin-top: 0;
                 text-align: center;
@@ -121,8 +125,7 @@
             background-color: #fff;
             border-radius: 2px;
         }
-
-
+        
         /* Menu Toggle */
         header nav .menu-toggle {
             display: none;
@@ -142,7 +145,7 @@
         }
 
         /* Responsive Design for Menu Toggle */
-        @media (max-width: 819px) {
+        @media (max-width: 920px) {
             header nav .menu-toggle {
                 display: flex;
             }
@@ -166,16 +169,25 @@
 
         /* Hero Section Styles */
         .hero {
+            position: relative;
             height: 100vh;
-            background: url('Images/hero.jpg') no-repeat center center/cover;
             display: flex;
             align-items: center;
-            justify-content: flex-start; 
+            justify-content: flex-start;
             text-align: left;
-            padding: 0 50px; 
-            position: relative;
+            padding: 0 50px;
             color: #fff;
             overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
         }
 
         .hero::before {
@@ -186,13 +198,13 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.6);
-            z-index: 0;
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
-            z-index: 1;
-            max-width: 600px;
+            z-index: 2;
+            max-width: 800px;
             animation: fadeIn 1.3s ease-in-out;
             margin-left: 150px;
         }
@@ -221,21 +233,25 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 15px;
-            margin-top: 20px;
+            margin-top: 60px;
         }
 
         /* Learn More Button Style */
         .learn-more {
+            border-style: solid;
+            border-radius: 8px;
+            padding: 12px;
             font-size: 1.2rem;
             font-weight: 500;
             color: #e2e8f0;
             cursor: pointer;
-            transition: color 0.3s ease;
+            transition: color 0.3s ease;   
         }
 
         .learn-more:hover {
-            color: #38bdf8;
-            text-decoration: underline;
+            text-decoration: none;
+            background-color: #e2e8f0;
+            color: #121212;
         }
 
         /* CTA Button Adjustments */
@@ -301,6 +317,10 @@
             .hero p {
                 font-size: 1rem;
             }
+            .learn-more {
+                padding: 9px;
+                font-size: 1rem;
+            }
         }
 
         @keyframes fadeIn {
@@ -315,7 +335,7 @@
         }
 
         /* Desktop Responsive Styles */
-        @media (min-width: 820px) {
+        @media (min-width: 920px) {
 
             header .container {
                 max-width: 1200px;
@@ -363,174 +383,319 @@
             }
         }
 
-        /* Services Section Styles */
-        .services {
-            height: 100vh; /* Full-screen height */
-            background-color: #1f1f1f;
+        /* Partnership Section Styles */
+        .partnership {
+            background-color: rgb(243, 245, 250);
             text-align: center;
+            position: relative;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Marquee Container Styles */
+        .marquee-container {
+            max-width: 1200px;
+            width: 100%; 
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            height: 60px;
+            background-color: rgb(243, 245, 250);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Marquee Track Styles */
+        .marquee-track {
+            display: flex;
+            gap: 150px;
+            animation: marquee 20s linear infinite;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        /* Reverse Direction for Bottom Marquee */
+        .reverse .marquee-track {
+            animation-direction: reverse;
+        }
+
+        /* Marquee Item Styles */
+        .marquee-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            padding: 9px;
+        }
+
+        .marquee-item img {
+            width: 100px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .marquee-item img:hover {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        /* Fade Overlay */
+        .fade-overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .fade-overlay.left {
+            left: 0;
+            background: linear-gradient(to right, rgba(243, 245, 250, 1), rgba(243, 245, 250, 0));
+        }
+
+        .fade-overlay.right {
+            right: 0;
+            background: linear-gradient(to left, rgba(243, 245, 250, 1), rgba(243, 245, 250, 0));
+        }
+
+        /* Animation */
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .marquee-item img {
+                width: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .marquee-item img {
+                width: 60px;
+            }
+        }
+
+        /* Services Section Styles */
+        .services{
+            background-color: rgb(243, 245, 250);
+            /* background: url('Images/bg.jpg') no-repeat center center/cover; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 40px;
+        }
+
+        .services-container {
+            display: flex;
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Left Container */
+        .left-container {
+            flex: 1;
+            padding: 50px;
+            background: linear-gradient(135deg, #00aaff, #005f99);
+            color: white;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: center;
-            padding: 60px 60px;
-            color: #fff;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .services h2 {
-            font-size: 3rem; /* Default font size for desktop */
-            font-weight: 700;
-            margin-bottom: 40px;
-            color: #38bdf8;
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            animation: fadeInDown 1.5s ease-in-out;
-        }
-
-        /* Service Cards Layout */
-        .service-cards {
-            display: flex;
-            flex-wrap: wrap; /* Ensures cards stack on smaller screens */
-            gap: 30px;
-            width: 100%; /* Full width */
-            max-width: 1200px; /* Center content on desktop */
-            justify-content: center;
-            animation: fadeInUp 2s ease-in-out;
-        }
-
-        .service-card {
-            background-color: #2c2c2c;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             text-align: left;
-            width: 100%; /* Full width for mobile */
-            max-width: 350px; /* Restrict card size for desktop */
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transform: translateX(-50px);
+            opacity: 0;
+            animation: fadeInLeft 1s ease-in-out forwards;
         }
 
-        .service-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .service-card h3 {
-            font-size: 1.5rem; /* Adapted size for all screens */
+        .left-container h2 {
+            font-size: 28px;
             margin-bottom: 10px;
-            color: #00aaff;
         }
 
-        .service-card p {
-            font-size: 1rem;
-            line-height: 1.6;
-            color: #e2e8f0;
+        .left-container p {
+            font-size: 16px;
+            opacity: 0.9;
         }
 
-        /* Responsive Design: Mobile First */
-
-        /* For small mobile screens (360px width) */
-        @media (max-width: 480px) {
-            .services h2 {
-                font-size: 2rem; /* Smaller header on mobile */
-                margin-bottom: 30px;
-            }
-
-            .service-card {
-                padding: 15px; /* Smaller padding on mobile */
-                max-width: 100%; /* Full width for mobile screens */
-            }
-
-            .service-card h3 {
-                font-size: 1.3rem; /* Adjusted text size */
-            }
-
-            .service-card p {
-                font-size: 0.9rem;
-            }
+        /* Right Container (Service Cards) */
+        .right-container {
+            flex: 2;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 40px;
         }
 
-        /* For tablets and smaller laptops */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .services h2 {
-                font-size: 2.5rem; /* Slightly smaller font */
-            }
-
-            .service-cards {
-                gap: 20px; /* Reduced gap for smaller screens */
-            }
-
-            .service-card {
-                max-width: 300px; /* Slightly smaller cards */
-            }
+        .service-cards {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            opacity: 0;
+            animation: fadeInUp 1s ease-in-out forwards;
         }
 
-        /* For larger desktops */
-        @media (min-width: 1024px) {
-            .services h2 {
-                font-size: 3.5rem; /* Larger header for big screens */
-                margin-bottom: 60px;
-            }
-
-            .service-cards {
-                gap: 40px; /* Extra spacing between cards */
-            }
-
-            .service-card {
-                padding: 30px; /* More spacious cards */
-                max-width: 400px; /* Larger card size */
-            }
-
-            .service-card h3 {
-                font-size: 1.8rem;
-            }
-
-            .service-card p {
-                font-size: 1.1rem;
-            }
+        .service-cards:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Keyframe Animations */
-        @keyframes fadeInDown {
+        .service-cards img {
+            width: 24px;
+            margin-bottom: 15px;
+        }
+
+        .service-cards h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: black;
+        }
+
+        .service-cards p {
+            font-size: 14px;
+            color: gray;
+        }
+
+        @keyframes fadeInLeft {
             from {
+                transform: translateX(-50px);
                 opacity: 0;
-                transform: translateY(-30px);
             }
             to {
+                transform: translateX(0);
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
         @keyframes fadeInUp {
             from {
+                transform: translateY(20px);
                 opacity: 0;
-                transform: translateY(30px);
             }
             to {
-                opacity: 1;
                 transform: translateY(0);
+                opacity: 1;
             }
         }
 
+        /* Small Screens (max-width: 480px) */
+        @media (max-width: 480px) {
 
-        /* Fiber Plans Section Styles */
+            .right-container {
+                gap: 20px;
+                padding: 10px;
+            }
+            .service-cards{
+                padding: 10px;
+                width: 80%;
+                text-align: center;
+            }
+
+            .service-cards img {
+                margin-bottom: 5px;
+            }
+
+            .service-cards h3 {
+                font-size: 15px;
+            }
+
+            .service-cards p {
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .services-container {
+                flex-direction: column-reverse; /* Moves the left-container to the top */
+            }
+
+            .left-container {
+                display: none; /* Hides the left container */
+            }
+
+            .right-container {
+                width: 100%;
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+        }
+
+        /* Tablets (min-width: 768px) and (max-width: 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-container {
+                padding: 40px;
+                text-align: center;
+            }
+
+            .right-container {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 30px;
+            }
+        }
+
+        /* Desktop Screens (min-width: 1024px) */
+        @media (min-width: 1024px) {
+            .container {
+                flex-direction: row;
+            }
+
+            .left-container {
+                padding: 60px;
+            }
+
+            .right-container {
+                grid-template-columns: repeat(2, 1fr);
+                padding: 40px;
+            }
+        }
+
+        /* Fiber Plans Section */
         .fiber-plans {
-            padding: 60px 20px;
-            background-color: #121212;
-            text-align: center;
-            min-height: 100vh;
+            width: auto;
+            height: 100vh;
+            background-color: rgb(243, 245, 250);
+            color: #000;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            overflow: hidden;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .fiber-plans .container {
+            max-width: 1500px;
+            width: 100%;
+            text-align: center;
         }
 
         .fiber-plans h2 {
-            font-size: 2.5em;
+            font-size: 2.5rem;
+            color: black;
             margin-bottom: 40px;
-            color: #fff;
-            animation: fadeIn 1s ease-in-out;
+            font-weight: 700;
+            letter-spacing: 1px;
+            flex-wrap: wrap;
         }
 
         .plan-cards {
@@ -538,139 +703,148 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
-            opacity: 0;
-            animation: fadeIn 1.5s ease-in-out forwards;
-            animation-delay: 0.5s;
         }
 
         .plan-card {
-            background: linear-gradient(145deg, #1e1e1e, #262626);
-            border-radius: 15px;
-            padding: 30px;
-            width: 90%;
-            max-width: 300px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-            transform: scale(0.95);
-            transition: all 0.3s ease-in-out;
-            animation: fadeInUp 1s ease-in-out forwards;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         }
 
         .plan-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
         }
 
         .plan-card h3 {
-            font-size: 1.8em;
+            font-size: 1.8rem;
             margin-bottom: 10px;
             color: #00aaff;
         }
 
         .plan-card .price {
-            font-size: 1.5em;
+            font-size: 1.5rem;
+            color: black;
             margin-bottom: 20px;
-            color: #00ff99;
+            font-weight: bold;
         }
 
         .plan-card ul {
             list-style: none;
             padding: 0;
             margin-bottom: 20px;
-            color: #fff;
-            text-align: left;
+            text-align: center;
         }
 
         .plan-card ul li {
-            font-size: 1em;
+            font-size: 1rem;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            color: gray;
         }
 
         .plan-card ul li::before {
             content: "✔";
-            color: #00ff99;
-            font-size: 1.2em;
+            margin-right: 10px;
+            color: #00aaff;
+            font-weight: bold;
         }
 
         .plan-card .cta {
-            padding: 10px 20px;
+            display: inline-block;
+            text-decoration: none;
             background-color: #00aaff;
             color: #fff;
-            text-decoration: none;
-            font-size: 1.2em;
+            padding: 10px 20px;
+            font-size: 1rem;
             border-radius: 5px;
-            display: inline-block;
-            transition: background-color 0.3s ease-in-out;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
         .plan-card .cta:hover {
             background-color: #0088cc;
         }
 
-        /* Fade-in Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Media Queries for Responsive Design */
+        /* Responsive Design */
         @media (max-width: 480px) {
-            .plan-card {
-                max-width: 100%;
-                padding: 20px;
-            }
-
             .fiber-plans h2 {
-                font-size: 2em;
+                font-size: 1.3rem;
             }
-        }
 
-        @media (min-width: 768px) and (max-width: 1023px) {
             .plan-card {
-                max-width: 45%;
+                width: auto;
+                height: auto;
+            }
+
+            .plan-card h3 {
+                font-size: 20px;
+                margin: 5px;
+            }
+
+            .plan-card .price {
+                font-size: 1.2rem;
+                color: black;
+                margin: 10px;
+                font-weight: bold;
             }
         }
 
-        @media (min-width: 1024px) {
+        @media (min-width: 481px) and (max-width: 767px) {
+            .fiber-plans h2 {
+                font-size: 1.4rem;
+            }
+
             .plan-card {
-                max-width: 30%;
+                width: auto;
+                height: auto;
+            }
+
+            .plan-card h3 {
+                font-size: auto;
+                margin: auto;
+            }
+
+            .plan-card .price {
+                font-size: auto;
+                color: black;
+                margin: auto;
+                font-weight: bold;
             }
         }
 
+        @media (min-width: 768px) {
+            .plan-card {
+                width: calc(33.333% - 20px); /* 3 columns for desktops */
+            }
+        }
 
         /* Benefits Section Styles */
         .benefits {
-            padding: 60px 20px;
-            background-color: #1f1f1f;
-            text-align: center;
-            min-height: 100vh; /* Full screen height */
+            width: auto;
+            height: 100vh;
+            background-color: rgb(243, 245, 250);
+            color: #000;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .benefits .benefits-container {
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
         }
 
         .benefits h2 {
             font-size: 2.5em;
             margin-bottom: 40px;
-            color: #fff;
+            color: black;
             animation: fadeIn 1s ease-in-out;
         }
 
@@ -684,11 +858,13 @@
         }
 
         .benefit-card {
-            background-color: #2c2c2c;
-            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             transform: scale(0.95);
         }
 
@@ -705,7 +881,7 @@
 
         .benefit-card p {
             font-size: 1.2em;
-            color: #fff;
+            color: #000;
             line-height: 1.5;
         }
 
@@ -768,7 +944,7 @@
         /* Responsive Design */
         @media (max-width: 480px) {
             .benefit-card {
-                width: 100%;
+                width: 85%;
             }
 
             .call-to-action .cta {
@@ -791,7 +967,7 @@
 
     /* Footer Styles */
     footer {
-        background-color: #121212;
+        background-color: #1f1f1f;
         color: #fff;
         padding: 40px 20px;
         min-height: 50vh; /* Ensure the footer takes up at least half the screen height */
@@ -999,9 +1175,7 @@
     <!-- Header Section -->
     <header>
         <div class="container">
-        <div class="logo">
-            <a href="index.php">BMB Aurora</a>
-        </div>
+            <div class="logo">BMB Aurora</div>
             <nav>
                 <ul class="nav-links">
                     <li><a href="#hero">Home</a></li>
@@ -1022,58 +1196,130 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero" class="fade-in" data-animate>
+        <!-- Video Background -->
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="Images/4k.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <!-- Content Overlay -->
         <div class="hero-content" data-animate>
             <h1>Experience the Fastest Internet with BMB</h1>
             <p>Reliable and Affordable Internet Plans Just for You</p>
             <div class="hero-buttons">
-                <a href="#plans" class="cta">Get Started</a>
-                <span class="learn-more">Learn More</span>
+            <a href="#plans" class="cta">
+                <i class="fas fa-rocket"></i> Get Started
+            </a>
+            <span class="learn-more">
+                <i class="fas fa-info-circle"></i> Learn More
+            </span>
             </div>
         </div>
     </section>
+
+    <!-- Partnership Section -->
+    <section class="partnership" id="partners">
+        <!-- Top Marquee: Right to Left -->
+        <div class="marquee-container">
+            <div class="fade-overlay left"></div>
+            <div class="marquee-track">
+                <a class="marquee-item"><img src="Images/Partners/Huaweiii.png" alt="Huawei"></a>
+                <a class="marquee-item"><img src="Images/Partners/tplink.png" alt="TP-Link"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ubiquiti.png" alt="Ubiquiti"></a>
+                <a class="marquee-item"><img src="Images/Partners/Vsolll.png" alt="V-SOL"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mercusys.png" alt="Mercusys"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mimosa.png" alt="Mimosa"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ruijie.png" alt="Ruijie"></a>
+                <a class="marquee-item"><img src="Images/Partners/Tenda.png" alt="Tenda"></a>
+                <a class="marquee-item"><img src="Images/Partners/Huaweiii.png" alt="Huawei"></a>
+                <a class="marquee-item"><img src="Images/Partners/tplink.png" alt="TP-Link"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ubiquiti.png" alt="Ubiquiti"></a>
+                <a class="marquee-item"><img src="Images/Partners/Vsolll.png" alt="V-SOL"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mercusys.png" alt="Mercusys"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mimosa.png" alt="Mimosa"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ruijie.png" alt="Ruijie"></a>
+                <a class="marquee-item"><img src="Images/Partners/Tenda.png" alt="Tenda"></a>
+            </div>
+            <div class="fade-overlay right"></div>
+        </div>
+
+        <!-- Bottom Marquee: Left to Right -->
+        <div class="marquee-container reverse">
+            <div class="fade-overlay left"></div>
+            <div class="marquee-track">
+                <a href="https://www.huawei.com/en/" target="_blank" class="marquee-item"><img src="Images/Partners/Huaweiii.png" alt="Huawei"></a>
+                <a class="marquee-item"><img src="Images/Partners/tplink.png" alt="TP-Link"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ubiquiti.png" alt="Ubiquiti"></a>
+                <a class="marquee-item"><img src="Images/Partners/Vsolll.png" alt="V-SOL"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mercusys.png" alt="Mercusys"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mimosa.png" alt="Mimosa"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ruijie.png" alt="Ruijie"></a>
+                <a class="marquee-item"><img src="Images/Partners/Tenda.png" alt="Tenda"></a>
+            </div>
+            <div class="fade-overlay right"></div>
+        </div>
+    </section>
+
 
     <!-- Services Section -->
     <section class="services" id="services" data-animate>
-        <h2>Why Choose BMB?</h2>
-        <div class="service-cards">
-            <div class="service-card" data-animate>
-                <h3>Free Installation</h3>
-                <p>Get started without any extra cost. Enjoy our free installation service.</p>
+        <div class="services-container">
+            <div class="left-container">
+                <h2>Online Portal</h2>
+                <p>Easily access your account in our online portal</p>
             </div>
-            <div class="service-card" data-animate>
-                <h3>24/7 Customer Support</h3>
-                <p>Our support team is available around the clock to assist you.</p>
-            </div>
-            <div class="service-card" data-animate>
-                <h3>High-Speed Internet</h3>
-                <p>Enjoy uninterrupted streaming, gaming, and browsing with our high-speed plans.</p>
+            <div class="right-container">
+                <div class="service-cards" data-animate class="fade-in">
+                    <img src="Images/billing.png"  style="width:30px;" alt="Billing">
+                    <h3>View Billing</h3>
+                    <p>View your billing and payment history</p>
+                </div>
+                <div class="service-cards" data-animate class="fade-in">
+                    <img src="Images/manage.png" style="width:30px;" alt="Manage">
+                    <h3>Manage</h3>
+                    <p>Manage your account with ease</p>
+                </div>
+                <div class="service-cards" data-animate class="fade-in">
+                    <img src="Images/customer-support.png" style="width:30px;"alt="Customer Support">
+                    <h3>Customer Support</h3>
+                    <p>Get assistance whenever needed</p>
+                </div>
+                <div class="service-cards" data-animate class="fade-in">
+                    <img src="Images/secured.png" style="width:30px;" alt="Secure">
+                    <h3>Secure</h3>
+                    <p>Secured database with encrypted protection</p>
+                </div>
             </div>
         </div>
     </section>
 
-
     <!-- Fiber Plans Section -->
-    <section class="fiber-plans" id="plans" data-animate>
-        <h2>Our Fiber Plans</h2>
-        <div class="plan-cards">
+    <section class="fiber-plans" id="plans" data-animate="">
+        <div class="container">
+            <h2>Choose the Best Plan for You</h2>
+            <div class="plan-cards">
             <?php
             include('db_connection.php');
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
 
             $sql = "SELECT PlanID, Plan, MonthlyCost, Description FROM tblplan";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
-                $delay = 0;
                 while ($row = $result->fetch_assoc()) {
-                    echo '<div class="plan-card" data-animate style="animation-delay: ' . $delay . 's;">';
-                    echo '<h3>' . $row["Plan"] . '</h3>';
-                    echo '<p class="price">₱' . $row["MonthlyCost"] . ' pesos monthly</p>';
+                    echo '<div class="plan-card">';
+                    echo '<h3>Fiber Plan</h3>';
+                    echo '<p class="price">₱' . number_format($row["MonthlyCost"]) . ' / month</p>';
                     echo '<ul>';
                     echo '<li>' . $row["Description"] . '</li>';
+                    echo '<li>Unlimited Internet</li>';
+                    echo '<li>Free Modem Router</li>';
                     echo '</ul>';
-                    echo '<a href="registration.php" class="cta">Register</a>';
+                    echo '<a href="registration.php" class="cta">Apply Now</a>';
                     echo '</div>';
-                    $delay += 0.5; // Increment delay for each card
                 }
             } else {
                 echo "<p>No plans available.</p>";
@@ -1081,26 +1327,27 @@
 
             $conn->close();
             ?>
+            </div>
         </div>
     </section>
 
-
-
     <!-- Benefits Section -->
     <section class="benefits" id="benefits" class="fade-down" data-animate>
-        <h2>What You Get with BMB</h2>
-        <div class="benefit-cards" data-animate>
-            <div class="benefit-card" data-animate>
-                <h3>Unlimited Data</h3>
-                <p>No data caps. Enjoy unlimited browsing and streaming.</p>
-            </div>
-            <div class="benefit-card" data-animate>
-                <h3>No Hidden Fees</h3>
-                <p>Transparent pricing with no surprise charges.</p>
-            </div>
-            <div class="benefit-card" data-animate>
-                <h3>Fast Installation</h3>
-                <p>Get connected quickly with our efficient installation process.</p>
+        <div class="benefits-container">
+            <h2>What You Get with BMB</h2>
+            <div class="benefit-cards" data-animate>
+                <div class="benefit-card" data-animate>
+                    <h3>Unlimited Data</h3>
+                    <p>No data caps. Enjoy unlimited browsing and streaming.</p>
+                </div>
+                <div class="benefit-card" data-animate>
+                    <h3>No Hidden Fees</h3>
+                    <p>Transparent pricing with no surprise charges.</p>
+                </div>
+                <div class="benefit-card" data-animate>
+                    <h3>Fast Installation</h3>
+                    <p>Get connected quickly with our efficient installation process.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -1110,7 +1357,6 @@
         <h2>Ready to Get Started?</h2>
         <a href="registration.php" class="cta">Sign Up Now!</a>
     </section>
-
 
     <!-- Footer -->
     <footer id="footer">
@@ -1126,17 +1372,17 @@
             <div class="contact-info">
                 <h3>Contact Information</h3>
                 <ul>
-                    <li>Email: info@bmbinternet.com</li>
-                    <li>Phone: +123 456 7890</li>
-                    <li>Address: 123 Internet Blvd, Tech City</li>
+                    <li>Email: bmbcell@gmail.com</li>
+                    <li>Phone: coming soon</li>
+                    <li>Address: Aurora, Isabela</li>
                 </ul>
             </div>
             <div class="social-media">
                 <h3>Follow Us</h3>
                 <ul>
-                    <li><a href="https://www.facebook.com/bmbinternet" target="_blank"><i class="fab fa-facebook-f"></i></a> BMB Internet Service Aurora</li>
-                    <li><a href="https://twitter.com/bmbinternet" target="_blank"><i class="fab fa-twitter"></i></a> @bmbinternet</li>
-                    <li><a href="https://www.instagram.com/bmbinternet" target="_blank"><i class="fab fa-instagram"></i></a> @bmbinternet</li>
+                    <li><a href="https://www.facebook.com/bmb.cell.5" target="_blank"><i class="fab fa-facebook-f"></i></a> BMB Cell and Computer Shop</li>
+                    <li><a href="" target="_blank"><i class="fab fa-twitter"></i></a> @bmbcell</li>
+                    <li><a href="" target="_blank"><i class="fab fa-instagram"></i></a> @bmbcell</li>
                 </ul>
             </div>
         </div>
@@ -1154,7 +1400,6 @@
             <button id="loginCollector">Login as Collector</button>
         </div>
     </div>
-
 
     <!-- Smooth Scroll Script -->
     <script>
@@ -1246,12 +1491,10 @@
                 });
             };
 
-            // Run on page load and scroll
             window.addEventListener("scroll", handleScroll);
             handleScroll(); // Trigger on initial load
         });
+
     </script>
-
-
 </body>
 </html>
