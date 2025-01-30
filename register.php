@@ -2,53 +2,73 @@
 include('db_connection.php');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullName = $_POST['fullName'];
-    $email = $_POST['email'];
-    $mobileNo = $_POST['mobileNo'];
-    $password = $_POST['password'];
-    $address = $_POST['address'];
-    $package = $_POST['package'];
-    $latitude = $_POST['latitude'];
-    $longitude = $_POST['longitude'];
-    
-    // Check if email already exists
-    $emailCheckSql = "SELECT * FROM tblclient WHERE Email = ?";
-    $stmt = $conn->prepare($emailCheckSql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    
-    if ($result->num_rows > 0) {
-        echo "This email is already registered. Please use a different email.";
-        $stmt->close();
-        $conn->close();
-        exit();
-    }
-    $stmt->close();
-
-    // Generate a unique ClientID
-    $clientId = "CL-ID-" . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
-
-    // Prepare the SQL statement
-    $sql = "INSERT INTO tblclient (ClientID, FullName, MobileNumber, Email, Username, Password, Address, PlanID, Longitude, Latitude, Status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    // Prepare and bind
-    $stmt = $conn->prepare($sql);
-    $username = strtolower(explode(' ', $fullName)[0]); // Simple username generation from first name
+    $fullName = trim($_POST['fullName']);
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $mobileNo = trim($_POST['mobileNo']);
+    $password2 = trim($_POST['password2']);
+    $address = trim($_POST['address']);
+    $package = trim($_POST['package']);
+    $longitude = trim($_POST['longitude']);
+    $latitude = trim($_POST['latitude']);
     $status = "Waiting";
 
-    $stmt->bind_param("ssssssssdds", 
-        $clientId, $fullName, $mobileNo, $email, $username, $password, $address, $package, 
-        $longitude, $latitude, $status
-    );
-
-    if ($stmt->execute()) {
-        header("Location: login.php");
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+    // Check for duplicate Username
+    $checkUsername = "SELECT 1 FROM tblclient WHERE Username = ?";
+    $stmt = $conn->prepare($checkUsername);
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        echo "<script>alert('Username already exists!'); window.history.back();</script>";
+        exit();
     }
 
-    $stmt->close();
-    $conn->close();
+    // Check for duplicate Email
+    $checkEmail = "SELECT 1 FROM tblclient WHERE Email = ?";
+    $stmt = $conn->prepare($checkEmail);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        echo "<script>alert('Email already exists!'); window.history.back();</script>";
+        exit();
+    }
+
+    // Check for duplicate Mobile Number
+    $checkMobile = "SELECT 1 FROM tblclient WHERE MobileNumber = ?";
+    $stmt = $conn->prepare($checkMobile);
+    $stmt->bind_param("s", $mobileNo);
+    $stmt->execute();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        echo "<script>alert('Mobile Number already exists!'); window.history.back();</script>";
+        exit();
+    }
+
+    // Generate a unique ClientID (e.g., CL-ID-000001)
+    $query = "SELECT ClientID FROM tblclient ORDER BY ClientID DESC LIMIT 1";
+    $result = $conn->query($query);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $lastId = intval(substr($row['ClientID'], 6)) + 1;
+        $clientId = 'CL-ID-' . str_pad($lastId, 6, '0', STR_PAD_LEFT);
+    } else {
+        $clientId = 'CL-ID-000001';
+    }
+
+    // Insert new client record
+    $sql = "INSERT INTO tblclient (ClientID, FullName, MobileNumber, Email, Username, Password, Address, PlanID, Longitude, Latitude, Status) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssssssssdds", $clientId, $fullName, $mobileNo, $email, $username, $password2, $address, $package, $longitude, $latitude, $status);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Registration successful! Redirecting to login.'); window.location.href = 'login.php';</script>";
+        exit();
+    } else {
+        echo "<script>alert('Error occurred during registration. Please try again.'); window.history.back();</script>";
+        exit();
+    }
 }
+?>

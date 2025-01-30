@@ -1,10 +1,8 @@
 <?php
 include('db_connection.php');
-
 function fetchPackages($conn) {
     $sql = "SELECT PlanID, Plan FROM tblplan";
     $result = mysqli_query($conn, $sql);
-
     $options = '';
     if ($result && mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_assoc($result)) {
@@ -13,7 +11,6 @@ function fetchPackages($conn) {
     } else {
         $options .= "<option value=''>No Packages Available</option>";
     }
-    
     return $options;
 }
 $options = fetchPackages($conn);
@@ -24,7 +21,11 @@ $options = fetchPackages($conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - BMB Cell and Computer Shop</title>
+    <meta name="author" content="Vanguard">
+    <meta name="description" content="BMB Cell System">
+    <meta name="keywords" content="BMB Cell Aurora, BMB Cell, Aurora">
+    <link rel="icon" href="Images/logo.ico"/>
+    <title>Register- BMB Cell Aurora</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -57,10 +58,10 @@ $options = fetchPackages($conn);
     .registration-container {
         position: relative;
         z-index: 2;
-        width: 90%;
+        width: 90%; /* Changed from fixed width to percentage */
         max-width: 600px;
-        margin: 20px auto;
-        padding: 30px 20px;
+        margin: 20px auto; /* Reduced margin for smaller devices */
+        padding: 30px 20px; /* Adjusted padding for smaller devices */
         background-color: rgba(31, 31, 31);
         border-radius: 10px;
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
@@ -70,11 +71,11 @@ $options = fetchPackages($conn);
 
     .registration-container h2 {
         margin-bottom: 20px;
-        font-size: 1.8rem;
+        font-size: 1.8rem; /* Adjusted font size */
     }
 
     .form-group {
-        margin-bottom: 15px;
+        margin-bottom: 15px; /* Reduced margin */
         text-align: left;
     }
 
@@ -87,12 +88,12 @@ $options = fetchPackages($conn);
     .form-group input,
     .form-group select {
         width: calc(100% - 30px);
-        padding: 10px 15px;
+        padding: 10px 15px; /* Reduced padding */
         border: 1px solid #333;
         border-radius: 5px;
         background-color: #2a2a2a;
         color: #fff;
-        font-size: 0.9rem;
+        font-size: 0.9rem; /* Adjusted font size */
         transition: border 0.3s;
     }
 
@@ -106,7 +107,7 @@ $options = fetchPackages($conn);
     }
 
     .input-icon input {
-        padding-left: 35px;
+        padding-left: 35px; /* Adjusted for icons */
     }
 
     .input-icon i {
@@ -115,14 +116,14 @@ $options = fetchPackages($conn);
         left: 10px;
         transform: translateY(-50%);
         color: white;
-        font-size: 0.9rem; 
+        font-size: 0.9rem; /* Adjusted icon size */
     }
 
     .cta {
-        padding: 12px 20px;
+        padding: 12px 20px; /* Reduced padding */
         background-color: #00aaff;
         color: #fff;
-        font-size: 1em;
+        font-size: 1em; /* Adjusted font size */
         border-radius: 5px;
         border: none;
         cursor: pointer;
@@ -136,7 +137,7 @@ $options = fetchPackages($conn);
     }
 
     .registration-container p {
-        margin-top: 15px;
+        margin-top: 15px; /* Adjusted spacing */
     }
 
     .registration-container a {
@@ -150,7 +151,7 @@ $options = fetchPackages($conn);
 
     /* Map Styling */
     #map {
-        height: 300px;
+        height: 300px; /* Adjusted map height for smaller screens */
         width: 100%;
         margin-bottom: 20px;
         border-radius: 5px;
@@ -168,12 +169,13 @@ $options = fetchPackages($conn);
     }
 
     .instruction-text {
-        font-size: 0.8rem;
+        font-size: 0.8rem; /* Adjusted font size */
         color: #bbb;
         margin-bottom: 10px;
     }
 
     @media (max-width: 768px) {
+        /* For tablets and small screens */
         .registration-container {
             padding: 20px;
         }
@@ -188,40 +190,41 @@ $options = fetchPackages($conn);
 
         .form-group input,
         .form-group select {
-            font-size: 0.85rem;
+            font-size: 0.85rem; /* Reduced font size */
         }
 
         .cta {
-            font-size: 0.9em;
+            font-size: 0.9em; /* Reduced font size */
         }
     }
 
     @media (max-width: 480px) {
+        /* For mobile devices */
         .registration-container {
-            padding: 15px;
+            padding: 10px; /* Reduced padding */
         }
 
         .registration-container h2 {
-            font-size: 1.3rem;
+            font-size: 1.3rem; /* Further reduced heading size */
         }
 
         .form-group input,
         .form-group select {
-            padding: 8px 10px;
-            font-size: 0.8rem;
+            padding: 5px 7px; /* Adjusted padding */
+            font-size: 0.8rem; /* Reduced font size */
             padding-left: 30px;
         }
 
         .instruction-text {
-            font-size: 0.75rem;
+            font-size: 0.75rem; /* Adjusted font size */
         }
 
         .cta {
-            font-size: 0.85em;
+            font-size: 0.85em; /* Further reduced font size */
         }
 
         #map {
-            height: 250px; 
+            height: 250px; /* Adjusted map height */
         }
     }
 </style>
@@ -233,7 +236,7 @@ $options = fetchPackages($conn);
 
     <!-- Registration container -->
     <div class="registration-container">
-        <h2>Register for BMB Internet Service</h2>
+        <h2>Registration for BMB</h2>
         <form id="registrationForm" action="register.php" method="post" onsubmit="return validateForm()">
             <div class="form-group input-icon">
                 <input type="text" id="fullName" name="fullName" placeholder="Full name" required>
@@ -269,9 +272,7 @@ $options = fetchPackages($conn);
                 <input type="text" id="address" name="address" placeholder="Address" required>
                 <i class="fas fa-map-marker-alt"></i>
             </div>
-            <br>
             <hr>
-            <br>
 
             <!-- Package Selection -->
             <div class="form-group">
@@ -329,7 +330,11 @@ $options = fetchPackages($conn);
         }
 
         // Leaflet map initialization
-        var map = L.map('map').setView([16.99088, 121.6358], 13);
+            var map = L.map('map', {
+            center: [16.99088, 121.6358],
+            zoom: 13,
+            zoomControl: false
+        });
 
         // Street view layer only, satellite view removed
         var streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

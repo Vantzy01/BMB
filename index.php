@@ -21,6 +21,31 @@
             scroll-behavior: smooth;
         }
 
+        .back-to-top {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            width: 50px;
+            height: 50px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
         /* Header Styles */
         header {
             position: fixed;
@@ -33,7 +58,7 @@
         }
 
         header.scrolled {
-            background-color:  #1e293b;
+            background-color:  #1e293b; /* Change to the desired color when scrolled */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
@@ -64,7 +89,7 @@
         header nav .nav-links a {
             text-decoration: none;
             color: #fff;
-            font-weight: bold;
+            font-weight: 500;
             padding: 5px 10px;
             transition: color 0.3s ease, background-color 0.3s ease;
             border-radius: 5px;
@@ -166,7 +191,6 @@
                 display: flex;
             }
         }
-
         /* Hero Section Styles */
         .hero {
             position: relative;
@@ -178,6 +202,7 @@
             padding: 0 50px;
             color: #fff;
             overflow: hidden;
+            background: url('Images/bgbg.jpg') no-repeat center center/cover;
         }
 
         .hero-video {
@@ -197,7 +222,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.4);
             z-index: 1;
         }
 
@@ -208,6 +233,7 @@
             animation: fadeIn 1.3s ease-in-out;
             margin-left: 150px;
         }
+
 
         /* Responsive Font Sizes with clamp() */
         .hero h1 {
@@ -364,7 +390,7 @@
 
             header nav .nav-links a:hover,
             header nav .nav-links a.active {
-                background-color: #2980b9;
+                background-color: #2563eb;
                 color: #fff;
             }
 
@@ -390,6 +416,15 @@
             position: relative;
             justify-content: center;
             align-items: center;
+            padding: 30px;
+        }
+
+        .partnership h2 {
+            font-size: 1rem;
+            color: gray;
+            font-weight: 700;
+            letter-spacing: 1px;
+            flex-wrap: wrap;
         }
 
         /* Marquee Container Styles */
@@ -400,7 +435,7 @@
             overflow: hidden;
             position: relative;
             height: 60px;
-            background-color: rgb(243, 245, 250);
+            background-color: rgba(0, 0, 0, 0);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -409,7 +444,7 @@
         /* Marquee Track Styles */
         .marquee-track {
             display: flex;
-            gap: 150px;
+            gap: 120px;
             animation: marquee 20s linear infinite;
             align-items: center;
             justify-content: center;
@@ -436,6 +471,7 @@
         .marquee-item img {
             width: 100px;
             filter: grayscale(100%);
+            filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
             transition: filter 0.3s ease, transform 0.3s ease;
         }
 
@@ -470,7 +506,7 @@
                 transform: translateX(0);
             }
             100% {
-                transform: translateX(-50%);
+                transform: translateX(-20%);
             }
         }
 
@@ -500,7 +536,8 @@
 
         .services-container {
             display: flex;
-            max-width: 1200px;
+            max-width: 1500px;
+            height: 60%;
             width: 100%;
             background: white;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -675,7 +712,6 @@
         .fiber-plans {
             width: auto;
             height: 100vh;
-            background-color: rgb(243, 245, 250);
             color: #000;
             display: flex;
             align-items: center;
@@ -684,14 +720,18 @@
         }
 
         .fiber-plans .container {
+            padding: 100px;
+            background: linear-gradient(135deg, #00aaff, #005f99);
+            border-radius: 12px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
             max-width: 1500px;
-            width: 100%;
+            width: 70%;
             text-align: center;
         }
 
         .fiber-plans h2 {
             font-size: 2.5rem;
-            color: black;
+            color: white;
             margin-bottom: 40px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -703,6 +743,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 20px;
+            margin-bottom: 50px;
         }
 
         .plan-card {
@@ -773,7 +814,8 @@
         /* Responsive Design */
         @media (max-width: 480px) {
             .fiber-plans h2 {
-                font-size: 1.3rem;
+                font-size: 1.1rem;
+                margin: 10px;
             }
 
             .plan-card {
@@ -783,20 +825,32 @@
 
             .plan-card h3 {
                 font-size: 20px;
-                margin: 5px;
+                margin: 10px;
             }
 
             .plan-card .price {
-                font-size: 1.2rem;
+                font-size: 1rem;
                 color: black;
                 margin: 10px;
                 font-weight: bold;
+            }
+
+            .plan-card ul li {
+                font-size: 10px;
+            }
+            .plan-card .cta {
+                padding: 5px 10px;
+                font-size: 0.6rem;
+                border-radius: 5px;
+                font-weight: bold;
+                transition: background-color 0.3s ease;
             }
         }
 
         @media (min-width: 481px) and (max-width: 767px) {
             .fiber-plans h2 {
-                font-size: 1.4rem;
+                font-size: 1.2rem;
+                margin: 10px;
             }
 
             .plan-card {
@@ -810,16 +864,21 @@
             }
 
             .plan-card .price {
-                font-size: auto;
+                font-size: 1rem;
                 color: black;
-                margin: auto;
+                margin: 10px;
                 font-weight: bold;
             }
-        }
 
-        @media (min-width: 768px) {
-            .plan-card {
-                width: calc(33.333% - 20px); /* 3 columns for desktops */
+            .plan-card ul li {
+                font-size: 10px;
+            }
+            .plan-card .cta {
+                padding: 5px 10px;
+                font-size: 0.6rem;
+                border-radius: 5px;
+                font-weight: bold;
+                transition: background-color 0.3s ease;
             }
         }
 
@@ -885,41 +944,6 @@
             line-height: 1.5;
         }
 
-        /* Call to Action Section Styles */
-        .call-to-action {
-            padding: 60px 20px;
-            background-color: #121212;
-            text-align: center;
-            min-height: 100vh; /* Full screen height */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .call-to-action h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #fff;
-            animation: fadeIn 1s ease-in-out;
-        }
-
-        .call-to-action .cta {
-            padding: 15px 30px;
-            background-color: #00aaff;
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.5em;
-            border-radius: 5px;
-            transition: background-color 0.3s, transform 0.3s ease;
-            animation: fadeInUp 1.5s ease-in-out forwards;
-        }
-
-        .call-to-action .cta:hover {
-            background-color: #0088cc;
-            transform: scale(1.05);
-        }
-
         /* Fade-in Animations */
         @keyframes fadeIn {
             from {
@@ -970,13 +994,15 @@
         background-color: #1f1f1f;
         color: #fff;
         padding: 40px 20px;
-        min-height: 50vh; /* Ensure the footer takes up at least half the screen height */
+        min-height: 50vh;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Spreads the content evenly */
+        justify-content: center;
+        align-items: center;
     }
 
     .footer-content {
+        max-width: 1200px;
         display: flex;
         flex-direction: column;
         gap: 40px;
@@ -1097,7 +1123,7 @@
     .modal-content h2 {
         font-size: 1.8rem;
         margin-bottom: 10px;
-        color: #61dafb; /* Accent color from your theme */
+        color: #61dafb;
     }
 
     .modal-content p {
@@ -1112,7 +1138,7 @@
         padding: 12px 0;
         margin: 10px 0;
         border: none;
-        background: linear-gradient(45deg, #61dafb, #3498db); /* Gradient with theme accent colors */
+        background: linear-gradient(45deg, #61dafb, #3498db); 
         color: white;
         border-radius: 8px;
         font-size: 1rem;
@@ -1206,18 +1232,24 @@
             <h1>Experience the Fastest Internet with BMB</h1>
             <p>Reliable and Affordable Internet Plans Just for You</p>
             <div class="hero-buttons">
-            <a href="#plans" class="cta">
-                <i class="fas fa-rocket"></i> Get Started
-            </a>
-            <span class="learn-more">
-                <i class="fas fa-info-circle"></i> Learn More
-            </span>
+                <a href="#plans" class="cta">
+                    <i class="fas fa-rocket"></i> Get Started
+                </a>
+                <span class="learn-more">
+                    <i class="fas fa-info-circle"></i> Learn More
+                </span>
             </div>
         </div>
+        
     </section>
+
+    <button id="backToTop" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Partnership Section -->
     <section class="partnership" id="partners">
+        <h2> IN PARTNERSHIP WITH</h2>
         <!-- Top Marquee: Right to Left -->
         <div class="marquee-container">
             <div class="fade-overlay left"></div>
@@ -1247,6 +1279,14 @@
             <div class="fade-overlay left"></div>
             <div class="marquee-track">
                 <a href="https://www.huawei.com/en/" target="_blank" class="marquee-item"><img src="Images/Partners/Huaweiii.png" alt="Huawei"></a>
+                <a class="marquee-item"><img src="Images/Partners/tplink.png" alt="TP-Link"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ubiquiti.png" alt="Ubiquiti"></a>
+                <a class="marquee-item"><img src="Images/Partners/Vsolll.png" alt="V-SOL"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mercusys.png" alt="Mercusys"></a>
+                <a class="marquee-item"><img src="Images/Partners/Mimosa.png" alt="Mimosa"></a>
+                <a class="marquee-item"><img src="Images/Partners/Ruijie.png" alt="Ruijie"></a>
+                <a class="marquee-item"><img src="Images/Partners/Tenda.png" alt="Tenda"></a>
+                <a class="marquee-item"><img src="Images/Partners/Huaweiii.png" alt="Huawei"></a>
                 <a class="marquee-item"><img src="Images/Partners/tplink.png" alt="TP-Link"></a>
                 <a class="marquee-item"><img src="Images/Partners/Ubiquiti.png" alt="Ubiquiti"></a>
                 <a class="marquee-item"><img src="Images/Partners/Vsolll.png" alt="V-SOL"></a>
@@ -1351,13 +1391,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Call to Action Section -->
-    <section class="call-to-action" id="call-to-action" class="fade-in">
-        <h2>Ready to Get Started?</h2>
-        <a href="registration.php" class="cta">Sign Up Now!</a>
-    </section>
-
     <!-- Footer -->
     <footer id="footer">
         <div class="footer-content">
@@ -1493,6 +1526,27 @@
 
             window.addEventListener("scroll", handleScroll);
             handleScroll(); // Trigger on initial load
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let backToTopButton = document.getElementById("backToTop");
+
+            // Show the button when scrolling down 200px
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 50) {
+                    backToTopButton.style.display = "flex";
+                } else {
+                    backToTopButton.style.display = "none";
+                }
+            });
+
+            // Scroll to top when clicked
+            backToTopButton.addEventListener("click", function () {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
         });
 
     </script>
