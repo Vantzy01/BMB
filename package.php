@@ -56,7 +56,8 @@ $conn->close();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Package Details - BMB Cell</title>
+    <link rel="icon" href="Images/logo.ico"/>
+    <title>Package - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
@@ -79,13 +80,14 @@ $conn->close();
 
         .sidebar {
             height: 100%;
-            width: 250px;
+            width: 300px;
             background-color: #ffffff;
             padding-top: 50px;
             position: fixed;
-            left: -250px;
+            left: -300px;
             transition: left 0.3s ease-in-out;
             box-shadow: 3px 0 5px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
 
         .client-info {
@@ -173,6 +175,17 @@ $conn->close();
             font-size: 1rem;
             line-height: 1.6;
         }
+        @media screen and (max-width: 600px) {
+            .text-primary {
+                font-size: 1.5rem;
+            }
+            .card-header h4{
+                font-size: 1rem;
+            }
+            .card-body {
+                font-size: 0.8rem;
+            }
+        }
 
         .text-primary {
             color: #343a40 !important;
@@ -232,7 +245,7 @@ $conn->close();
             display: flex;
             justify-content: space-around;
             padding: 5px;
-            z-index: 1000;
+            z-index: 800;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
             font-family: 'Poppins', sans-serif;
         }
