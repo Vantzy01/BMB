@@ -97,9 +97,11 @@ body {
     cursor: pointer;
     transition: background 0.2s ease;
 }
+
 .notification-dropdown .list-group-item:hover {
     background: #f0f0f0;
 }
+
 .notification-dropdown-header {
     padding: 10px;
     border-bottom: 1px solid #ddd;
@@ -112,11 +114,11 @@ body {
 
 .sidebar {
     height: 100%;
-    width: 250px;
+    width: 300px;
     background-color: #ffffff;
     padding-top: 50px;
     position: fixed;
-    left: -250px;
+    left: -300px;
     transition: left 0.3s ease-in-out;
     box-shadow: 3px 0 5px rgba(0,0,0,0.2);
 }
@@ -151,7 +153,7 @@ body {
 
 .sidebar.show {
     left: 0;
-    z-index: 1000;
+    z-index: 1009;
 }
 
 .sidebar a {
@@ -199,61 +201,85 @@ body {
     flex-grow: 1;
     transition: margin-left 0.3s;
 }
-.main-content.sidebar-open {
-    margin-left: 250px;
-}
 
+/* For Card Styling */
 .card-container {
     display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
     gap: 20px;
     margin: 20px 0;
+    border-style: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
 }
 
 .card {
     flex: 1;
-    padding: 20px;
+    padding: 25px 20px;
     background: #f8f9fa;
     border: 1px solid #ddd;
-    border-radius: 8px;
     text-align: left;
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+.card h3 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+}
+.card p {
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.card small{
+    font-size: 1rem;
+    color: #6c757d;
+    font-weight: 400;
+    margin-bottom: 20px;
 }
 
 .card-content {
-    flex: 1;
-    padding-right: 20px;
+    margin: 0;
 }
 
 .card-icon {
-    font-size: 3em;
-    color: #007bff;
-    transition: transform 0.3s ease, color 0.3s ease;
+    font-size: 1.5em;
+    color: #f8f9fa;
     cursor: pointer;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 10px;
+    transition: border-radius 0.2s ease-in;
 }
 
 .card-icon:hover {
-    transform: scale(1.2);
-    color: #0056b3;
+    color: #f8f9fa;
+    border-radius: 50%;
 }
 
 .bill-icon {
-    font-size: 3em;
-    color: #dc3545;
-    transition: transform 0.3s ease, color 0.3s ease;
+    font-size: 1.5em;
+    color: #f8f9fa;
     cursor: pointer;
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 10px;
+    transition: border-radius 0.2s ease-in;
 }
 
 .bill-icon:hover {
-    transform: scale(1.2);
-    color: #c82333;
+    color: #f8f9fa;
+    border-radius: 50%;
 }
 
 .bill-icon.disabled {
@@ -263,6 +289,7 @@ body {
 
 .modal-header {
     border-bottom: none;
+    align-items: center;
 }
 
 .modal-footer {
@@ -287,6 +314,60 @@ body {
     margin: 5px;
 }
 
+/* Media Query Card for Responsiveness */  
+@media (max-width: 440px) {
+    .card-container{
+        padding: 0;
+    }
+    .card{
+        padding: 20px 15px;
+    }
+    .card-content {
+        padding: 0px;
+    }
+    .card-container .card .card-content h3{
+        font-size: 1rem;
+    }
+    .card-container .card p{
+        font-size: 1.8rem;
+    }
+    .card-container .card small{
+        font-size: 0.7rem;
+    }
+    .card-icon{
+        font-size: 1rem;
+        background-color: #007bff;
+        padding:  10px 15px;
+        border-radius: 10px;
+    }
+    .bill-icon{
+        font-size: 1rem;
+        background-color: #007bff;
+        padding:  10px 15px;
+        border-radius: 10px;
+    }
+}
+@media (max-width: 550px) {
+    .card-container .card h3{
+        font-size: 1.2rem;
+    }
+}
+
+@media (min-width: 551px) and (max-width: 400px) {
+    .card-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+}
+
+@media (min-width: 985px) {
+    .card-container {
+        flex-direction: row;
+        gap: 20px;
+    }
+}
+
+/* Modal Styles */
 .modal-content {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -508,8 +589,9 @@ body {
                 <!-- Package Card -->
                 <div class="card">
                     <div class="card-content">
-                        <h5>Your Package</h5>
-                        <p><?php echo $plan ? $plan['Plan'] : 'No Plan Found'; ?></p>
+                        <h3>Your Package</h3>
+                        <p style="color: #007bff;">1</p>
+                        <small>Plan Subscription</small>
                     </div>
                     <a href="package.php" class="card-icon">
                         <i class="fas fa-box"></i>
@@ -518,18 +600,18 @@ body {
                 <!-- Billing Card -->
                 <div class="card">
                     <div class="card-content">
-                        <h5>Monthly Bill
+                        <h3>Monthly Bill
                             <?php echo $latestBill ? date("F Y", strtotime($latestBill['DueDate'])) : 'Not Available'; ?>
-                        </h5>
+                        </h3>
 
                         <?php if ($latestBill && $latestBill['Status'] == 'Paid'): ?>
                             <!-- If the bill is paid, show this -->
                             <p class="text-success">Already Paid</p>
                         <?php else: ?>
                             <!-- If the bill is not paid, show outstanding balance and due date -->
-                            <p><?php echo $latestBill ? '₱' . number_format($latestBill['OutstandingBalance'], 2) : '0.00'; ?></p>
+                            <p style="color: green;"><?php echo $latestBill ? '₱' . number_format($latestBill['OutstandingBalance'], 2) : '0.00'; ?></p>
                             <small>
-                                <?php echo $latestBill ? 'Pay before ' . date("d F Y", strtotime($latestBill['DueDate'])) : ''; ?>
+                                <?php echo $latestBill ? 'Please pay before ' . date("d F Y", strtotime($latestBill['DueDate'])) : ''; ?>
                             </small>
                         <?php endif; ?>
                     </div>
@@ -581,34 +663,41 @@ body {
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                    <p>Account No. <strong><?php echo $latestBill['ClientID'] ?? 'N/A'; ?></strong></p>
-                    <p>Status: 
-                    <span class="text-danger">
-                        <?php 
-                            switch ($latestBill['Status']) {
-                                case 'Paid':
-                                    echo '<span class="text-success">Paid</span>';
-                                    break;
-                                case 'Half Paid':
-                                    echo '<span class="text-warning">Half Paid</span>';
-                                    break;
-                                case 'Partially Paid':
-                                    echo '<span class="text-warning">Partially Paid</span>';
-                                    break;
-                                default:
-                                    echo '<span class="text-danger">Not Yet Paid</span>';
-                                    break;
-                            }
-                        ?>
-                    </span>
-                </p>
-                    <h1 class="my-3"><?php echo '₱' . number_format ($latestBill['OutstandingBalance'], 2); ?></h1>
-                    <p>Billing details #<?php echo $latestBill['InvoiceNo'] ?? 'N/A'; ?></p>
-                    <p><?php echo $plan['Plan'] ?? 'N/A'; ?> - <?php echo number_format($latestBill['DueAmount'], 2) ?? '0.00'; ?></p>
+                    <div class="upper" style="display:flex; justify-content: space-between; margin:0px 15px; " >
+                        <p>Account No: <br><strong><?php echo $latestBill['ClientID'] ?? 'N/A'; ?></strong></p>
+
+                        <p>Status: <br>
+                            <span class="text-danger">
+                                <?php 
+                                    switch ($latestBill['Status']) {
+                                        case 'Paid':
+                                            echo '<span class="text-success">Paid</span>';
+                                            break;
+                                        case 'Half Paid':
+                                            echo '<span class="text-warning">Half Paid</span>';
+                                            break;
+                                        case 'Partially Paid':
+                                            echo '<span class="text-warning">Partially Paid</span>';
+                                            break;
+                                        default:
+                                            echo '<span class="text-danger">Not Yet Paid</span>';
+                                            break;
+                                    }
+                                ?>
+                            </span>
+                        </p>
+                    </div>
+                    <p style="margin-bottom: 0; color:#6c757d; font-size: 0.8rem;">Total</p>
+                    <h2 style="margin: 5px 0px;"><?php echo '₱' . number_format ($latestBill['OutstandingBalance'], 2); ?></h2>
+                    <p style="color:#6c757d; font-size: 0.8rem;">Billing details #<?php echo $latestBill['InvoiceNo'] ?? 'N/A'; ?></p>
+                    <div class="lower" >
+                        <p style="display:flex; justify-content: space-between; margin:0px 15px;"><?php echo $plan['Plan'] ?? 'N/A'; ?>
+                        <span><?php echo number_format($latestBill['DueAmount'], 2) ?? '0.00'; ?> / month</span></p>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger btn-pay">PAY</button>
-                    <button type="button" class="btn btn-info btn-invoice">
+                    <button type="button" class="btn btn-danger btn-pay" style="width: 100px">Pay</button>
+                    <button type="button" class="btn btn-info btn-invoice" style="width: 100px">
                         <?php echo ($latestBill && $latestBill['Status'] == 'Paid') ? 'Receipt' : 'Invoice'; ?>
                     </button>
                 </div>

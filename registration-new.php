@@ -28,7 +28,6 @@ $options = fetchPackages($conn);
 	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="registration.css" />
 </head>
-
 <body>
 	<div class="overlay"></div>
 	<div class="container">
@@ -96,6 +95,9 @@ $options = fetchPackages($conn);
 				<!-- Submit button -->
 				<div class="button">
 					<input type="submit" value="Register">
+				</div>
+				<div class="link">
+					<p>Already a member? <a href="login.php">Login here</a></p>
 				</div>
 			</form>
 		</div>
