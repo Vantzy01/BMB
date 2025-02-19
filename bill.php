@@ -25,7 +25,7 @@ $bills = $result->fetch_all(MYSQLI_ASSOC);
 $announcementSql = "SELECT * FROM tblannouncements ORDER BY DateCreated DESC";
 $announcementResult = $conn->query($announcementSql);
 $announcements = $announcementResult->fetch_all(MYSQLI_ASSOC);
-
+ 
 $stmt->close();
 $conn->close();
 ?>
@@ -58,13 +58,14 @@ $conn->close();
 
         .sidebar {
             height: 100%;
-            width: 250px;
+            width: 300px;
             background-color: #ffffff;
             padding-top: 50px;
             position: fixed;
-            left: -250px;
+            left: -300px;
             transition: left 0.3s ease-in-out;
             box-shadow: 3px 0 5px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
 
         .client-info {
@@ -137,8 +138,6 @@ $conn->close();
             padding: 20px;
             background-color: #f8f9fa;
         }
-
-        
 
         .card {
             border-radius: 10px;
@@ -213,7 +212,7 @@ $conn->close();
             display: flex;
             justify-content: space-around;
             padding: 5px;
-            z-index: 1000;
+            z-index: 800;
             box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
             font-family: 'Poppins', sans-serif;
         }
@@ -278,80 +277,144 @@ $conn->close();
             border-left-width: 10px;
         }
 
-        .table-borderless {
-            border-collapse: separate;
-            border-spacing: 0 10px;
-            width: 1100px;
-        }
-
-        .table-borderless thead th {
-            border: none;
+        .main-content {
+            flex: 1;
+            padding: 20px;
             background-color: #f8f9fa;
-            font-weight: 600;
-            padding: 10px;
-            text-align: left;
         }
 
-        .table-borderless tbody tr {
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .table-container {
+            width: 100%;
+        }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .billing-table {    
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        thead {
+            background-color: #007bff;
+            color: white;
+        }
+
+        thead th:nth-child(7){
+            text-align: center;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            font-weight: 600;
+        }
+
+        tbody tr {
             background-color: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s;
         }
 
-        .table-borderless tbody td {
-            padding: 10px;
-            border: none;
-        }
-
-        .table-borderless tbody tr:hover {
+        tbody tr:hover {
             background-color: #f1f1f1;
         }
 
-
-        .badge {
-            padding: 0.5em 0.75em;
-            /* Padding for badges */
-            border-radius: 0.5rem;
-            /* Rounded corners */
-            font-size: 0.8em;
-            /* Smaller text */
+        tbody td:nth-child(7) {
+            text-align: center;
         }
 
-        .badge-paid {
+        .no-data {
+            text-align: center;
+            font-weight: bold;
+            color: #777;
+            padding: 20px;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Status Colors */
+        .status-paid {
             background-color: #28a745;
             color: #fff;
         }
 
-        .badge-not-paid {
+        .status-not-paid {
             background-color: #dc3545;
             color: #fff;
         }
 
-        .badge-partially-paid {
+        .status-partially-paid {
             background-color: #ffc107;
             color: #212529;
         }
 
-        .badge-half-paid {
+        .status-half-paid {
             background-color: #17a2b8;
             color: #fff;
         }
 
-        /* Responsive Table */
-        .table-responsive {
-            border: none;
-            overflow-x: auto;
-            margin-top: 15px;
+        .status-default {
+            background-color: #6c757d;
+            color: #fff;
         }
 
-        .table td {
-            vertical-align: middle;
-            padding: 12px;
-            /* Add padding for a clean look */
+        /* Responsive Design */
+        @media screen and (max-width: 600px) {
+            .main-content {
+                padding: 10px;
+            }
+
+            thead th:nth-child(1),
+            tbody td:nth-child(1),
+            thead th:nth-child(2),
+            tbody td:nth-child(2) {
+                display: none;
+            }
+
+            thead th:nth-child(7),
+            tbody td:nth-child(7) {
+                font-size: 0.75rem;
+            }
+
+            table{
+                display: block;
+            }
+            th, td {
+                width:auto;
+                padding: 5px;
+                font-size: 0.75rem;
+            }
+
+            .status-badge {
+                padding: 4px 8px;
+                font-size: 0.75em;
+            }
         }
 
-        .text-center {
-            text-align: center;
-        }
 
         /* Fullscreen spinner overlay */
         #spinner {
@@ -468,27 +531,25 @@ $conn->close();
     <div class="wrapper">
         <!-- Main Content Area -->
         <main class="main-content">
-            <div class="container mt-5">
+            <div class="table-container">
                 <h2>Billing History</h2>
                 <div class="table-responsive">
-                    <table class="table table-borderless">
+                    <table class="billing-table">
                         <thead>
                             <tr>
                                 <th>Invoice No</th>
                                 <th>Due Date</th>
                                 <th>Period</th>
-                                <!-- <th>Plan</th> -->
                                 <th>Due Amount</th>
                                 <th>Discount</th>
-                                <th>Amount Paid</th>
-                                <!-- <th>Outstanding Balance</th> -->
+                                <th>Payment</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php if (empty($bills)): ?>
                                 <tr>
-                                    <td colspan="9" class="text-center">No billing records found.</td>
+                                    <td colspan="7" class="no-data">No billing records found.</td>
                                 </tr>
                             <?php else: ?>
                                 <?php foreach ($bills as $bill): ?>
@@ -496,36 +557,34 @@ $conn->close();
                                         <td><?php echo htmlspecialchars($bill['InvoiceNo']); ?></td>
                                         <td><?php echo date("d M Y", strtotime($bill['DueDate'])); ?></td>
                                         <td><?php echo htmlspecialchars($bill['Period']); ?></td>
-                                        <!-- <td><?php echo htmlspecialchars($bill['Plan']); ?></td> -->
                                         <td>₱<?php echo number_format($bill['DueAmount'], 2); ?></td>
                                         <td>₱<?php echo number_format($bill['Discount'], 2); ?></td>
                                         <td>₱<?php echo number_format($bill['AmountPaid'], 2); ?></td>
-                                        <!-- <td>₱<?php echo number_format($bill['OutstandingBalance'], 2); ?></td> -->
                                         <td>
                                             <?php
-                                            // Fetch and classify the status
+                                            // Assign badge classes based on status
                                             $status = htmlspecialchars($bill['Status']);
                                             $statusClass = '';
 
                                             switch ($status) {
                                                 case 'Paid':
-                                                    $statusClass = 'badge badge-paid';
+                                                    $statusClass = 'status-paid';
                                                     break;
                                                 case 'Not Yet Paid':
-                                                    $statusClass = 'badge badge-not-paid';
+                                                    $statusClass = 'status-not-paid';
                                                     break;
                                                 case 'Partially Paid':
-                                                    $statusClass = 'badge badge-partially-paid';
+                                                    $statusClass = 'status-partially-paid';
                                                     break;
                                                 case 'Half Paid':
-                                                    $statusClass = 'badge badge-half-paid';
+                                                    $statusClass = 'status-half-paid';
                                                     break;
                                                 default:
-                                                    $statusClass = 'badge badge-secondary';
+                                                    $statusClass = 'status-default';
                                             }
                                             ?>
-                                            <span class="<?php echo $statusClass; ?> payment-status"
-                                                data-invoice-no="<?php echo htmlspecialchars($bill['InvoiceNo']); ?>"
+                                            <span class="status-badge <?php echo $statusClass; ?> payment-status" 
+                                                data-invoice-no="<?php echo htmlspecialchars($bill['InvoiceNo']); ?>" 
                                                 style="cursor: pointer;">
                                                 <?php echo $status; ?>
                                             </span>
@@ -539,6 +598,7 @@ $conn->close();
             </div>
         </main>
     </div>
+
 
     <!-- Bottom Navigation -->
     <nav class="bottom-navbar">

@@ -44,14 +44,13 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Vanguard">
     <meta name="description" content="BMB Cell System">
     <meta name="keywords" content="BMB Cell Aurora, BMB Cell, Aurora">
-    <link rel="icon" href="Images/logo.ico" />
+    <link rel="icon" href="Images/logo.ico"/>
     <title>Login - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
@@ -63,13 +62,13 @@ $conn->close();
             font-family: 'Poppins', sans-serif;
         }
 
-        body { 
+        body {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 10px;
-            background: url('Images/bgbg.jpg') center no-repeat;
+            background: url('Images/bg1.jpg') center no-repeat;
             background-size: cover;
         }
 
@@ -92,6 +91,7 @@ $conn->close();
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
             z-index: 2;
             margin: 80px;
+            animation: fadeIn 0.3s ease-in;
         }
 
         .container .title {
@@ -138,7 +138,7 @@ $conn->close();
             transition: all 0.3s ease;
         }
 
-        .user-details .input-box input:focus {
+        .user-details .input-box input:focus{
             border-color: #00aaff;
         }
 
@@ -190,6 +190,20 @@ $conn->close();
             margin-bottom: 5px;
             text-align: left;
         }
+        
+        .back-link {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            text-decoration: none;
+            align-self: center;
+            transition: all 0.2s;
+        }
+
+        .back-link:hover{
+            text-decoration: underline;
+            transform: scale(1.03);
+        }
 
         @media(max-width: 584px) {
             .container {
@@ -208,32 +222,25 @@ $conn->close();
 
         @media(max-width: 459px) {
             .container {
-                margin: auto;
+                margin:auto;
                 width: 95%;
                 height: auto;
                 padding: 25px;
             }
         }
-        .back{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .back-link {
-            margin-top: 10px;
-            display: inline-block;
-            text-decoration: none;
-            font-size: 15px;
-            color: #2980b9;
-            transition: color 0.3s ease;
-        }
 
-        .back-link:hover {
-            color: #2563eb;
+        @keyframes fadeIn {
+            0%{
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100%{
+                opacity: 100;
+                transform: scale(1);
+            }
         }
     </style>
 </head>
-
 <body>
     <div class="overlay"></div>
     <div class="container">
@@ -253,22 +260,16 @@ $conn->close();
                         <div class="error-message"><?php echo $error_message; ?></div>
                     <?php endif; ?>
                 </div>
-                <div class="input-checkbox">
-                    <input type="checkbox" id="rememberMe" name="rememberMe">
-                    <label for="rememberMe">Remember Me</label>
+                <div class="login-link">
+                    <p>Not a member? <a href="registration.php">Register here</a></p>
                 </div>
                 <div class="button">
                     <input type="submit" value="Login">
                 </div>
-                <div class="login-link">
-                    <p>Not a member? <a href="registration.php">Register here</a></p>
-                </div>
-                <div class="back">
-                    <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
-                </div>
+                <a href="index.php" class="back-link"><i class="fas fa-arrow-left" style= margin-right:5px;></i>Back to Homepage</a>
             </form>
         </div>
     </div>
 </body>
-
 </html>
+

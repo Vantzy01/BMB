@@ -1,6 +1,5 @@
 <?php
 session_start();
-include('db_connection.php');
 
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -18,7 +17,8 @@ if (!$clientID) {
     die("Client ID is not available.");
 }
 
-// Fetch complaints based on the client's ID
+include('db_connection.php');
+
 $complaintSql = "SELECT * FROM tblcomplaints WHERE ClientID = ? ORDER BY DateReported DESC";
 $complaintStmt = $conn->prepare($complaintSql);
 $complaintStmt->bind_param("s", $clientID);
@@ -50,12 +50,12 @@ foreach ($complaints as $complaint) {
 
 if (isset($_SESSION['success'])) {
     echo "<div class='alert alert-success'>" . $_SESSION['success'] . "</div>";
-    unset($_SESSION['success']); // Clear the success message from the session
+    unset($_SESSION['success']);
 }
 
 if (isset($_SESSION['error'])) {
     echo "<div class='alert alert-danger'>" . $_SESSION['error'] . "</div>";
-    unset($_SESSION['error']); // Clear the error message from the session
+    unset($_SESSION['error']);
 }
 ?>
 
@@ -65,50 +65,12 @@ if (isset($_SESSION['error'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Images/logo.ico"/>
     <title>Complaint - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
-        :root {  
-            --primary-color: #007bff;  
-            --secondary-color: #343a40;  
-            --success-color: #28a745;  
-            --danger-color: #dc3545;
-            --purple-color: #6f42c1;
-        }
-
-        .notification-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 20px;
-            width: 300px;
-            max-height: 400px;
-            overflow-y: auto;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: none;
-            z-index: 1050;
-        }
-        .notification-dropdown .list-group-item {
-            cursor: pointer;
-            transition: background 0.2s ease;
-        }
-        .notification-dropdown .list-group-item:hover {
-            background: #f0f0f0;
-        }
-        .notification-dropdown-header {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            font-weight: bold;
-            font-size: 16px;
-            background-color: #f8f9fa;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
-        }
-
         body {
             display: flex;
             min-height: 100vh;
@@ -120,18 +82,13 @@ if (isset($_SESSION['error'])) {
             background-color: #ededf5;
         }
 
-        .wrapper {
-            display: flex;
-            flex: 1;
-        }
-
         .sidebar {
             height: 100%;
-            width: 250px;
+            width: 300px;
             background-color: #ffffff;
             padding-top: 50px;
             position: fixed;
-            left: -250px;
+            left: -300px;
             transition: left 0.3s ease-in-out;
             box-shadow: 3px 0 5px rgba(0,0,0,0.2);
         }
@@ -194,79 +151,51 @@ if (isset($_SESSION['error'])) {
         }
 
         .top-navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
             display: flex;
             justify-content: space-between;
             padding: 15px;
             background-color: #007bff;
             color: #fff;
+            z-index: 10000;
         }
         .top-navbar .notification-icon {
             cursor: pointer;
         }
-
-        .main-content {
-            margin-left: 0;
-            padding: 20px;
-            flex-grow: 1;
-            transition: margin-left 0.3s;
+        
+        .top-navbar .collapse-btn{
+            cursor: pointer;
         }
 
-        .card-container {
+        .wrapper {
             display: flex;
-            gap: 20px;
-            margin: 20px 0;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+            padding: 20px;
+            width: 100%;
         }
 
         .card {
-            flex: 1;
+            display: inline-block;
+            width: 100%;
             padding: 20px;
             background: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
         }
 
         .card-content {
-            flex: 1;
             padding-right: 20px;
-        }
-
-        .card-icon {
-            font-size: 3em;
-            color: #007bff;
-            transition: transform 0.3s ease, color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .card-icon:hover {
-            transform: scale(1.2);
-            color: #0056b3;
-        }
-
-        .bill-icon {
-            font-size: 3em;
-            color: #dc3545;
-            transition: transform 0.3s ease, color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .bill-icon:hover {
-            transform: scale(1.2);
-            color: #c82333;
-        }
-
-        .bill-icon.disabled {
-            pointer-events: none;
-            opacity: 0.5;
         }
 
         .modal-header {
@@ -281,18 +210,6 @@ if (isset($_SESSION['error'])) {
         /* Combined header styles */  
         .modal-header, .modal-footer {  
             border-bottom: none;  
-        } 
-
-        .btn-pay,  
-        .btn-confirm,  
-        .btn-invoice {  
-            margin: 5px;  
-            border: none;  
-            cursor: pointer;  
-        } 
-
-        .btn-pay, .btn-confirm, .btn-invoice {
-            margin: 5px;
         }
 
         .modal-content {
@@ -311,29 +228,6 @@ if (isset($_SESSION['error'])) {
 
         .modal-title {
             font-weight: bold;
-        }
-
-        .btn-pay, .btn-confirm, .btn-invoice {
-            margin-right: 5px;
-        }
-
-        .btn-pay {
-            background-color: var(--danger-color);  
-            border: none;
-        }
-
-        .btn-confirm {
-            background-color: #f39c12;
-            border: none;
-        }
-
-        .btn-invoice {
-            background-color: #3498db;
-            border: none;
-        }
-
-        .btn-pay:hover, .btn-confirm:hover, .btn-invoice:hover {
-            opacity: 0.9;
         }
 
         .modal-body ul {
@@ -366,7 +260,6 @@ if (isset($_SESSION['error'])) {
             text-align: center;
             font-size: 14px;
             padding: 6px 0;
-
             text-decoration: none;
             transition: color 0.3s, transform 0.3s;
         }
@@ -391,17 +284,6 @@ if (isset($_SESSION['error'])) {
             color: #007bff;
             border-top: 3px solid #007bff;
             text-decoration: none;
-        }
-
-        .card {
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-
-        .card-body {
-            text-align: center;
         }
 
         .btn {
@@ -437,6 +319,37 @@ if (isset($_SESSION['error'])) {
 
         .font-weight-bold {
             font-weight: 700;
+        }
+
+        .notification-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1050;
+        }
+        .notification-dropdown .list-group-item {
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .notification-dropdown .list-group-item:hover {
+            background: #f0f0f0;
+        }
+        .notification-dropdown-header {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
         }
 
         /* Fullscreen spinner overlay */
@@ -495,6 +408,272 @@ if (isset($_SESSION['error'])) {
                 display: none;
             }
         }
+
+        .history{
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        .table-container {
+            display: inline-block;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .history h5{
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .complaints-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        .complaints-table th, .complaints-table td {
+            padding: 15px 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .complaints-table th {
+            background: #f1f1f1;
+            color: gray;
+        }
+        .complaints-table tr:hover {
+            background: #f1f1f1;
+            cursor: pointer;
+        }
+        .status.pending {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        .status.done {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .status.processing {
+            color: #f44336;
+            font-weight: bold;
+        }
+        .action-cell {
+            text-align: center;
+        }
+        .complaints-table th:nth-child(1), 
+        .complaints-table td:nth-child(1) {
+            display: none;
+        }
+ 
+        .complaints-table td:nth-child(4) {
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 460px) {
+            .card{
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+            .card-title{
+                font-size: 1rem;
+            }
+            
+            .card-body{
+                font-size: 0.8rem;
+            }
+            .btn{
+                font-size: 0.8rem;
+            }
+            
+            .history{
+                margin-top: 10px;
+            }
+            
+            .history h5{
+                font-size: 1rem;
+            }
+            .complaints-table td,
+            .complaints-table th{
+                font-size: 0.6rem;
+            }
+            .complaints-table td:nth-child(4) {
+                font-size: 0.6rem;
+            }
+        }
+
+        /* timeline */
+        .modal-timeline{
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1055;
+            /* display: none; */
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            outline: 0;
+        }
+        .modal-timeline .modal-dialogt{
+            padding: 0;
+            margin: 0;
+            bottom: 0;
+            position: fixed;
+            width: 100%;
+            min-width: 100%;
+            z-index: 19000;
+            /* transform: translate(0, 100%); */
+        }
+
+        .modal-dialogt {
+            position: relative;
+            width: auto;
+            margin: .5rem;
+            pointer-events: none;
+        }
+
+        .modal-timeline .modal-contentt{
+            box-shadow: none;
+            border: 0;
+            border-radius: 0;
+            padding-bottom: env(safe-area-inset-bottom);
+
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            pointer-events: auto;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid rgba(0, 0, 0, .2);
+            border-radius: .3rem;
+            outline: 0;
+        }
+
+        .modal-timeline .modal-contentt .modal-headert {
+            display: block;
+            padding: 2px 20px;
+        }
+
+        .modal-headert{
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1rem;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: calc(.3rem - 1px);
+            border-top-right-radius: calc(.3rem - 1px);
+        }
+
+        .modal-timeline .modal-contentt .modal-headert .modal-titlet {
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            display: block;
+            font-size: 15px;
+            padding: 10px 0;
+            color: #27173E;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .modal-bodyt{
+            position: relative;
+            flex: 1 1 auto;
+            padding: 1rem;
+        }
+
+        .modal.action-sheet .modal-content .action-sheet-content {
+            padding: 20px 16px;
+            max-height: 460px;
+            overflow: auto;
+        }
+
+        .cardt {
+            background: #ffffff;
+            border-radius: 10px;
+            border: 0;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.09);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: .25rem;
+        }
+
+        .timeline.timed {
+            padding-left: 80px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 24px 0;
+        }
+
+        .timeline.timed:before {
+            left: 80px;
+        }
+
+        .timeline:before {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 2px;
+            left: 0;
+            bottom: 0;
+            top: 0;
+            background: #DCDCE9;
+            z-index: 1;
+        }
+        .timeline .item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .timeline.timed .time {
+            font-size: 11px;
+            position: absolute;
+            left: -80px;
+            line-height: 1.5em;
+            width: 70px;
+            text-align: right;
+            top: 1px;
+            z-index: 20;
+        }
+
+        .timeline .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 100%;
+            position: absolute;
+            background: #A9ABAD;
+            left: -5px;
+            top: 4px;
+            z-index: 10;
+            background: #6236ff;
+            color: #FFF;
+        }
+
+        .timeline .content {
+            padding-left: 20px;
+        }
+
+        .timeline .content .title {
+            margin-bottom: 8px;
+            line-height: 1.3em;
+        }
+
+        .timeline .content .text {
+            font-size: 13px;
+            line-height: 1.4em;
+        }
+                
     </style>
 </head>
 <body>
@@ -553,29 +732,66 @@ if (isset($_SESSION['error'])) {
     <div class="wrapper">
         <!-- Main Content Area -->
         <main class="main-content" id="mainContent">
-            <div class="container mt-5">
-                <!-- Report Disturbance Section -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title font-weight-bold">Report Disturbance</h5>
-                        <p class="card-text">The solution solves your problem</p>
-                        <button class="btn btn-secondary mr-2" id="sendComplaintBtn">Send Complaint</button>
-                        <button class="btn btn-outline-warning" id="historyBtn">History</button>
-                    </div>
+            <!-- Report Disturbance Section -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">Report Disturbance</h5>
+                    <p class="card-text">The solution solves your problem</p>
+                    <button class="btn btn-secondary" id="sendComplaintBtn">Send Complaint</button>
                 </div>
-
-                <!-- Contact Us Section -->
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title font-weight-bold">Contact Us</h5>
-                        <p class="card-text">Chat with us to find out information about services</p>
-                        <button class="btn btn-success mr-2">WhatsApp</button>
-                        <button class="btn btn-primary mr-2">Telegram</button>
-                        <button class="btn btn-danger">Email</button>
-                    </div>
+            </div>
+            <!-- Complaint History -->
+            <div class="history">
+                <h5>Complaint History</h5>
+                <div class="table-container">
+                    <?php if (empty($complaints)): ?>
+                        <p class="no-complaints">No complaints found</p>
+                    <?php else: ?>
+                        <table class="complaints-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Report</th>
+                                    <th>Status</th>
+                                    <th>Date Reported</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($complaints as $complaint): ?>
+                                    <tr class="complaint-row" data-id="<?php echo $complaint['ComplaintID']; ?>">
+                                        <td><?php echo htmlspecialchars($complaint['ComplaintID']); ?></td>
+                                        <td><?php echo htmlspecialchars($complaint['Type']); ?></td>
+                                        <td><?php echo htmlspecialchars($complaint['Report']); ?></td>
+                                        <td class="status <?php echo strtolower(htmlspecialchars($complaint['Status'])); ?>">
+                                            <?php echo htmlspecialchars($complaint['Status']); ?>
+                                        </td>
+                                        <td><?php echo date("M d, Y g:i A", strtotime($complaint['DateReported'])); ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endif; ?>
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Timeline Modal -->
+    <div class="modal-timeline" id="timeline-modal" tabindex="-1" role="dialog" aria-modal="true" style="display: none;">
+        <div class="modal-dialogt" role="document">
+            <div class="modal-contentt">
+                <div class="modal-headert">
+                    <h5 class="modal-titlet">Timeline</h5>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-bodyt">
+                    <div class="action-sheet-contentt">
+                        <div class="cardt" id="timeline-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Bottom Navigation -->
@@ -602,69 +818,6 @@ if (isset($_SESSION['error'])) {
         </a>
     </nav>
 
-    <!-- History Modal -->
-    <div class="modal fade" id="historyModal" tabindex="-1" aria-labelledby="historyModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #4A90E2;">
-                    <h5 class="modal-title text-white" id="historyModalLabel">Complaint History</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" class="text-white">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" style="background-color: #f8f9fa;">
-                    <?php if (empty($complaints)): ?>
-                        <p class="text-center">No complaints found</p>
-                    <?php else: ?>
-                        <?php foreach ($complaints as $complaint): ?>
-                            <?php
-                            // Determine the card color based on the status
-                            $cardColor = '';
-                            switch (strtolower($complaint['Status'])) {
-                                case 'pending':
-                                    $cardColor = 'linear-gradient(90deg, #ffb74d, #f57c00)';
-                                    break;
-                                case 'processing':
-                                    $cardColor = 'linear-gradient(90deg, #42a5f5, #1e88e5)';
-                                    break;
-                                case 'done':
-                                    $cardColor = 'linear-gradient(90deg, #66bb6a, #43a047)';
-                                    break;
-                                default:
-                                    $cardColor = 'linear-gradient(90deg, #e0e0e0, #bdbdbd)';
-                                    break;
-                            }
-                            ?>
-                            <div class="p-4 mb-3 text-white" style="background: <?php echo $cardColor; ?>; border-radius: 10px;">
-                                <div class="mb-2">
-                                    <h6 style="font-weight: bold; margin-bottom: 10px;">#<?php echo htmlspecialchars($complaint['ComplaintID']); ?></h6>
-                                </div>
-                                <div class="mb-2">
-                                    <p style="font-weight: bold; margin-bottom: 5px;">Client ID</p>
-                                    <p><?php echo htmlspecialchars($complaint['ClientID']); ?></p>
-                                </div>
-                                <div class="mb-2">
-                                    <p style="font-weight: bold; margin-bottom: 5px;">Complaint</p>
-                                    <p><?php echo htmlspecialchars($complaint['Complaint']); ?></p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <div>
-                                        <p style="font-weight: bold; margin-bottom: 5px;">STATUS</p>
-                                        <p><?php echo htmlspecialchars($complaint['Status']); ?></p>
-                                    </div>
-                                    <div>
-                                        <p style="font-weight: bold; margin-bottom: 5px;">DATE</p>
-                                        <p><?php echo date("d M Y H:i:s", strtotime($complaint['DateReported'])); ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Announcement Detail Modal -->
     <div class="modal fade" id="announcementDetailModal" tabindex="-1" aria-labelledby="announcementDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -685,6 +838,7 @@ if (isset($_SESSION['error'])) {
             </div>
         </div>
     </div>
+
     <!-- Custom Message Box Modal -->
     <div class="modal fade" id="customMessageBox" tabindex="-1" aria-labelledby="customMessageBoxLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -704,7 +858,6 @@ if (isset($_SESSION['error'])) {
             </div>
         </div>
     </div>
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -763,9 +916,34 @@ if (isset($_SESSION['error'])) {
                 // Show the announcement detail modal
                 $('#announcementDetailModal').modal('show');
             });
+        });
 
-            $('#historyBtn').on('click', function() {
-                $('#historyModal').modal('show');
+        document.addEventListener("DOMContentLoaded", function() {
+            const rows = document.querySelectorAll(".complaint-row");
+            const modal = document.getElementById("timeline-modal");
+            const closeModal = document.querySelector(".close-modal");
+            const timelineContent = document.getElementById("timeline-content");
+            
+            rows.forEach(row => {
+                row.addEventListener("click", function() {
+                    const complaintId = this.getAttribute("data-id");
+                    fetch(`view_timeline.php?id=${complaintId}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            timelineContent.innerHTML = data;
+                            modal.style.display = "block";
+                        });
+                });
+            });
+            
+            closeModal.addEventListener("click", function() {
+                modal.style.display = "none";
+            });
+            
+            window.addEventListener("click", function(event) {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
             });
         });
     </script>
