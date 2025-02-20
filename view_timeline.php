@@ -1,5 +1,5 @@
 <?php
-require 'db_connection.php'; // Include database connection
+require 'db_connection.php';
 
 if (!isset($_GET['id'])) {
     echo '<p class="error">Invalid request</p>';
@@ -18,7 +18,7 @@ $complaint = $result->fetch_assoc();
 $stmt->close();
 
 // Fetch complaint actions
-$query = "SELECT * FROM tblcomplaintact WHERE ComplaintID = ? ORDER BY DateUpdated ASC";
+$query = "SELECT * FROM tblcomplaintact WHERE ComplaintID = ? ORDER BY Date ASC";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("s", $complaintID);
 $stmt->execute();
@@ -43,12 +43,17 @@ $conn->close();
     
     <?php foreach ($actions as $action): ?>
         <div class="item">
-            <span class="time"><?php echo htmlspecialchars($action['DateUpdated']); ?></span>
+            <span class="time">
+                <?php 
+                    $actionDate = new DateTime($action['Date']);
+                    echo $actionDate->format('Y-m-d H:i:s'); 
+                ?>
+            </span>
             <div class="dot bg-success"></div>
             <div class="content">
-                <h4 class="title">Action Taken: <?php echo htmlspecialchars($action['ActionTaken']); ?></h4>
-                <div class="text">Remark: <?php echo htmlspecialchars($action['Remark']); ?><br>
-                    Updated by: <?php echo htmlspecialchars($action['Updatedby']); ?>
+                <h4 class="title"><?php echo htmlspecialchars($action['ActionTaken']); ?></h4>
+                <div class="text">Remark: <?php echo htmlspecialchars($action['Remarks']); ?><br>
+                    Updated by: <?php echo htmlspecialchars($action['UpdatedBy']); ?>
                 </div>
             </div>
         </div>

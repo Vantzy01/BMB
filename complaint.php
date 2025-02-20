@@ -67,6 +67,7 @@ if (isset($_SESSION['error'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="Images/logo.ico"/>
     <title>Complaint - BMB Cell</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
@@ -507,14 +508,15 @@ if (isset($_SESSION['error'])) {
             position: fixed;
             top: 0;
             left: 0;
-            z-index: 1055;
-            /* display: none; */
+            z-index: 10055;
             width: 100%;
             height: 100%;
             overflow-x: hidden;
             overflow-y: auto;
             outline: 0;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
         }
+
         .modal-timeline .modal-dialogt{
             padding: 0;
             margin: 0;
@@ -523,9 +525,8 @@ if (isset($_SESSION['error'])) {
             width: 100%;
             min-width: 100%;
             z-index: 19000;
-            /* transform: translate(0, 100%); */
         }
-
+      
         .modal-dialogt {
             position: relative;
             width: auto;
@@ -538,7 +539,6 @@ if (isset($_SESSION['error'])) {
             border: 0;
             border-radius: 0;
             padding-bottom: env(safe-area-inset-bottom);
-
             position: relative;
             display: flex;
             flex-direction: column;
@@ -549,7 +549,12 @@ if (isset($_SESSION['error'])) {
             border: 1px solid rgba(0, 0, 0, .2);
             border-radius: .3rem;
             outline: 0;
+
         }
+
+        
+
+        
 
         .modal-timeline .modal-contentt .modal-headert {
             display: block;
@@ -665,6 +670,8 @@ if (isset($_SESSION['error'])) {
         }
 
         .timeline .content .title {
+            font-size: 1rem;
+            font-weight: bold;
             margin-bottom: 8px;
             line-height: 1.3em;
         }
@@ -778,12 +785,12 @@ if (isset($_SESSION['error'])) {
     </div>
 
     <!-- Timeline Modal -->
-    <div class="modal-timeline" id="timeline-modal" tabindex="-1" role="dialog" aria-modal="true" style="display: none;">
-        <div class="modal-dialogt" role="document">
+    <div class="modal-timeline " id="timeline-modal" tabindex="-1" role="dialog" aria-modal="true" style="display: none;">
+        <div class="modal-dialogt animate__animated animate__fadeInUp"  role="document">
             <div class="modal-contentt">
                 <div class="modal-headert">
                     <h5 class="modal-titlet">Timeline</h5>
-                    <span class="close-modal">&times;</span>
+                    <span class="close-modal"></span>
                 </div>
                 <div class="modal-bodyt">
                     <div class="action-sheet-contentt">
