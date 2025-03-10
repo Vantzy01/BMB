@@ -1,8 +1,8 @@
 <?php
-$servername = "localhost";
-$username = "u491558769_bmbweb";
-$password = "BMBcell@2024";
-$dbname = "u491558769_dbinternet";
+$servername = "";
+$username = "";
+$password = "";
+$dbname = "";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
