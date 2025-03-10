@@ -33,20 +33,23 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collector Dashboard</title>
+    <link rel="icon" href="Images/logo.ico" />
+    <title>Collector Dashboard - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f7fa;
-            
+
         }
+
         header {
             position: fixed;
             top: 0;
@@ -81,7 +84,7 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
 
         /* Dashboard Section */
         .dashboard {
-            margin-top: 150px;
+            margin-top: 100px;
             padding: 2em;
             background-color: #f4f7fa;
             margin-bottom: 50px;
@@ -166,9 +169,15 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
 
         /* Responsive Design */
         @media (max-width: 560px) {
+            .dashboard {
+                margin-top: 60px;
+            }
+
+
             .top-nav h1 {
                 font-size: 1em;
             }
+
             .card p {
                 font-size: 1.5em;
             }
@@ -187,6 +196,7 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
         }
     </style>
 </head>
+
 <body>
 
     <!-- Top Navigation Bar -->
@@ -195,7 +205,7 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
             <h1><?php echo $_SESSION['FullName']; ?></h1>
             <div class="profile">
                 <a href="coll_logout.php">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <i class="fas fa-sign-out-alt"> Logout</i>
                 </a>
             </div>
         </nav>
@@ -248,7 +258,5 @@ $unpaidCount = $unpaidInvoicesResult['unpaidCount'] ?? 0;
         </nav>
     </footer>
 </body>
+
 </html>
-
-
-

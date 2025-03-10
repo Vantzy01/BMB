@@ -7,6 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $inputUsername = trim($_POST['username']);
     $inputPassword = trim($_POST['password']);
 
+    // Validate form fields
     if (empty($inputUsername) || empty($inputPassword)) {
         echo "<script>alert('Please fill in all fields.'); window.location.href = 'login.php';</script>";
         exit();
@@ -26,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['fullname'] = $row['FullName'];
         $_SESSION['clientID'] = $row['ClientID'];
         $_SESSION['planID'] = $row['PlanID'];
-        
+
 
         // Pass ClientID as a query parameter in the URL
         $clientID = $row['ClientID'];
@@ -42,4 +43,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $conn->close();
-

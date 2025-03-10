@@ -1,7 +1,5 @@
 <?php
 include('db_connection.php');
-
-// Get the report from the AJAX request
 $report = isset($_POST['report']) ? $_POST['report'] : '';
 
 if (!empty($report)) {
@@ -15,9 +13,6 @@ if (!empty($report)) {
         $instruction = $row['Instruction'];
     }
 
-    // Return the instruction as a JSON response
     echo json_encode(['instruction' => $instruction]);
 }
-
 $conn->close();
-?>

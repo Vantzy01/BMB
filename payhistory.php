@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include('db_connection.php');
 
 // Check if the client is logged in
@@ -24,6 +23,7 @@ $result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,14 +36,17 @@ $result = $stmt->get_result();
             background-color: #f9f9f9;
             color: #333;
         }
+
         .container {
             padding: 20px;
         }
+
         .main-content h2 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 20px;
         }
+
         .table {
             width: 100%;
             background-color: #fff;
@@ -51,28 +54,34 @@ $result = $stmt->get_result();
             margin-top: 20px;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        .table th, .table td {
+
+        .table th,
+        .table td {
             padding: 15px;
             text-align: left;
             border: 1px solid #ddd;
         }
+
         .table thead th {
             background-color: #f3f4f6;
             font-weight: 600;
             color: #666;
         }
+
         .badge-confirmed {
             background-color: #d4edda;
             color: #155724;
             border-radius: 5px;
             padding: 5px 10px;
         }
+
         .badge-pending {
             background-color: #ffeeba;
             color: #856404;
             border-radius: 5px;
             padding: 5px 10px;
         }
+
         footer {
             text-align: center;
             padding: 10px 0;
@@ -81,6 +90,7 @@ $result = $stmt->get_result();
         }
     </style>
 </head>
+
 <body>
     <main class="main-content">
         <div class="container mt-5">
@@ -131,6 +141,7 @@ $result = $stmt->get_result();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
 <?php
 $stmt->close();

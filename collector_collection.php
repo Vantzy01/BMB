@@ -1,7 +1,8 @@
 <?php
 session_start();
-include('db_connection.php'); 
+include('db_connection.php');
 
+// Check if the CollectorID is set in the session
 if (!isset($_SESSION['CollectorID'])) {
     header("Location: collector_login.php"); // Redirect to login if not set
     exit;
@@ -20,15 +21,25 @@ $result = $conn->query($query);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Images/logo.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
-    <title>Collector Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Collector Collection - BMB Cell</title>
     <style>
         /* General styling */
-        body { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
         header {
             position: fixed;
             top: 0;
@@ -36,9 +47,19 @@ $result = $conn->query($query);
             width: 100%;
             z-index: 1000;
         }
-        .container { max-width: 1800px; margin: auto; padding: 20px; margin-top: 120px; margin-bottom: 120px;}
+
+        .container {
+            max-width: 1800px;
+            margin: auto;
+            padding: 20px;
+            margin-top: 100px;
+            margin-bottom: 120px;
+        }
+
         /* Top Navigation Bar */
         .top-nav {
+            position: fixed;
+            width: 100%;
             background-color: #2C3E50;
             color: white;
             display: flex;
@@ -59,6 +80,7 @@ $result = $conn->query($query);
             background-color: #e74c3c;
             border-radius: 5px;
             font-size: 0.9em;
+            margin-right: 50px;
         }
 
         /* Table styling */
@@ -106,10 +128,29 @@ $result = $conn->query($query);
             border-bottom: none;
         }
 
-        td, th {
+        td,
+        th {
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .btn-delete {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        footer {
+            z-index: 1001;
         }
 
         /* Bottom Navigation Bar */
@@ -148,12 +189,13 @@ $result = $conn->query($query);
             font-size: 0.75em;
         }
 
-                /* Responsive adjustments */
-                @media (max-width: 560px) {
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
             .top-nav h1 {
                 font-size: 1em;
             }
-            .container h2{
+
+            .container h2 {
                 font-size: 0.9em;
             }
 
@@ -165,18 +207,68 @@ $result = $conn->query($query);
                 font-size: 1.8em;
             }
 
-            table { width: 100%; background: #fff; border-radius: 2px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-            th{font-size: 7px;}
-            td{font-size: 6px;}
-            th, td { padding: 6px 4px; text-align: left;}
+            table {
+                width: 100%;
+                background: #fff;
+                border-radius: 2px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            th {
+                font-size: 7px;
+            }
+
+            td {
+                font-size: 6px;
+            }
+
+            th,
+            td {
+                padding: 6px 4px;
+                text-align: left;
+            }
+
             tbody td {
                 border: none;
                 padding: 6px 2px;
             }
-        }
 
+            table th:nth-child(1),
+            table td:nth-child(1) {
+                display: none;
+            }
+
+            table th:nth-child(6),
+            table td:nth-child(6) {
+                display: none;
+            }
+
+            .no-data {
+                display: table-row !important;
+                text-align: center;
+            }
+
+            .no-data td {
+                display: table-cell !important;
+                font-size: 12px;
+                text-align: center;
+            }
+
+            .btn-delete {
+                background-color: #e74c3c;
+                color: white;
+                border: none;
+                padding: 3px 4px;
+                border-radius: 5px;
+                font-size: 0.4rem;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+        }
     </style>
 </head>
+
 <body>
     <!-- Top Navigation Bar -->
     <header>
@@ -184,7 +276,7 @@ $result = $conn->query($query);
             <h1><?php echo $_SESSION['FullName']; ?></h1>
             <div class="profile">
                 <a href="coll_logout.php" style="color: white;">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <i class="fas fa-sign-out-alt"> Logout</i>
                 </a>
             </div>
         </nav>
@@ -202,6 +294,7 @@ $result = $conn->query($query);
                         <th>Amount</th>
                         <th>Payment Date</th>
                         <th>Last Bill</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -214,10 +307,13 @@ $result = $conn->query($query);
                                 <td>&#8369;<?php echo number_format($row['Amount'], 2); ?></td>
                                 <td><?php echo date("M d, Y h:i A", strtotime($row['PaymentDate'])); ?></td>
                                 <td>&#8369;<?php echo number_format($row['LastBill'], 2); ?></td>
+                                <td>
+                                    <button class="btn-delete" onclick="deletePayment('<?php echo $row['ReferenceNo']; ?>')"> <i class="fa fa-trash" aria-hidden="true"> Delete</i> </button>
+                                </td>
                             </tr>
                         <?php endwhile; ?>
                     <?php else: ?>
-                        <tr>
+                        <tr class="no-data">
                             <td colspan="7" style="text-align: center; color: #666;">No payments are waiting for approval.</td>
                         </tr>
                     <?php endif; ?>
@@ -251,7 +347,27 @@ $result = $conn->query($query);
                 <span>Announcements</span>
             </a>
         </nav>
-    </footer> 
-
+    </footer>
+    <script>
+        function deletePayment(referenceNo) {
+            if (confirm("Are you sure you want to delete this payment?")) {
+                $.ajax({
+                    url: 'delete_payment.php',
+                    type: 'POST',
+                    data: {
+                        ReferenceNo: referenceNo
+                    },
+                    success: function(response) {
+                        alert(response);
+                        location.reload();
+                    },
+                    error: function() {
+                        alert("Error deleting payment.");
+                    }
+                });
+            }
+        }
+    </script>
 </body>
+
 </html>

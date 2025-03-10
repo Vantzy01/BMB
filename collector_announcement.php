@@ -11,18 +11,27 @@ $collectorID = $_SESSION['CollectorID'];
 // Fetch announcements from the database
 $query = "SELECT Title, Message, DateCreated FROM tblannouncements ORDER BY DateCreated DESC";
 $result = $conn->query($query);
-?> 
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collector Announcements</title>
+    <link rel="icon" href="Images/logo.ico" />
+    <title>Announcements - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         /* General styling */
-        body { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
         header {
             position: fixed;
             top: 0;
@@ -30,7 +39,15 @@ $result = $conn->query($query);
             width: 100%;
             z-index: 1000;
         }
-        .container { max-width: 1800px; margin: auto; padding: 20px; margin-top: 120px; margin-bottom: 120px;}
+
+        .container {
+            max-width: 1800px;
+            margin: auto;
+            padding: 20px;
+            margin-top: 120px;
+            margin-bottom: 120px;
+        }
+
         /* Top Navigation Bar */
         .top-nav {
             background-color: #2C3E50;
@@ -141,15 +158,16 @@ $result = $conn->query($query);
             display: none;
         }
 
-        /* Show message when expanded */
         .announcement-card.expanded .announcement-message {
             display: block;
         }
+
         /* Responsive Design */
         @media (max-width: 560px) {
             .top-nav h1 {
                 font-size: 1em;
             }
+
             .card p {
                 font-size: 1.5em;
             }
@@ -168,6 +186,7 @@ $result = $conn->query($query);
         }
     </style>
 </head>
+
 <body>
     <!-- Top Navigation Bar -->
     <header>
@@ -175,7 +194,7 @@ $result = $conn->query($query);
             <h1><?php echo $_SESSION['FullName']; ?></h1>
             <div class="profile">
                 <a href="coll_logout.php" style="color: white;">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <i class="fas fa-sign-out-alt"> Logout</i>
                 </a>
             </div>
         </nav>
@@ -227,11 +246,11 @@ $result = $conn->query($query);
         </nav>
     </footer>
 
-    <!-- JavaScript to handle expanding/collapsing announcement cards -->
     <script>
         function toggleExpand(element) {
             element.classList.toggle('expanded');
         }
     </script>
 </body>
+
 </html>

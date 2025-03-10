@@ -44,13 +44,14 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Vanguard">
     <meta name="description" content="BMB Cell System">
     <meta name="keywords" content="BMB Cell Aurora, BMB Cell, Aurora">
-    <link rel="icon" href="Images/logo.ico"/>
+    <link rel="icon" href="Images/logo.ico" />
     <title>Login - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
@@ -138,7 +139,7 @@ $conn->close();
             transition: all 0.3s ease;
         }
 
-        .user-details .input-box input:focus{
+        .user-details .input-box input:focus {
             border-color: #00aaff;
         }
 
@@ -190,7 +191,7 @@ $conn->close();
             margin-bottom: 5px;
             text-align: left;
         }
-        
+
         .back-link {
             display: inline-block;
             width: 100%;
@@ -200,7 +201,7 @@ $conn->close();
             transition: all 0.2s;
         }
 
-        .back-link:hover{
+        .back-link:hover {
             text-decoration: underline;
             transform: scale(1.03);
         }
@@ -222,7 +223,7 @@ $conn->close();
 
         @media(max-width: 459px) {
             .container {
-                margin:auto;
+                margin: auto;
                 width: 95%;
                 height: auto;
                 padding: 25px;
@@ -230,21 +231,23 @@ $conn->close();
         }
 
         @keyframes fadeIn {
-            0%{
+            0% {
                 opacity: 0;
                 transform: scale(0.8);
             }
-            100%{
+
+            100% {
                 opacity: 100;
                 transform: scale(1);
             }
         }
     </style>
 </head>
+
 <body>
     <div class="overlay"></div>
     <div class="container">
-        <div class="title">BMB Login</div>
+        <div class="title">Client Login</div>
         <div class="content">
             <form id="loginForm" action="" method="post">
                 <div class="user-details">
@@ -266,10 +269,10 @@ $conn->close();
                 <div class="button">
                     <input type="submit" value="Login">
                 </div>
-                <a href="index.php" class="back-link"><i class="fas fa-arrow-left" style= margin-right:5px;></i>Back to Homepage</a>
+                <a href="index.php" class="back-link"><i class="fas fa-arrow-left" style=margin-right:5px;></i>Back to Homepage</a>
             </form>
         </div>
     </div>
 </body>
-</html>
 
+</html>

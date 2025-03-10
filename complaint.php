@@ -61,16 +61,17 @@ if (isset($_SESSION['error'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Images/logo.ico"/>
+    <link rel="icon" href="Images/logo.ico" />
     <title>Complaint - BMB Cell</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         body {
             display: flex;
@@ -91,7 +92,7 @@ if (isset($_SESSION['error'])) {
             position: fixed;
             left: -300px;
             transition: left 0.3s ease-in-out;
-            box-shadow: 3px 0 5px rgba(0,0,0,0.2);
+            box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
         }
 
         .client-info {
@@ -102,7 +103,7 @@ if (isset($_SESSION['error'])) {
             padding-left: 20px;
         }
 
-        .client-info i {  
+        .client-info i {
             margin-right: 10px;
         }
 
@@ -125,7 +126,7 @@ if (isset($_SESSION['error'])) {
         .sidebar.show {
             left: 0;
             z-index: 100000;
-            
+
         }
 
         .sidebar a {
@@ -142,7 +143,7 @@ if (isset($_SESSION['error'])) {
             padding-left: 25px;
         }
 
-        .sidebar a i {  
+        .sidebar a i {
             margin-right: 10px;
         }
 
@@ -162,11 +163,12 @@ if (isset($_SESSION['error'])) {
             color: #fff;
             z-index: 10000;
         }
+
         .top-navbar .notification-icon {
             cursor: pointer;
         }
-        
-        .top-navbar .collapse-btn{
+
+        .top-navbar .collapse-btn {
             cursor: pointer;
         }
 
@@ -208,9 +210,10 @@ if (isset($_SESSION['error'])) {
             justify-content: center;
         }
 
-        /* Combined header styles */  
-        .modal-header, .modal-footer {  
-            border-bottom: none;  
+        /* Combined header styles */
+        .modal-header,
+        .modal-footer {
+            border-bottom: none;
         }
 
         .modal-content {
@@ -336,13 +339,16 @@ if (isset($_SESSION['error'])) {
             display: none;
             z-index: 1050;
         }
+
         .notification-dropdown .list-group-item {
             cursor: pointer;
             transition: background 0.2s ease;
         }
+
         .notification-dropdown .list-group-item:hover {
             background: #f0f0f0;
         }
+
         .notification-dropdown-header {
             padding: 10px;
             border-bottom: 1px solid #ddd;
@@ -378,8 +384,9 @@ if (isset($_SESSION['error'])) {
             box-sizing: border-box;
             animation: rotation 1s linear infinite;
         }
+
         .loader::after {
-            content: '';  
+            content: '';
             box-sizing: border-box;
             position: absolute;
             left: 0;
@@ -391,18 +398,21 @@ if (isset($_SESSION['error'])) {
             border-bottom: 4px solid transparent;
             animation: rotation 0.5s linear infinite reverse;
         }
+
         @keyframes rotation {
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
         }
+
         /* Responsive Design */
         @media (max-width: 600px) {
-            .modal-content {  
-                margin: 10px;  
+            .modal-content {
+                margin: 10px;
             }
 
             .bottom-navbar span {
@@ -410,7 +420,7 @@ if (isset($_SESSION['error'])) {
             }
         }
 
-        .history{
+        .history {
             margin-top: 30px;
             width: 100%;
         }
@@ -423,88 +433,102 @@ if (isset($_SESSION['error'])) {
             overflow-x: auto;
         }
 
-        .history h5{
+        .history h5 {
             text-align: center;
             font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 10px;
         }
+
         .complaints-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
         }
-        .complaints-table th, .complaints-table td {
+
+        .complaints-table th,
+        .complaints-table td {
             padding: 15px 8px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
+
         .complaints-table th {
             background: #f1f1f1;
             color: gray;
         }
+
         .complaints-table tr:hover {
             background: #f1f1f1;
             cursor: pointer;
         }
+
         .status.pending {
             color: #ff9800;
             font-weight: bold;
         }
+
         .status.done {
             color: #4caf50;
             font-weight: bold;
         }
+
         .status.processing {
             color: #f44336;
             font-weight: bold;
         }
+
         .action-cell {
             text-align: center;
         }
-        .complaints-table th:nth-child(1), 
+
+        .complaints-table th:nth-child(1),
         .complaints-table td:nth-child(1) {
             display: none;
         }
- 
+
         .complaints-table td:nth-child(4) {
             font-size: 0.8rem;
         }
-        
+
         @media (max-width: 460px) {
-            .card{
+            .card {
                 padding: 10px;
                 margin-bottom: 10px;
             }
-            .card-title{
+
+            .card-title {
                 font-size: 1rem;
             }
-            
-            .card-body{
+
+            .card-body {
                 font-size: 0.8rem;
             }
-            .btn{
+
+            .btn {
                 font-size: 0.8rem;
             }
-            
-            .history{
+
+            .history {
                 margin-top: 10px;
             }
-            
-            .history h5{
+
+            .history h5 {
                 font-size: 1rem;
             }
+
             .complaints-table td,
-            .complaints-table th{
+            .complaints-table th {
                 font-size: 0.6rem;
             }
+
             .complaints-table td:nth-child(4) {
                 font-size: 0.6rem;
             }
         }
 
         /* timeline */
-        .modal-timeline{
+        .modal-timeline {
             position: fixed;
             top: 0;
             left: 0;
@@ -517,7 +541,7 @@ if (isset($_SESSION['error'])) {
             background: linear-gradient(45deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
         }
 
-        .modal-timeline .modal-dialogt{
+        .modal-timeline .modal-dialogt {
             padding: 0;
             margin: 0;
             bottom: 0;
@@ -526,7 +550,7 @@ if (isset($_SESSION['error'])) {
             min-width: 100%;
             z-index: 19000;
         }
-      
+
         .modal-dialogt {
             position: relative;
             width: auto;
@@ -534,7 +558,7 @@ if (isset($_SESSION['error'])) {
             pointer-events: none;
         }
 
-        .modal-timeline .modal-contentt{
+        .modal-timeline .modal-contentt {
             box-shadow: none;
             border: 0;
             border-radius: 0;
@@ -552,16 +576,16 @@ if (isset($_SESSION['error'])) {
 
         }
 
-        
 
-        
+
+
 
         .modal-timeline .modal-contentt .modal-headert {
             display: block;
             padding: 2px 20px;
         }
 
-        .modal-headert{
+        .modal-headert {
             display: flex;
             flex-shrink: 0;
             align-items: center;
@@ -584,7 +608,7 @@ if (isset($_SESSION['error'])) {
             line-height: 1.5;
         }
 
-        .modal-bodyt{
+        .modal-bodyt {
             position: relative;
             flex: 1 1 auto;
             padding: 1rem;
@@ -636,6 +660,7 @@ if (isset($_SESSION['error'])) {
             background: #DCDCE9;
             z-index: 1;
         }
+
         .timeline .item {
             position: relative;
             margin-bottom: 30px;
@@ -680,9 +705,9 @@ if (isset($_SESSION['error'])) {
             font-size: 13px;
             line-height: 1.4em;
         }
-                
     </style>
 </head>
+
 <body>
     <div id="spinner" class="spinner" style="display: none;">
         <div class="loader"></div>
@@ -786,7 +811,7 @@ if (isset($_SESSION['error'])) {
 
     <!-- Timeline Modal -->
     <div class="modal-timeline " id="timeline-modal" tabindex="-1" role="dialog" aria-modal="true" style="display: none;">
-        <div class="modal-dialogt animate__animated animate__fadeInUp"  role="document">
+        <div class="modal-dialogt animate__animated animate__fadeInUp" role="document">
             <div class="modal-contentt">
                 <div class="modal-headert">
                     <h5 class="modal-titlet">Timeline</h5>
@@ -869,11 +894,11 @@ if (isset($_SESSION['error'])) {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.getElementById('toggleSidebar').addEventListener('click', function () {
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         });
-        document.getElementById('closeSidebarBtn').addEventListener('click', function () {
+        document.getElementById('closeSidebarBtn').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('show');
         });
@@ -898,7 +923,7 @@ if (isset($_SESSION['error'])) {
                 });
             });
         });
-        
+
         $(document).ready(function() {
             $('#notificationBell').on('click', function() {
                 $('#announcementDropdown').toggle();
@@ -930,7 +955,7 @@ if (isset($_SESSION['error'])) {
             const modal = document.getElementById("timeline-modal");
             const closeModal = document.querySelector(".close-modal");
             const timelineContent = document.getElementById("timeline-content");
-            
+
             rows.forEach(row => {
                 row.addEventListener("click", function() {
                     const complaintId = this.getAttribute("data-id");
@@ -942,11 +967,11 @@ if (isset($_SESSION['error'])) {
                         });
                 });
             });
-            
+
             closeModal.addEventListener("click", function() {
                 modal.style.display = "none";
             });
-            
+
             window.addEventListener("click", function(event) {
                 if (event.target === modal) {
                     modal.style.display = "none";
@@ -956,7 +981,7 @@ if (isset($_SESSION['error'])) {
     </script>
     <script>
         // Add event listener to the Send Complaint button
-        document.getElementById('sendComplaintBtn').addEventListener('click', function () {
+        document.getElementById('sendComplaintBtn').addEventListener('click', function() {
             <?php if ($hasPendingComplaint): ?>
                 // If a Pending complaint exists
                 $('#customMessageBoxLabel').text('Pending Complaint');

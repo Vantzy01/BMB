@@ -10,6 +10,7 @@ if (!isset($_SESSION['username'])) {
 $clientID = $_SESSION['clientID'];
 $invoiceNo = isset($_POST['invoiceNo']) ? $_POST['invoiceNo'] : '';
 
+// Database connection
 include('db_connection.php');
 
 // Fetch payment history for the given invoice number
@@ -56,4 +57,3 @@ if (empty($payments)) {
     echo '<strong>Outstanding Balance:</strong> ₱' . number_format($outstandingBalance, 2);
     echo '</li>';
 }
-

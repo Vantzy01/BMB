@@ -40,13 +40,13 @@ $conn->close();
             </div>
         </div>
     </div>
-    
+
     <?php foreach ($actions as $action): ?>
         <div class="item">
             <span class="time">
-                <?php 
-                    $actionDate = new DateTime($action['Date']);
-                    echo $actionDate->format('Y-m-d H:i:s'); 
+                <?php
+                $actionDate = new DateTime($action['Date']);
+                echo $actionDate->format('Y-m-d H:i:s');
                 ?>
             </span>
             <div class="dot bg-success"></div>

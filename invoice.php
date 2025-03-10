@@ -31,7 +31,7 @@ $pdf->SetFont('Arial', '', 12);
 $pdf->AddFont("CenturyGothic", "", "07558_CenturyGothic.php");
 
 // Set background image
-$img_file = 'C:/xampp/htdocs/BMB/Images/invoice.jpg';
+$img_file = 'Images/invoice.jpg';
 if (!file_exists($img_file)) {
     die('Image not found: ' . $img_file);
 }
@@ -64,7 +64,7 @@ $pdf->SetXY(155, 84.8);
 $pdf->Cell(0, 10, $invoice['InvoiceNo'], 0, 1, 'L');
 
 $invoiceDate = date('m/d/Y');
-$pdf->SetXY(155, 93.4); 
+$pdf->SetXY(155, 93.4);
 $pdf->SetFont('Arial', '', 12);
 $pdf->Cell(0, 10, $invoiceDate, 0, 1, 'L');
 
@@ -81,7 +81,7 @@ $status = $invoice['Status'];
 
 switch ($status) {
     case 'Paid':
-        $img_paid = 'C:/xampp/htdocs/BMB/Images/paid.png';
+        $img_paid = 'Images/paid.png';
         if (!file_exists($img_paid)) {
             die('Image not found: ' . $img_paid);
         }
@@ -120,7 +120,7 @@ $pdf->SetXY(128.8, 132.5);
 $pdf->Cell(34.1, 10, number_format($invoice['Discount']), 0, 1, 'C');
 
 // Calculate the Total (DueAmount - Discount)
-$totalAmount = $invoice['DueAmount'] - $invoice['Discount']; 
+$totalAmount = $invoice['DueAmount'] - $invoice['Discount'];
 
 $pdf->SetXY(163.5, 132.5);
 $pdf->Cell(36, 10, 'Php ' . number_format($totalAmount, 2), 0, 1, 'C');

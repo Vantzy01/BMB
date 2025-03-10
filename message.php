@@ -8,6 +8,7 @@ if (isset($_GET['message'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +22,7 @@ if (isset($_GET['message'])) {
             height: 100vh;
             background-color: #f4f4f4;
         }
+
         .message-box {
             background: white;
             padding: 20px;
@@ -29,13 +31,16 @@ if (isset($_GET['message'])) {
             text-align: center;
             max-width: 400px;
         }
+
         .message-box h2 {
             color: #ff4d4d;
         }
+
         .message-box p {
             font-size: 16px;
             color: #333;
         }
+
         .close-btn {
             margin-top: 15px;
             padding: 10px 20px;
@@ -45,11 +50,13 @@ if (isset($_GET['message'])) {
             border-radius: 5px;
             cursor: pointer;
         }
+
         .close-btn:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
+
 <body>
     <div class="message-box">
         <h2>Notification</h2>
@@ -57,4 +64,5 @@ if (isset($_GET['message'])) {
         <button class="close-btn" onclick="window.location.href='registration.php';">Okay</button>
     </div>
 </body>
+
 </html>

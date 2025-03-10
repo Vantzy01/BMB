@@ -3,27 +3,19 @@ include('db_connection.php');
 
 $period = $_GET['period'] ?? '';
 $search = $_GET['search'] ?? '';
-$status = $_GET['status'] ?? '';
 
 $query = "SELECT b.InvoiceNo, c.FullName, b.DueDate, b.DueAmount, b.Status 
           FROM tblbilling b 
           JOIN tblclient c ON b.ClientID = c.ClientID
-          WHERE 1=1";
+          WHERE b.Status IN ('Not Yet Paid', 'Half Paid', 'Partially Paid')";
 
 $params = [];
+
 if (!empty($period)) {
     $query .= " AND b.Period = ?";
     $params[] = $period;
 }
-if (!empty($status)) {
-    if ($status === 'Paid') {
-        $query .= " AND b.Status = ?";
-        $params[] = 'Paid';
-    } elseif ($status === 'Unpaid') {
-        $query .= " AND b.Status IN (?, ?, ?)";
-        $params = array_merge($params, ['Half Paid', 'Partially Paid', 'Not Yet Paid']);
-    }
-}
+
 if (!empty($search)) {
     $query .= " AND c.FullName LIKE ?";
     $params[] = '%' . $search . '%';
@@ -53,11 +45,7 @@ if ($result->num_rows > 0) {
         $paymentStmt->execute();
         $paymentResult = $paymentStmt->get_result();
 
-        if ($Status === 'Paid') {
-            $buttonClass = 'paid-btn ';
-            $buttonIcon = '<i class="fas fa-check-circle"></i>'; // Check icon
-            $disabled = 'disabled';
-        } elseif ($paymentResult->num_rows > 0) {
+        if ($paymentResult->num_rows > 0) {
             $buttonClass = 'waiting-btn';
             $buttonIcon = '<i class="fas fa-hourglass-half"></i>'; // Hourglass icon
             $disabled = 'disabled';
@@ -89,4 +77,3 @@ if ($result->num_rows > 0) {
 }
 
 $stmt->close();
-?>

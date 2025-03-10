@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const password2 = document.getElementById("password2");
     const address = document.getElementById("address");
     const packageSelect = document.getElementById("package");
-    const terms = document.getElementById("terms");
     const latitude = document.getElementById("latitude");
     const longitude = document.getElementById("longitude");
 
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function isValidPhone(phone) {
-        const re = /^[0-9]{11}$/; // Ensures exactly 11 digits
+        const re = /^[0-9]{11}$/;
         return re.test(phone);
     }
 
@@ -117,18 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
             isValid = false;
         } else {
             setSuccess(packageSelect);
-        }
-
-        if (!terms.checked) {
-            setError(terms, "You must agree to the terms and conditions");
-            isValid = false;
-        } else {
-            setSuccess(terms);
-        }
-
-        if (!latitude || !longitude) {
-            alert("Please set your location before submitting.");
-            return false; // Stop submission if lat/lng are empty
         }
 
         return isValid;

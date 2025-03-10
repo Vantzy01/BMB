@@ -7,15 +7,23 @@ $periodsResult = $conn->query($periodsQuery);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Images/logo.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
-    <title>Billing Records</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <title>Billing Records - BMB Cell</title>
     <style>
-        body { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; color: #333; margin: 0; padding: 0; }
-        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
         /* Top Navigation Bar */
         header {
             position: fixed;
@@ -24,6 +32,7 @@ $periodsResult = $conn->query($periodsQuery);
             width: 100%;
             z-index: 1000;
         }
+
         .top-nav {
             background-color: #2C3E50;
             color: white;
@@ -46,19 +55,83 @@ $periodsResult = $conn->query($periodsQuery);
             border-radius: 5px;
             font-size: 0.9em;
         }
-        .container { max-width: 1800px; margin: auto; padding: 20px; margin-top: 120px; margin-bottom: 120px;}
-        .filter-bar { display: flex; gap: 15px; margin-bottom: 20px; }
-        .table-container { overflow-x: auto;}
-        .filter-bar select, .filter-bar input[type="text"] { padding: 10px; font-size: 16px; width: 100%; max-width: 300px; }
-        table {width: 100%; border-collapse: collapse; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-        th, td { padding: 8px 10px; text-align: left; }
-        th { background-color: #3498db; color: #fff; font-weight: bold; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        tr:hover { background-color: #f1f1f1; }
-        table th:nth-child(6) {text-align: center;}
-        table td:nth-child(6) {text-align: center;}
-        .action-viewbtn { padding: 6px 12px; background: #3498db; color: #fff; border: none; cursor: pointer; border-radius: 4px; }
-        .action-viewbtn:hover { background: #2980b9; }
+
+        .container {
+            max-width: 1800px;
+            margin: auto;
+            padding: 20px;
+            margin-top: 100px;
+            margin-bottom: 120px;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .filter-bar select,
+        .filter-bar input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 8px 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        table th:nth-child(6) {
+            text-align: center;
+        }
+
+        table td:nth-child(6) {
+            text-align: center;
+        }
+
+        .action-viewbtn {
+            padding: 6px 12px;
+            background: #3498db;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .action-viewbtn:hover {
+            background: #2980b9;
+        }
+
         /* Styling for action buttons */
         .action-btn {
             padding: 8px 16px;
@@ -161,6 +234,7 @@ $periodsResult = $conn->query($periodsQuery);
                 opacity: 0;
                 transform: translateY(-10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -179,31 +253,32 @@ $periodsResult = $conn->query($periodsQuery);
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.5);
             overflow-y: auto;
         }
 
         /* Modal Content */
         .modal-content {
-            background: linear-gradient(to bottom right, #ffffff, #f9f9f9);
+            background: #fff;
             width: 90%;
-            max-width: 500px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            max-width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             font-family: 'Poppins', sans-serif;
+            padding: 20px;
             position: relative;
-            animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.2s ease-in-out;
+            margin: auto;
         }
 
         /* Close Button */
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.8em;
-            color: #aaa;
+            top: 10px;
+            right: 12px;
+            font-size: 1.2em;
+            color: #888;
             cursor: pointer;
-            transition: color 0.3s;
         }
 
         .close-modal:hover {
@@ -212,53 +287,55 @@ $periodsResult = $conn->query($periodsQuery);
 
         /* Modal Heading */
         .modal-content h3 {
-            font-size: 1.8em;
-            color: #3498db;
-            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: #333;
             text-align: center;
-            font-weight: bold;
+            margin-bottom: 10px;
         }
 
         /* Form Styling */
         #paymentForm label {
-            font-weight: bold;
-            color: #555;
+            font-size: 0.85em;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 3px;
             display: block;
-            margin-bottom: 5px;
-            font-size: 1em;
         }
 
-        #paymentForm input[type="text"],
-        #paymentForm input[type="number"],
-        #paymentForm select{
-            width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 20px;
+        #paymentForm input,
+        #paymentForm select {
+            width: 95%;
+            padding: 8px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease-in-out;
+            border-radius: 6px;
+            font-size: 0.9em;
+            background-color: #f7f7f7;
+            margin-bottom: 10px;
+            transition: border-color 0.2s ease-in-out;
         }
 
-        #paymentForm input[type="text"]:focus,
-        #paymentForm input[type="number"]:focus {
+        #paymentForm input:focus,
+        #paymentForm select:focus {
             border-color: #3498db;
             outline: none;
         }
 
         /* Buttons */
+        #paymentForm .btn-submit,
+        #paymentForm .btn-cancel {
+            width: 100%;
+            padding: 10px;
+            font-size: 0.9em;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
         #paymentForm .btn-submit {
             background-color: #3498db;
             color: white;
-            padding: 15px;
-            font-size: 1em;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.3s ease-in-out;
+            margin-top: 5px;
         }
 
         #paymentForm .btn-submit:hover {
@@ -268,25 +345,13 @@ $periodsResult = $conn->query($periodsQuery);
         #paymentForm .btn-cancel {
             background-color: #e74c3c;
             color: white;
-            padding: 15px;
-            font-size: 1em;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-            transition: background-color 0.3s ease-in-out;
+            margin-top: 5px;
         }
 
         #paymentForm .btn-cancel:hover {
             background-color: #c0392b;
         }
 
-        .paid-btn {
-            background-color: #bbb;
-            color: #666;
-            cursor: not-allowed;
-        }
 
         /* Bottom Navigation Bar */
         .bottom-nav {
@@ -323,18 +388,96 @@ $periodsResult = $conn->query($periodsQuery);
         .bottom-nav a span {
             font-size: 0.75em;
         }
-        
+
+        /* Responsive Design for Small Screens */
+        @media (max-width: 480px) {
+            .modal-content {
+                width: 95%;
+                max-width: 320px;
+                padding: 12px;
+            }
+
+            .modal-content h3 {
+                font-size: 1.1em;
+            }
+
+            #paymentForm label {
+                font-size: 0.8em;
+            }
+
+            #paymentForm input,
+            #paymentForm select {
+                padding: 6px;
+                font-size: 0.85em;
+            }
+
+            #paymentForm .btn-submit,
+            #paymentForm .btn-cancel {
+                font-size: 0.85em;
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .modal-content {
+                margin-top: 40px;
+                max-width: 300px;
+                padding: 10px;
+            }
+
+            .modal-content h3 {
+                font-size: 1em;
+            }
+
+            #paymentForm label {
+                font-size: 0.75em;
+            }
+
+            #paymentForm input,
+            #paymentForm select {
+                padding: 5px;
+                font-size: 0.8em;
+            }
+
+            #paymentForm .btn-submit,
+            #paymentForm .btn-cancel {
+                font-size: 0.8em;
+                padding: 7px;
+            }
+
+            .close-modal {
+                font-size: 1em;
+                top: 8px;
+                right: 10px;
+            }
+        }
+
         /* Responsive Design */
         @media (max-width: 560px) {
             .top-nav h1 {
                 font-size: 1em;
             }
 
-            .filter-bar { display: flex; gap: 5px;}
-            .filter-bar select, .filter-bar input[type="text"] { padding: 10px; font-size: 10px; width: 100%; max-width: 300px; }
+            .container {
+                margin-top: 60px;
+            }
+
+            .filter-bar {
+                display: flex;
+                gap: 5px;
+            }
+
+            .filter-bar select,
+            .filter-bar input[type="text"] {
+                padding: 10px;
+                font-size: 10px;
+                width: 100%;
+                max-width: 300px;
+            }
+
             th:first-child,
-            td:first-child{
-                display:none;
+            td:first-child {
+                display: none;
             }
 
             .bottom-nav a span {
@@ -345,10 +488,28 @@ $periodsResult = $conn->query($periodsQuery);
                 font-size: 1.8em;
             }
 
-            table { width: 100%; background: #fff; border-radius: 2px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-            th{font-size: 7px;}
-            td{font-size: 6px;}
-            th, td { padding: 6px 4px; text-align: left;}
+            table {
+                width: 100%;
+                background: #fff;
+                border-radius: 2px;
+                overflow: hidden;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            th {
+                font-size: 7px;
+            }
+
+            td {
+                font-size: 6px;
+            }
+
+            th,
+            td {
+                padding: 6px 4px;
+                text-align: left;
+            }
+
             tbody td {
                 border: none;
                 padding: 6px 2px;
@@ -357,7 +518,7 @@ $periodsResult = $conn->query($periodsQuery);
             /* Style buttons for mobile */
             .action-btn,
             .action-viewbtn,
-            .pay-btn{
+            .pay-btn {
                 margin-bottom: 1px;
                 font-size: 6px;
                 padding: 2px 5px;
@@ -388,79 +549,6 @@ $periodsResult = $conn->query($periodsQuery);
             }
 
             /* Modal Styling*/
-            #billingModal {
-                display: none;
-                position: fixed;
-                z-index: 10;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-
-            .modal-content {
-                background-color: #fff;
-                margin: 150px auto;
-                padding: 25px;
-                width: 80%;
-                max-width: 300px;
-                border-radius: 8px;
-                font-size: 12px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .close-modal {
-                color: #aaa;
-                float: right;
-                font-size: 24px;
-                cursor: pointer;
-            }
-
-            .close-modal:hover {
-                color: #3498db;
-            }
-
-            .modal-content h3 {
-                font-size: 1.5em;
-                color: #3498db;
-                margin-bottom: 30px;
-            }
-
-            .modal-details p {
-                display: flex;
-                padding: 0 2px;
-                justify-content: space-between;
-            }
-            .modal-details p span {
-                text-align: right;
-                margin-left: auto;
-            }
-
-            /* Payment Modal */
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-            }
-
-            .modal-content h3 {
-                font-size: 1.5em;
-            }
-
-            #paymentForm label {
-                font-size: 0.9em;
-            }
-
-            #paymentForm input[type="text"],
-            #paymentForm input[type="number"] {
-                font-size: 0.9em;
-            }
-
-            #paymentForm .btn-submit,
-            #paymentForm .btn-cancel {
-                font-size: 0.9em;
-                padding: 12px;
-            }
         }
 
         /* Responsive Design 830px*/
@@ -469,11 +557,40 @@ $periodsResult = $conn->query($periodsQuery);
                 font-size: 1.3em;
             }
 
-            .filter-bar { display: flex; gap: 8px;}
-            .filter-bar select, .filter-bar input[type="text"] { padding: 10px; font-size: 12px; width: 100%; max-width: 300px; }
-            table { font-size: 10px; width: 100%; background: #fff; border-radius: 2px; text-align: left; overflow: auto; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
-            th, td { padding: 7px 5px; text-align: left; }
-            th { background-color: #3498db; color: #fff;}
+            .filter-bar {
+                display: flex;
+                gap: 8px;
+            }
+
+            .filter-bar select,
+            .filter-bar input[type="text"] {
+                padding: 10px;
+                font-size: 12px;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            table {
+                font-size: 10px;
+                width: 100%;
+                background: #fff;
+                border-radius: 2px;
+                text-align: left;
+                overflow: auto;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            th,
+            td {
+                padding: 7px 5px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #3498db;
+                color: #fff;
+            }
+
             tbody td {
                 text-align: left;
                 border: none;
@@ -482,7 +599,7 @@ $periodsResult = $conn->query($periodsQuery);
             /* Style buttons for mobile */
             .action-btn,
             .action-viewbtn,
-            .pay-btn{
+            .pay-btn {
                 margin-bottom: 1px;
                 font-size: 6px;
                 padding: 4px 5px;
@@ -511,75 +628,10 @@ $periodsResult = $conn->query($periodsQuery);
                 font-size: 6px;
                 padding: 4px 5px;
             }
-
-            /* Modal Styling iedit mo to*/
-            #billingModal {
-                display: none;
-                position: fixed;
-                z-index: 10;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0, 0, 0, 0.5);
-            }
-
-            .modal-content {
-                background-color: #fff;
-                margin: 25% auto;
-                padding: 25px;
-                width: 80%;
-                max-width: 300px;
-                border-radius: 8px;
-                font-size: 12px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .close-modal {
-                color: #aaa;
-                float: right;
-                font-size: 24px;
-                cursor: pointer;
-            }
-
-            .close-modal:hover {
-                color: #3498db;
-            }
-
-            .modal-content h3 {
-                font-size: 1.5em;
-                color: #3498db;
-                margin-bottom: 30px;
-            }
-
-            .modal-details p {
-                display: flex;
-                padding: 0 2px;
-                justify-content: space-between;
-            }
-            .modal-details p span {
-                text-align: right;
-                margin-left: auto;
-            }
-
-            /* Payment Modal */
-            .modal-content {
-                width: 85%;
-                max-width: 450px;
-            }
-
-            #paymentForm label {
-                font-size: 1em;
-            }
-
-            #paymentForm input[type="text"],
-            #paymentForm input[type="number"] {
-                font-size: 1em;
-            }
         }
-        
     </style>
 </head>
+
 <body>
     <!-- Top Navigation Bar -->
     <header>
@@ -587,7 +639,7 @@ $periodsResult = $conn->query($periodsQuery);
             <h1><?php echo $_SESSION['FullName']; ?></h1>
             <div class="profile">
                 <a href="coll_logout.php" style="color: white;">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <i class="fas fa-sign-out-alt"> Logout</i>
                 </a>
             </div>
         </nav>
@@ -602,11 +654,6 @@ $periodsResult = $conn->query($periodsQuery);
                 <?php while ($periodRow = $periodsResult->fetch_assoc()): ?>
                     <option value="<?php echo $periodRow['Period']; ?>"><?php echo $periodRow['Period']; ?></option>
                 <?php endwhile; ?>
-            </select>
-            <select id="statusSelect" name="status">
-                <option value="">All Statuses</option>
-                <option value="Paid">Paid</option>
-                <option value="Unpaid">Unpaid</option>
             </select>
             <input type="text" id="searchInput" placeholder="Search by Client Name" />
         </div>
@@ -632,7 +679,7 @@ $periodsResult = $conn->query($periodsQuery);
     <!-- Modal Structure -->
     <div id="billingModal" style="display: none;">
         <div class="modal-content">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
+            <span class="close-modal" onclick="closeModal()">&times;</span>
             <h3>Billing Details</h3>
             <div class="modal-details">
                 <p><strong>Invoice No:</strong> <span id="modalInvoiceNo"></span></p>
@@ -672,15 +719,15 @@ $periodsResult = $conn->query($periodsQuery);
 
                 <label>Amount:</label>
                 <input type="number" id="paymentAmount" min="1" required>
-                
+
                 <label for="paymentMethod">Payment Method:</label>
                 <select id="paymentMethod" name="paymentMethod">
                     <option value="Cash">Cash</option>
                     <option value="GCash">E-Payment</option>
-                </select>    
-                
-                <button class="btn-submit"type="button" onclick="savePayment()">Save Payment</button>
-                <button class="btn-cancel"type="button" onclick="closePaymentModal()">Cancel</button>
+                </select>
+
+                <button class="btn-submit" type="button" onclick="savePayment()">Save Payment</button>
+                <button class="btn-cancel" type="button" onclick="closePaymentModal()">Cancel</button>
             </form>
         </div>
     </div>
@@ -688,7 +735,7 @@ $periodsResult = $conn->query($periodsQuery);
     <!-- Bottom Navigation Bar -->
     <footer>
         <nav class="bottom-nav">
-            <a href="collector_dash.php" >
+            <a href="collector_dash.php">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
@@ -709,16 +756,15 @@ $periodsResult = $conn->query($periodsQuery);
                 <span>Announcements</span>
             </a>
         </nav>
-    </footer>    
-    
+    </footer>
+
     <script>
         function fetchBillingData() {
             const period = document.getElementById("periodSelect").value;
             const searchQuery = document.getElementById("searchInput").value;
-            const statusFilter = document.getElementById("statusSelect").value;
 
             const xhr = new XMLHttpRequest();
-            xhr.open("GET", `fetch_billing.php?period=${period}&search=${searchQuery}&status=${statusFilter}`, true);
+            xhr.open("GET", `fetch_billing.php?period=${period}&search=${searchQuery}`, true);
             xhr.onload = function() {
                 if (this.status === 200) {
                     document.getElementById("billingTableBody").innerHTML = this.responseText;
@@ -731,14 +777,13 @@ $periodsResult = $conn->query($periodsQuery);
             fetchBillingData(); // Load data by default on page load
             document.getElementById("searchInput").addEventListener("input", fetchBillingData);
             document.getElementById("periodSelect").addEventListener("change", fetchBillingData);
-            document.getElementById("statusSelect").addEventListener("change", fetchBillingData);
         });
 
         function viewDetails(invoiceNo) {
             // AJAX to fetch billing details
             const xhr = new XMLHttpRequest();
             xhr.open("GET", `fetch_billing_details.php?invoiceNo=${invoiceNo}`, true);
-            xhr.onload = function () {
+            xhr.onload = function() {
                 if (xhr.status === 200) {
                     const data = JSON.parse(xhr.responseText);
 
@@ -811,6 +856,22 @@ $periodsResult = $conn->query($periodsQuery);
                 return;
             }
 
+            function getPhilippineTime() {
+                const now = new Date();
+
+                // Convert to Philippine Time (UTC+8)
+                now.setTime(now.getTime() + (8 * 60 * 60 * 1000));
+
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+
+                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            }
+
             // Prepare payment data if validation passes
             const paymentData = {
                 ReferenceNo: document.getElementById("paymentReferenceNo").value,
@@ -820,7 +881,7 @@ $periodsResult = $conn->query($periodsQuery);
                 Period: document.getElementById("paymentPeriod").value,
                 Amount: paymentAmount,
                 PaymentStatus: "Waiting",
-                PaymentDate: new Date().toISOString().slice(0, 19).replace('T', ' '),
+                PaymentDate: getPhilippineTime(),
                 LastBill: lastBill,
                 CollectedBy: "Collector"
             };
@@ -834,7 +895,7 @@ $periodsResult = $conn->query($periodsQuery);
                 if (xhr.status === 200) {
                     alert("Payment saved successfully!");
                     closePaymentModal();
-                    fetchBillingData(); // Refresh billing data
+                    fetchBillingData();
                 } else {
                     alert("Error saving payment. Please try again.");
                 }
@@ -850,7 +911,7 @@ $periodsResult = $conn->query($periodsQuery);
         function openInvoice(invoiceNo) {
             window.open(`invoice.php?invoiceNo=${invoiceNo}`, '_blank');
         }
-
     </script>
 </body>
+
 </html>

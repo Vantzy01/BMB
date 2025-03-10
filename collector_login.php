@@ -4,7 +4,8 @@ session_start();
 include('db_connection.php');
 
 // Function to decrypt password
-function caesar_decrypt($ciphertext, $shift) {
+function caesar_decrypt($ciphertext, $shift)
+{
     $decrypted_text = '';
     for ($i = 0; $i < strlen($ciphertext); $i++) {
         $char = $ciphertext[$i];
@@ -54,12 +55,14 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Images/logo.ico" />
     <title>Collector Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         /* Global Styling */
         body {
@@ -220,6 +223,7 @@ $conn->close();
         }
     </style>
 </head>
+
 <body>
     <!-- Background overlay -->
     <div class="overlay"></div>
@@ -244,4 +248,5 @@ $conn->close();
         <a href="index.php" class="back-link"><i class="fas fa-arrow-left"></i> Back to Homepage</a>
     </div>
 </body>
+
 </html>

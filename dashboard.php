@@ -52,480 +52,507 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Images/logo.ico" />
     <title>Dashboard - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
-body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    background-color: #ededf5;
-}
-:root {  
-    --primary-color: #007bff;  
-    --secondary-color: #343a40;  
-    --success-color: #28a745;  
-    --danger-color: #dc3545;
-    --purple-color: #6f42c1;
-}
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 15px;
+            background-color: #ededf5;
+        }
 
-.notification-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 300px;
-    max-height: 400px;
-    overflow-y: auto;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 1050;
-}
-.notification-dropdown .list-group-item {
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #343a40;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --purple-color: #6f42c1;
+        }
 
-.notification-dropdown .list-group-item:hover {
-    background: #f0f0f0;
-}
+        .notification-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none;
+            z-index: 1050;
+        }
 
-.notification-dropdown-header {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-weight: bold;
-    font-size: 16px;
-    background-color: #f8f9fa;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
+        .notification-dropdown .list-group-item {
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
 
-.sidebar {
-    height: 100%;
-    width: 300px;
-    background-color: #ffffff;
-    padding-top: 50px;
-    position: fixed;
-    left: -300px;
-    transition: left 0.3s ease-in-out;
-    box-shadow: 3px 0 5px rgba(0,0,0,0.2);
-}
+        .notification-dropdown .list-group-item:hover {
+            background: #f0f0f0;
+        }
 
-.client-info {
-    padding: 30px;
-    font-size: 18px;
-    text-align: left;
-    color: black;
-    padding-left: 20px;
-}
+        .notification-dropdown-header {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size: 16px;
+            background-color: #f8f9fa;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
 
-.client-info i {  
-    margin-right: 10px;
-}
+        .sidebar {
+            height: 100%;
+            width: 300px;
+            background-color: #ffffff;
+            padding-top: 50px;
+            position: fixed;
+            left: -300px;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
+        }
 
-.close-btn {
-    background: none;
-    border: none;
-    color: black;
-    font-size: 24px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
+        .client-info {
+            padding: 30px;
+            font-size: 18px;
+            text-align: left;
+            color: black;
+            padding-left: 20px;
+        }
 
-.close-btn:hover {
-    color: #ff5c5c;
-}
+        .client-info i {
+            margin-right: 10px;
+        }
 
-.sidebar.show {
-    left: 0;
-    z-index: 1009;
-}
+        .close-btn {
+            background: none;
+            border: none;
+            color: black;
+            font-size: 24px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
 
-.sidebar a {
-    color: black;
-    padding: 15px 20px;
-    display: block;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s ease, padding-left 0.3s ease;
-}
+        .close-btn:hover {
+            color: #ff5c5c;
+        }
 
-.sidebar a:hover {
-    background-color: #007bff;
-    padding-left: 25px;
-}
+        .sidebar.show {
+            left: 0;
+            z-index: 1009;
+        }
 
-.sidebar a i {  
-    margin-right: 10px;
-}
+        .sidebar a {
+            color: black;
+            padding: 15px 20px;
+            display: block;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease, padding-left 0.3s ease;
+        }
 
-.sidebar .active {
-    background-color: #007bff;
-    padding-left: 25px;
-}
+        .sidebar a:hover {
+            background-color: #007bff;
+            padding-left: 25px;
+        }
 
-.top-navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background-color: #007bff;
-    color: #fff;
-}
-.top-navbar .notification-icon {
-    cursor: pointer;
-}
+        .sidebar a i {
+            margin-right: 10px;
+        }
 
-.wrapper {
-    display: flex;
-    flex: 1;
-}
+        .sidebar .active {
+            background-color: #007bff;
+            padding-left: 25px;
+        }
 
-.main-content {
-    margin-left: 0;
-    padding: 20px;
-    flex-grow: 1;
-    transition: margin-left 0.3s;
-}
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #007bff;
+            color: #fff;
+        }
 
-/* For Card Styling */
-.card-container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin: 20px 0;
-    border-style: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-}
+        .top-navbar .notification-icon {
+            cursor: pointer;
+        }
 
-.card {
-    flex: 1;
-    padding: 25px 20px;
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    text-align: left;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-}
+        .top-navbar .collapse-btn {
+            cursor: pointer;
+        }
 
-.card h3 {
-    margin-top: 0;
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-}
-.card p {
-    margin-bottom: 20px;
-    font-size: 2rem;
-    font-weight: 500;
-}
+        .wrapper {
+            display: flex;
+            flex: 1;
+        }
 
-.card small{
-    font-size: 1rem;
-    color: #6c757d;
-    font-weight: 400;
-    margin-bottom: 20px;
-}
+        .main-content {
+            margin-left: 0;
+            padding: 20px;
+            flex-grow: 1;
+            transition: margin-left 0.3s;
+        }
 
-.card-content {
-    margin: 0;
-}
+        /* For Card Styling */
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+            border-style: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+        }
 
-.card-icon {
-    font-size: 1.5em;
-    color: #f8f9fa;
-    cursor: pointer;
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: 1px solid #007bff;
-    border-radius: 10px;
-    transition: border-radius 0.2s ease-in;
-}
+        .card {
+            flex: 1;
+            padding: 35px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            text-align: left;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
 
-.card-icon:hover {
-    color: #f8f9fa;
-    border-radius: 50%;
-}
+        .card h3 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
 
-.bill-icon {
-    font-size: 1.5em;
-    color: #f8f9fa;
-    cursor: pointer;
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: 1px solid #007bff;
-    border-radius: 10px;
-    transition: border-radius 0.2s ease-in;
-}
+        .card p {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            font-weight: 500;
+        }
 
-.bill-icon:hover {
-    color: #f8f9fa;
-    border-radius: 50%;
-}
+        .card small {
+            font-size: 1rem;
+            color: #6c757d;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
 
-.bill-icon.disabled {
-    pointer-events: none;
-    opacity: 0.5;
-}
+        .card-content {
+            margin: 0;
+        }
 
-.modal-header {
-    border-bottom: none;
-    align-items: center;
-}
+        .card-icon {
+            font-size: 1.5em;
+            color: #f8f9fa;
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 10px;
+            transition: border-radius 0.2s ease-in;
+        }
 
-.modal-footer {
-    border-top: none;
-    justify-content: center;
-}
+        .card-icon:hover {
+            color: #f8f9fa;
+            border-radius: 50%;
+        }
 
-/* Combined header styles */  
-.modal-header, .modal-footer {  
-    border-bottom: none;  
-} 
+        .bill-icon {
+            font-size: 1.5em;
+            color: #f8f9fa;
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 10px;
+            transition: border-radius 0.2s ease-in;
+        }
 
-.btn-pay,  
-.btn-confirm,  
-.btn-invoice {  
-    margin: 5px;  
-    border: none;  
-    cursor: pointer;  
-} 
+        .bill-icon:hover {
+            color: #f8f9fa;
+            border-radius: 50%;
+        }
 
-.btn-pay, .btn-confirm, .btn-invoice {
-    margin: 5px;
-}
+        .bill-icon.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
-/* Media Query Card for Responsiveness */  
-@media (max-width: 440px) {
-    .card-container{
-        padding: 0;
-    }
-    .card{
-        padding: 20px 15px;
-    }
-    .card-content {
-        padding: 0px;
-    }
-    .card-container .card .card-content h3{
-        font-size: 1rem;
-    }
-    .card-container .card p{
-        font-size: 1.8rem;
-    }
-    .card-container .card small{
-        font-size: 0.7rem;
-    }
-    .card-icon{
-        font-size: 1rem;
-        background-color: #007bff;
-        padding:  10px 15px;
-        border-radius: 10px;
-    }
-    .bill-icon{
-        font-size: 1rem;
-        background-color: #007bff;
-        padding:  10px 15px;
-        border-radius: 10px;
-    }
-}
-@media (max-width: 550px) {
-    .card-container .card h3{
-        font-size: 1.2rem;
-    }
-}
+        .modal-header {
+            border-bottom: none;
+            align-items: center;
+        }
 
-@media (min-width: 551px) and (max-width: 400px) {
-    .card-container {
-        flex-direction: column;
-        gap: 20px;
-    }
-}
+        .modal-footer {
+            border-top: none;
+            justify-content: center;
+        }
 
-@media (min-width: 985px) {
-    .card-container {
-        flex-direction: row;
-        gap: 20px;
-    }
-}
+        /* Combined header styles */
+        .modal-header,
+        .modal-footer {
+            border-bottom: none;
+        }
 
-/* Modal Styles */
-.modal-content {
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    background: #f9f9f9;
-}
+        .btn-pay,
+        .btn-confirm,
+        .btn-invoice {
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+        }
 
-.modal-header {
-    background-color: #4a90e2;
-    color: white;
-    border-bottom: none;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-}
+        .btn-pay,
+        .btn-confirm,
+        .btn-invoice {
+            margin: 5px;
+        }
 
-.modal-title {
-    font-weight: bold;
-}
+        /* Media Query Card for Responsiveness */
+        @media (max-width: 440px) {
+            .card-container {
+                padding: 0;
+            }
 
-.btn-pay, .btn-confirm, .btn-invoice {
-    margin-right: 5px;
-}
+            .card {
+                padding: 20px 15px;
+            }
 
-.btn-pay {
-    background-color: var(--danger-color);  
-    border: none;
-}
+            .card-content {
+                padding: 0px;
+            }
 
-.btn-confirm {
-    background-color: #f39c12;
-    border: none;
-}
+            .card-container .card .card-content h3 {
+                font-size: 1rem;
+            }
 
-.btn-invoice {
-    background-color: #3498db;
-    border: none;
-}
+            .card-container .card p {
+                font-size: 1.8rem;
+            }
 
-.btn-pay:hover, .btn-confirm:hover, .btn-invoice:hover {
-    opacity: 0.9;
-}
+            .card-container .card small {
+                font-size: 0.7rem;
+            }
 
-.modal-body ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
+            .card-icon {
+                font-size: 1rem;
+                background-color: #007bff;
+                padding: 10px 15px;
+                border-radius: 10px;
+            }
 
-.modal-body ul li {
-    padding: 5px 0;
-    border-bottom: 1px solid #ddd;
-}
+            .bill-icon {
+                font-size: 1rem;
+                background-color: #007bff;
+                padding: 10px 15px;
+                border-radius: 10px;
+            }
+        }
 
-/* Bottom Navigation */
-.bottom-navbar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    padding: 5px;
-    z-index: 1000;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    font-family: 'Poppins', sans-serif;
-}
+        @media (max-width: 550px) {
+            .card-container .card h3 {
+                font-size: 1.2rem;
+            }
+        }
 
-.nav-item {
-    color: #a8a8a8;
-    text-align: center;
-    font-size: 14px;
-    padding: 6px 0;
-    flex-grow: 1;
-    text-decoration: none;
-    transition: color 0.3s, transform 0.3s;
-}
+        @media (min-width: 551px) and (max-width: 400px) {
+            .card-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
 
-.nav-item i {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 3px;
-}
+        @media (min-width: 985px) {
+            .card-container {
+                flex-direction: row;
+                gap: 20px;
+            }
+        }
 
-.nav-item:hover {
-    color: #007bff;
-    transform: scale(1.1);
-    text-decoration: none;
-}
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: #f9f9f9;
+        }
 
-.nav-item span {
-    font-size: 12px;
-}
+        .modal-header {
+            background-color: #4a90e2;
+            color: white;
+            border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
 
-.nav-item.active {
-    color: #007bff;
-    border-top: 3px solid #007bff;
-    text-decoration: none;
-}
+        .modal-title {
+            font-weight: bold;
+        }
 
+        .btn-pay,
+        .btn-confirm,
+        .btn-invoice {
+            margin-right: 5px;
+        }
 
-/* Fullscreen spinner overlay */
-#spinner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
+        .btn-pay {
+            background-color: var(--danger-color);
+            border: none;
+        }
 
-/* Spinner animation */
-.loader {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: inline-block;
-    border-top: 4px solid #FFF;
-    border-right: 4px solid transparent;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-}
-.loader::after {
-    content: '';  
-    box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border-left: 4px solid #007bff;
-    border-bottom: 4px solid transparent;
-    animation: rotation 0.5s linear infinite reverse;
-}
-@keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
+        .btn-confirm {
+            background-color: #f39c12;
+            border: none;
+        }
+
+        .btn-invoice {
+            background-color: #3498db;
+            border: none;
+        }
+
+        .btn-pay:hover,
+        .btn-confirm:hover,
+        .btn-invoice:hover {
+            opacity: 0.9;
+        }
+
+        .modal-body ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .modal-body ul li {
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Bottom Navigation */
+        .bottom-navbar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            padding: 5px;
+            z-index: 1000;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav-item {
+            color: #a8a8a8;
+            text-align: center;
+            font-size: 14px;
+            padding: 6px 0;
+            flex-grow: 1;
+            text-decoration: none;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .nav-item i {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item:hover {
+            color: #007bff;
+            transform: scale(1.1);
+            text-decoration: none;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #007bff;
+            border-top: 3px solid #007bff;
+            text-decoration: none;
+        }
 
 
-/* Media Query Example for Responsiveness */  
-@media (max-width: 600px) {
-    .modal-content {  
-        margin: 10px;  
-    }
+        /* Fullscreen spinner overlay */
+        #spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
 
-    .bottom-navbar span {
-        display: none;
-    }
-}
-</style>
+        /* Spinner animation */
+        .loader {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: inline-block;
+            border-top: 4px solid #FFF;
+            border-right: 4px solid transparent;
+            box-sizing: border-box;
+            animation: rotation 1s linear infinite;
+        }
+
+        .loader::after {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border-left: 4px solid #007bff;
+            border-bottom: 4px solid transparent;
+            animation: rotation 0.5s linear infinite reverse;
+        }
+
+        @keyframes rotation {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* Media Query Example for Responsiveness */
+        @media (max-width: 600px) {
+            .modal-content {
+                margin: 10px;
+            }
+
+            .bottom-navbar span {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -561,7 +588,7 @@ body {
         <a href="logout.php" onclick="return confirm('Are you sure you want to logout?');">
             <i class="fas fa-sign-out-alt"></i> Logout
         </a>
-    </nav> 
+    </nav>
     <!-- Notification Dropdown -->
     <div class="notification-dropdown" id="announcementDropdown">
         <div class="notification-dropdown-header">Announcements</div>
@@ -570,7 +597,7 @@ body {
                 <li class="list-group-item text-center">No new announcements</li>
             <?php else: ?>
                 <?php foreach ($announcements as $announcement): ?>
-                    <li class="list-group-item" 
+                    <li class="list-group-item"
                         data-title="<?php echo htmlspecialchars($announcement['Title']); ?>"
                         data-message="<?php echo nl2br(htmlspecialchars($announcement['Message'])); ?>"
                         data-date="<?php echo date("F d, Y h:i A", strtotime($announcement['DateCreated'])); ?>">
@@ -581,7 +608,7 @@ body {
             <?php endif; ?>
         </ul>
     </div>
-     <!-- Main Content Area -->               
+    <!-- Main Content Area -->
     <div class="wrapper">
         <!-- Main Content Area -->
         <main class="main-content">
@@ -615,8 +642,8 @@ body {
                             </small>
                         <?php endif; ?>
                     </div>
-                    <span class="bill-icon <?php echo !$latestBill ? 'disabled' : ''; ?>" 
-                        data-toggle="modal" 
+                    <span class="bill-icon <?php echo !$latestBill ? 'disabled' : ''; ?>"
+                        data-toggle="modal"
                         data-target="#billModal"
                         style="<?php echo !$latestBill ? 'pointer-events: none; opacity: 0.5;' : ''; ?>">
                         <i class="fas fa-dollar-sign"></i>
@@ -663,36 +690,37 @@ body {
                     </button>
                 </div>
                 <div class="modal-body text-center">
-                    <div class="upper" style="display:flex; justify-content: space-between; margin:0px 15px; " >
+                    <div class="upper" style="display:flex; justify-content: space-between; margin:0px 15px; ">
                         <p>Account No: <br><strong><?php echo $latestBill['ClientID'] ?? 'N/A'; ?></strong></p>
 
                         <p>Status: <br>
                             <span class="text-danger">
-                                <?php 
-                                    switch ($latestBill['Status']) {
-                                        case 'Paid':
-                                            echo '<span class="text-success">Paid</span>';
-                                            break;
-                                        case 'Half Paid':
-                                            echo '<span class="text-warning">Half Paid</span>';
-                                            break;
-                                        case 'Partially Paid':
-                                            echo '<span class="text-warning">Partially Paid</span>';
-                                            break;
-                                        default:
-                                            echo '<span class="text-danger">Not Yet Paid</span>';
-                                            break;
-                                    }
+                                <?php
+                                switch ($latestBill['Status']) {
+                                    case 'Paid':
+                                        echo '<span class="text-success">Paid</span>';
+                                        break;
+                                    case 'Half Paid':
+                                        echo '<span class="text-warning">Half Paid</span>';
+                                        break;
+                                    case 'Partially Paid':
+                                        echo '<span class="text-warning">Partially Paid</span>';
+                                        break;
+                                    default:
+                                        echo '<span class="text-danger">Not Yet Paid</span>';
+                                        break;
+                                }
                                 ?>
                             </span>
                         </p>
                     </div>
                     <p style="margin-bottom: 0; color:#6c757d; font-size: 0.8rem;">Total</p>
-                    <h2 style="margin: 5px 0px;"><?php echo '₱' . number_format ($latestBill['OutstandingBalance'], 2); ?></h2>
+                    <h2 style="margin: 5px 0px;"><?php echo '₱' . number_format($latestBill['OutstandingBalance'], 2); ?></h2>
                     <p style="color:#6c757d; font-size: 0.8rem;">Billing details #<?php echo $latestBill['InvoiceNo'] ?? 'N/A'; ?></p>
-                    <div class="lower" >
+                    <div class="lower">
                         <p style="display:flex; justify-content: space-between; margin:0px 15px;"><?php echo $plan['Plan'] ?? 'N/A'; ?>
-                        <span><?php echo number_format($latestBill['DueAmount'], 2) ?? '0.00'; ?> / month</span></p>
+                            <span><?php echo number_format($latestBill['DueAmount'], 2) ?? '0.00'; ?> / month</span>
+                        </p>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -759,11 +787,11 @@ body {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.getElementById('toggleSidebar').addEventListener('click', function () {
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         });
-        document.getElementById('closeSidebarBtn').addEventListener('click', function () {
+        document.getElementById('closeSidebarBtn').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('show');
         });
@@ -826,4 +854,5 @@ body {
         });
     </script>
 </body>
+
 </html>

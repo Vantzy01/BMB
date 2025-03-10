@@ -56,11 +56,11 @@ $conn->close();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Images/logo.ico"/>
+    <link rel="icon" href="Images/logo.ico" />
     <title>Package - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         body {
             display: flex;
@@ -86,7 +86,7 @@ $conn->close();
             position: fixed;
             left: -300px;
             transition: left 0.3s ease-in-out;
-            box-shadow: 3px 0 5px rgba(0,0,0,0.2);
+            box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
 
@@ -98,7 +98,7 @@ $conn->close();
             padding-left: 20px;
         }
 
-        .client-info i {  
+        .client-info i {
             margin-right: 10px;
         }
 
@@ -137,7 +137,7 @@ $conn->close();
             padding-left: 25px;
         }
 
-        .sidebar a i {  
+        .sidebar a i {
             margin-right: 10px;
         }
 
@@ -155,10 +155,18 @@ $conn->close();
             align-items: center;
         }
 
+        .top-navbar .notification-icon {
+            cursor: pointer;
+        }
+
+        .top-navbar .collapse-btn {
+            cursor: pointer;
+        }
+
         .main-content {
             flex: 1;
-            padding: 20px;
-            background-color: #f8f9fa;
+            margin: 30px 30px 80px 30px;
+            background-color: #ededf5;
         }
 
         .card {
@@ -175,13 +183,16 @@ $conn->close();
             font-size: 1rem;
             line-height: 1.6;
         }
+
         @media screen and (max-width: 600px) {
             .text-primary {
                 font-size: 1.5rem;
             }
-            .card-header h4{
+
+            .card-header h4 {
                 font-size: 1rem;
             }
+
             .card-body {
                 font-size: 0.8rem;
             }
@@ -205,6 +216,7 @@ $conn->close();
             text-align: center;
             padding: 10px 0;
         }
+
         .notification-dropdown {
             position: absolute;
             top: 60px;
@@ -219,13 +231,16 @@ $conn->close();
             display: none;
             z-index: 1050;
         }
+
         .notification-dropdown .list-group-item {
             cursor: pointer;
             transition: background 0.2s ease;
         }
+
         .notification-dropdown .list-group-item:hover {
             background: #f0f0f0;
         }
+
         .notification-dropdown-header {
             padding: 10px;
             border-bottom: 1px solid #ddd;
@@ -307,8 +322,9 @@ $conn->close();
             box-sizing: border-box;
             animation: rotation 1s linear infinite;
         }
+
         .loader::after {
-            content: '';  
+            content: '';
             box-sizing: border-box;
             position: absolute;
             left: 0;
@@ -320,10 +336,12 @@ $conn->close();
             border-bottom: 4px solid transparent;
             animation: rotation 0.5s linear infinite reverse;
         }
+
         @keyframes rotation {
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
@@ -331,8 +349,8 @@ $conn->close();
 
         /* Responsive Design */
         @media (max-width: 600px) {
-            .modal-content {  
-                margin: 10px;  
+            .modal-content {
+                margin: 10px;
             }
 
             .bottom-navbar span {
@@ -385,7 +403,7 @@ $conn->close();
                 <li class="list-group-item text-center">No new announcements</li>
             <?php else: ?>
                 <?php foreach ($announcements as $announcement): ?>
-                    <li class="list-group-item" 
+                    <li class="list-group-item"
                         data-title="<?php echo htmlspecialchars($announcement['Title']); ?>"
                         data-message="<?php echo nl2br(htmlspecialchars($announcement['Message'])); ?>"
                         data-date="<?php echo date("F d, Y h:i A", strtotime($announcement['DateCreated'])); ?>">
@@ -482,11 +500,11 @@ $conn->close();
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.getElementById('toggleSidebar').addEventListener('click', function () {
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         });
-        document.getElementById('closeSidebarBtn').addEventListener('click', function () {
+        document.getElementById('closeSidebarBtn').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('show');
         });

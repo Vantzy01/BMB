@@ -4,14 +4,17 @@ session_start();
 $clientID = $_SESSION['clientID'];
 // Check if the request is coming via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validate if clientID is present in the session
     if (!isset($_SESSION['clientID']) || !isset($_POST['message'])) {
         echo "Invalid request.";
         exit();
     }
 
+    // Capture clientID and message from the session and POST data
     $clientID = $_SESSION['clientID'];
     $message = trim($_POST['message']);
 
+    // Check if the message is empty
     if (empty($message)) {
         echo "Message cannot be empty.";
         exit();
@@ -19,16 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     include('db_connection.php');
 
-    function generateComplaintID($conn) {
+    // Generate a unique ComplaintID in the format: C######
+    function generateComplaintID($conn)
+    {
         $complaintID = 'C' . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
         $sql = "SELECT COUNT(*) as count FROM tblcomplaints WHERE ComplaintID = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $complaintID);
+        $stmt->bind_param("s", $complaintID); // Bind as string
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
         $stmt->close();
 
+        // If ID exists, generate a new one
         if ($row['count'] > 0) {
             return generateComplaintID($conn);
         }
@@ -36,8 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         return $complaintID;
     }
 
+    // Call the function to generate a unique ComplaintID
     $complaintID = generateComplaintID($conn);
 
+    // Manually set the DateReported (Current DateTime)
     $dateReported = date('Y-m-d H:i:s'); // Format: YYYY-MM-DD HH:MM:SS
 
     // Prepare SQL query to insert a new complaint into the tblcomplaints table

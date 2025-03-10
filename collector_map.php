@@ -11,13 +11,31 @@ if (!isset($_SESSION['CollectorID'])) {
 // Fetch client data
 $clientData = [];
 $query = "
-    SELECT 
-        ClientID, FullName, MobileNumber, Address, Email, DueDate, Status, 
-        Latitude, Longitude, Landmark, tblplan.Plan, tblplan.MonthlyCost 
+    SELECT
+        tblclient.ClientID, 
+        tblclient.FullName, 
+        tblclient.MobileNumber, 
+        tblclient.Address, 
+        tblclient.Email, 
+        tblclient.DueDate, 
+        tblclient.Status,  -- Specify the table name here
+        tblclient.Latitude, 
+        tblclient.Longitude, 
+        tblclient.Landmark, 
+        tblplan.Plan, 
+        tblplan.MonthlyCost 
     FROM tblclient 
     LEFT JOIN tblplan ON tblclient.PlanID = tblplan.PlanID 
-    WHERE Longitude IS NOT NULL AND Latitude IS NOT NULL";
+    WHERE tblclient.Longitude IS NOT NULL AND tblclient.Latitude IS NOT NULL";
+
+
+// Execute the query first
 $result = mysqli_query($conn, $query);
+
+if (!$result) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
 while ($row = mysqli_fetch_assoc($result)) {
     $clientData[] = [
         'ClientID' => $row['ClientID'],
@@ -38,14 +56,15 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collector Client Mapping</title>
+    <link rel="icon" href="Images/logo.ico" />
+    <title>Client Mapping - BMB Cell</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -56,6 +75,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             background-color: #f4f7fa;
             overflow: hidden;
         }
+
         header {
             position: fixed;
             top: 0;
@@ -63,7 +83,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             width: 100%;
             z-index: 1000;
         }
-        
+
         /* Top Navigation Bar */
         .top-nav {
             background-color: #2C3E50;
@@ -248,7 +268,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             .top-nav h1 {
                 font-size: 1em;
             }
-            .container h2{
+
+            .container h2 {
                 font-size: 0.9em;
             }
 
@@ -266,7 +287,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             position: absolute;
             top: 120px;
             left: 10px;
-            right: 10px; 
+            right: 10px;
             z-index: 1000;
             display: flex;
             flex-direction: column;
@@ -288,7 +309,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         /* Search input field */
         #searchBar {
             width: 100%;
-            padding: 15px 40px 12px 45px; /* Padding to fit icons */
+            padding: 15px 40px 12px 45px;
+            /* Padding to fit icons */
             font-size: 0.9em;
             border: none;
             border-radius: 8px;
@@ -296,7 +318,8 @@ while ($row = mysqli_fetch_assoc($result)) {
         }
 
         /* Search and clear icons */
-        .search-icon, .clear-icon {
+        .search-icon,
+        .clear-icon {
             position: absolute;
             font-size: 1.4em;
             color: #666;
@@ -312,8 +335,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             display: none;
         }
 
-        #searchBar:focus + .clear-icon,
-        #searchBar:not(:placeholder-shown) + .clear-icon {
+        #searchBar:focus+.clear-icon,
+        #searchBar:not(:placeholder-shown)+.clear-icon {
             display: block;
         }
 
@@ -371,13 +394,14 @@ while ($row = mysqli_fetch_assoc($result)) {
                 font-size: 0.85em;
             }
 
-            .search-icon, .clear-icon {
+            .search-icon,
+            .clear-icon {
                 font-size: 1.2em;
             }
         }
-
     </style>
 </head>
+
 <body>
     <!-- Top Navigation Bar -->
     <header>
@@ -385,28 +409,26 @@ while ($row = mysqli_fetch_assoc($result)) {
             <h1><?php echo $_SESSION['FullName']; ?></h1>
             <div class="profile">
                 <a href="coll_logout.php" style="color: white;">
-                    <i class="fas fa-sign-out-alt"></i>
+                    <i class="fas fa-sign-out-alt"> Logout</i>
                 </a>
             </div>
         </nav>
     </header>
-
     <div id="map"></div>
     <div class="search-container">
         <div class="search-wrapper">
             <span class="search-icon">&#x1F50D;</span>
-            <input 
-                type="text" 
-                id="searchBar" 
-                placeholder="Search clients..." 
-                oninput="filterClients()" 
-                onclick="showDropdown()"
-            />
+            <input
+                type="text"
+                id="searchBar"
+                placeholder="Search clients..."
+                oninput="filterClients()"
+                onclick="showDropdown()" />
             <span class="clear-icon" onclick="clearSearch()">&#x2715;</span>
         </div>
         <div id="searchResults" class="dropdown-panel" onclick="clearSearch()"></div>
     </div>
-    
+
     <!-- Bottom Navigation Bar -->
     <footer>
         <nav class="bottom-nav">
@@ -439,9 +461,12 @@ while ($row = mysqli_fetch_assoc($result)) {
         var map = L.map('map', {
             center: [16.99088, 121.6358],
             zoom: 16,
-            zoomControl: false
+            zoomControl: false,
+            fullscreenControl: true
         });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 20 }).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 20
+        }).addTo(map);
 
         var clients = <?php echo json_encode($clientData); ?>;
         clients.forEach(client => {
@@ -514,13 +539,13 @@ while ($row = mysqli_fetch_assoc($result)) {
 
                     div.appendChild(icon);
                     div.appendChild(document.createTextNode(client.FullName));
-                    
+
                     div.onclick = () => focusClient(client);
                     resultsPanel.appendChild(div);
                 });
             resultsPanel.style.display = input ? 'block' : 'none';
             document.querySelector('.clear-icon').style.display = input ? 'block' : 'none';
-            
+
         }
 
 
@@ -530,7 +555,7 @@ while ($row = mysqli_fetch_assoc($result)) {
 
             // Find the marker associated with the client and bind/open the popup
             var selectedMarker = L.marker([client.Latitude, client.Longitude]).addTo(map);
-            
+
             // Create a custom popup content for the selected client
             var popupContent = `
                 <div style="width: 300px; max-height: 80vh; overflow-y: auto;">
@@ -565,7 +590,6 @@ while ($row = mysqli_fetch_assoc($result)) {
             document.getElementById('searchResults').style.display = 'none';
         }
 
-
         function clearSearch() {
             document.getElementById('searchBar').value = '';
             document.getElementById('searchResults').style.display = 'none';
@@ -573,4 +597,5 @@ while ($row = mysqli_fetch_assoc($result)) {
         }
     </script>
 </body>
+
 </html>

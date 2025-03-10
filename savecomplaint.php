@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -14,7 +15,8 @@ if (!isset($_SESSION['username'])) {
 include('db_connection.php');
 
 // Function to generate a unique ComplaintID (e.g., C######)
-function generateComplaintID($conn) {
+function generateComplaintID($conn)
+{
     do {
         $complaintID = 'C' . str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
         $stmt = $conn->prepare("SELECT ComplaintID FROM tblcomplaints WHERE ComplaintID = ?");
@@ -73,9 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $conn->close();
 
 // Function to send email notification using PHPMailer
-function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $clientEmail, $address, $type, $report, $remark) {
+function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $clientEmail, $address, $type, $report, $remark)
+{
     $mail = new PHPMailer(true);
-    
+
     try {
         // SMTP Configuration
         $mail->isSMTP();
@@ -90,7 +93,7 @@ function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $
         $mail->setFrom('bmbcellaurora@gmail.com', 'Complaint System');
 
         // Email to BMB Cell Aurora (Admin)
-        $mail->addAddress('bmbcellaurora@gmail.com', 'Complaint Receiver'); 
+        $mail->addAddress('bmbcellaurora@gmail.com', 'Complaint Receiver');
         $mail->isHTML(true);
         $mail->Subject = "New Complaint Filed (ID: $complaintID)";
         $mail->Body    = "
@@ -113,9 +116,9 @@ function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $
         $mail->send();
 
         // Email to Client (Acknowledgment)
-        if (filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) { 
+        if (filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) {
             $mail->clearAddresses();
-            $mail->addAddress($clientEmail, "Client $clientID"); 
+            $mail->addAddress($clientEmail, "Client $clientID");
             $mail->Subject = "Acknowledgment of Your Complaint (ID: $complaintID)";
             $mail->Body = "
                 <h2 style='color: #28a745;'>Complaint Acknowledgment</h2>
@@ -140,4 +143,3 @@ function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $
         return false; // Log error if needed
     }
 }
-?>

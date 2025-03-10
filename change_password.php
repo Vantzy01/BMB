@@ -1,5 +1,6 @@
 <?php
 session_start();
+include('db_connection.php');
 
 if (!isset($_SESSION['username'])) {
     header("Location: login.php");
@@ -9,8 +10,6 @@ if (!isset($_SESSION['username'])) {
 $clientID = $_SESSION['clientID'];
 $fullName = isset($_SESSION['fullname']) ? $_SESSION['fullname'] : null;
 $message = "";
-
-include('db_connection.php');
 
 // Handle the password change request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -61,259 +60,275 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Change Password - BMB Cell</title>
+    <link rel="icon" href="Images/logo.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <style>
-    :root {  
-    --primary-color: #007bff;  
-    --secondary-color: #343a40;  
-    --success-color: #28a745;  
-    --danger-color: #dc3545;
-    --purple-color: #6f42c1;
-}
-
-.notification-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    width: 300px;
-    max-height: 400px;
-    overflow-y: auto;
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 1050;
-}
-.notification-dropdown .list-group-item {
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-.notification-dropdown .list-group-item:hover {
-    background: #f0f0f0;
-}
-.notification-dropdown-header {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-weight: bold;
-    font-size: 16px;
-    background-color: #f8f9fa;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 15px;
-    background-color: #ededf5;
-}
-
-.wrapper {
-    display: flex;
-    flex: 1;
-}
-
-.sidebar {
-    height: 100%;
-    width: 250px;
-    background-color: #ffffff;
-    padding-top: 50px;
-    position: fixed;
-    left: -250px;
-    transition: left 0.3s ease-in-out;
-    box-shadow: 3px 0 5px rgba(0,0,0,0.2);
-}
-
-.client-info {
-    padding: 30px;
-    font-size: 18px;
-    text-align: left;
-    color: black;
-    padding-left: 20px;
-}
-
-.client-info i {  
-    margin-right: 10px;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: black;
-    font-size: 24px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.close-btn:hover {
-    color: #ff5c5c;
-}
-
-.sidebar.show {
-    left: 0;
-    z-index: 1000;
-}
-
-.sidebar a {
-    color: black;
-    padding: 15px 20px;
-    display: block;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s ease, padding-left 0.3s ease;
-}
-
-.sidebar a:hover {
-    background-color: #007bff;
-    padding-left: 25px;
-}
-
-.sidebar a i {  
-    margin-right: 10px;
-}
-
-.sidebar .active {
-    background-color: #007bff;
-    padding-left: 25px;
-}
-
-.top-navbar {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px;
-    background-color: #007bff;
-    color: #fff;
-}
-.top-navbar .notification-icon {
-    cursor: pointer;
-}
-
-.main-content {
-    margin-left: 0;
-    padding: 20px;
-    flex-grow: 1;
-    transition: margin-left 0.3s;
-}
-.main-content.sidebar-open {
-    margin-left: 250px;
-}
-/* Bottom Navigation */
-.bottom-navbar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: #ffffff;
-    display: flex;
-    justify-content: space-around;
-    padding: 5px;
-    z-index: 1000;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
-    font-family: 'Poppins', sans-serif;
-}
-
-.nav-item {
-    color: #a8a8a8;
-    text-align: center;
-    font-size: 14px;
-    padding: 6px 0;
-    flex-grow: 1;
-    text-decoration: none;
-    transition: color 0.3s, transform 0.3s;
-}
-
-.nav-item i {
-    display: block;
-    font-size: 20px;
-    margin-bottom: 3px;
-}
-
-.nav-item:hover {
-    color: #007bff;
-    transform: scale(1.1);
-    text-decoration: none;
-}
-
-.nav-item span {
-    font-size: 12px;
-}
-
-.nav-item.active {
-    color: #007bff;
-    border-top: 3px solid #007bff;
-    text-decoration: none;
-}
-
-/* Fullscreen spinner overlay */
-#spinner {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-/* Spinner animation */
-.loader {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: inline-block;
-    border-top: 4px solid #FFF;
-    border-right: 4px solid transparent;
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-}
-.loader::after {
-    content: '';  
-    box-sizing: border-box;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border-left: 4px solid #007bff;
-    border-bottom: 4px solid transparent;
-    animation: rotation 0.5s linear infinite reverse;
-}
-@keyframes rotation {
-    0% {
-        transform: rotate(0deg);
+    :root {
+        --primary-color: #007bff;
+        --secondary-color: #343a40;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --purple-color: #6f42c1;
     }
-    100% {
-        transform: rotate(360deg);
+
+    .notification-dropdown {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: none;
+        z-index: 1050;
     }
-} 
 
-/* Responsive Design */
-@media (max-width: 600px) {
-            .modal-content {  
-                margin: 10px;  
-            }
+    .notification-dropdown .list-group-item {
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
 
-            .bottom-navbar span {
-                display: none;
-            }
+    .notification-dropdown .list-group-item:hover {
+        background: #f0f0f0;
+    }
+
+    .notification-dropdown-header {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+        font-size: 16px;
+        background-color: #f8f9fa;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    body {
+        display: flex;
+        min-height: 100vh;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        font-size: 15px;
+        background-color: #ededf5;
+    }
+
+    .wrapper {
+        display: flex;
+        flex: 1;
+    }
+
+    .sidebar {
+        height: 100%;
+        width: 300px;
+        background-color: #ffffff;
+        padding-top: 50px;
+        position: fixed;
+        left: -300px;
+        transition: left 0.3s ease-in-out;
+        box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .client-info {
+        padding: 30px;
+        font-size: 18px;
+        text-align: left;
+        color: black;
+        padding-left: 20px;
+    }
+
+    .client-info i {
+        margin-right: 10px;
+    }
+
+    .close-btn {
+        background: none;
+        border: none;
+        color: black;
+        font-size: 24px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+    }
+
+    .close-btn:hover {
+        color: #ff5c5c;
+    }
+
+    .sidebar.show {
+        left: 0;
+        z-index: 1012;
+    }
+
+    .sidebar a {
+        color: black;
+        padding: 15px 20px;
+        display: block;
+        text-decoration: none;
+        font-size: 16px;
+        transition: background-color 0.3s ease, padding-left 0.3s ease;
+    }
+
+    .sidebar a:hover {
+        background-color: #007bff;
+        padding-left: 25px;
+    }
+
+    .sidebar a i {
+        margin-right: 10px;
+    }
+
+    .sidebar .active {
+        background-color: #007bff;
+        padding-left: 25px;
+    }
+
+    .top-navbar {
+        display: flex;
+        justify-content: space-between;
+        padding: 15px;
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .top-navbar .notification-icon {
+        cursor: pointer;
+    }
+
+    .top-navbar .collapse-btn {
+        cursor: pointer;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+        flex-grow: 1;
+        transition: margin-left 0.3s;
+    }
+
+    .main-content.sidebar-open {
+        margin-left: 250px;
+    }
+
+    /* Bottom Navigation */
+    .bottom-navbar {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #ffffff;
+        display: flex;
+        justify-content: space-around;
+        padding: 5px;
+        z-index: 1000;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .nav-item {
+        color: #a8a8a8;
+        text-align: center;
+        font-size: 14px;
+        padding: 6px 0;
+        flex-grow: 1;
+        text-decoration: none;
+        transition: color 0.3s, transform 0.3s;
+    }
+
+    .nav-item i {
+        display: block;
+        font-size: 20px;
+        margin-bottom: 3px;
+    }
+
+    .nav-item:hover {
+        color: #007bff;
+        transform: scale(1.1);
+        text-decoration: none;
+    }
+
+    .nav-item span {
+        font-size: 12px;
+    }
+
+    .nav-item.active {
+        color: #007bff;
+        border-top: 3px solid #007bff;
+        text-decoration: none;
+    }
+
+    /* Fullscreen spinner overlay */
+    #spinner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    /* Spinner animation */
+    .loader {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: inline-block;
+        border-top: 4px solid #FFF;
+        border-right: 4px solid transparent;
+        box-sizing: border-box;
+        animation: rotation 1s linear infinite;
+    }
+
+    .loader::after {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border-left: 4px solid #007bff;
+        border-bottom: 4px solid transparent;
+        animation: rotation 0.5s linear infinite reverse;
+    }
+
+    @keyframes rotation {
+        0% {
+            transform: rotate(0deg);
         }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        .modal-content {
+            margin: 10px;
+        }
+
+        .bottom-navbar span {
+            display: none;
+        }
+    }
 </style>
 
 <body>
@@ -362,7 +377,7 @@ body {
                 <li class="list-group-item text-center">No new announcements</li>
             <?php else: ?>
                 <?php foreach ($announcements as $announcement): ?>
-                    <li class="list-group-item" 
+                    <li class="list-group-item"
                         data-title="<?php echo htmlspecialchars($announcement['Title']); ?>"
                         data-message="<?php echo nl2br(htmlspecialchars($announcement['Message'])); ?>"
                         data-date="<?php echo date("F d, Y h:i A", strtotime($announcement['DateCreated'])); ?>">
@@ -447,11 +462,11 @@ body {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.getElementById('toggleSidebar').addEventListener('click', function () {
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         });
-        document.getElementById('closeSidebarBtn').addEventListener('click', function () {
+        document.getElementById('closeSidebarBtn').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('show');
         });
@@ -476,7 +491,7 @@ body {
                 });
             });
         });
-        
+
         $(document).ready(function() {
             // Toggle the visibility of the notification dropdown
             $('#notificationBell').on('click', function() {
@@ -503,4 +518,5 @@ body {
         });
     </script>
 </body>
+
 </html>

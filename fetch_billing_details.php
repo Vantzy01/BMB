@@ -9,19 +9,18 @@ if (!empty($invoiceNo)) {
               FROM tblbilling b
               INNER JOIN tblplan p ON b.PlanID = p.PlanID
               WHERE b.InvoiceNo = ?";
-    
+
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $invoiceNo);
     $stmt->execute();
     $result = $stmt->get_result();
-    
+
     if ($result->num_rows > 0) {
         $billingDetails = $result->fetch_assoc();
         echo json_encode($billingDetails);
     } else {
         echo json_encode([]);
     }
-    
+
     $stmt->close();
 }
-

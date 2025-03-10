@@ -54,6 +54,7 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Payment - BMB Internet Service</title>
@@ -104,7 +105,9 @@ $conn->close();
             display: none;
         }
 
-        .btn-primary, .btn-secondary, .btn-success {
+        .btn-primary,
+        .btn-secondary,
+        .btn-success {
             width: 100%;
             margin-top: 20px;
         }
@@ -114,119 +117,121 @@ $conn->close();
         }
     </style>
 </head>
+
 <body>
 
-<div class="container mt-5">
-    <h3 class="text-center">Payment Process</h3>
+    <div class="container mt-5">
+        <h3 class="text-center">Payment Process</h3>
 
-    <!-- Step Progress Indicator -->
-    <div class="step-header">
-        <div class="step-indicator active" id="indicator-1">Payment Info</div>
-        <div class="step-indicator" id="indicator-2">Billing Details</div>
-        <div class="step-indicator" id="indicator-3">Summary</div>
-        <div class="step-indicator" id="indicator-4">Payment</div>
+        <!-- Step Progress Indicator -->
+        <div class="step-header">
+            <div class="step-indicator active" id="indicator-1">Payment Info</div>
+            <div class="step-indicator" id="indicator-2">Billing Details</div>
+            <div class="step-indicator" id="indicator-3">Summary</div>
+            <div class="step-indicator" id="indicator-4">Payment</div>
+        </div>
+
+        <form id="paymentForm" action="process_payment.php" method="post" enctype="multipart/form-data">
+            <!-- Step 1: Payment Information -->
+            <div class="step active" id="step-1">
+                <h4>1. Payment Information</h4>
+                <p>Monthly Bill: <strong>₱<?php echo number_format($latestBill['OutstandingBalance'], 2); ?></strong></p>
+                <input type="hidden" name="invoiceNo" value="<?php echo $latestBill['InvoiceNo']; ?>">
+                <input type="hidden" name="clientID" value="<?php echo $latestBill['ClientID']; ?>">
+                <input type="hidden" name="period" value="<?php echo $latestBill['Period']; ?>">
+                <input type="hidden" name="lastBill" value="<?php echo $latestBill['OutstandingBalance']; ?>">
+
+                <label class="mt-3">Select Payment Method:</label>
+                <div class="form-group">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="gcash" name="paymentMethod" value="Gcash" class="custom-control-input" required>
+                        <label class="custom-control-label" for="gcash">GCash</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="homeCollector" name="paymentMethod" value="Home Collector" class="custom-control-input" required>
+                        <label class="custom-control-label" for="homeCollector">Home Collector</label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary next-step">Next</button>
+            </div>
+
+            <!-- Step 2: Billing Details -->
+            <div class="step" id="step-2">
+                <h4>2. Billing Details</h4>
+                <p>Due Date: <strong><?php echo date('d F Y', strtotime($latestBill['DueDate'])); ?></strong></p>
+                <p>Status: <strong><?php echo $latestBill['Status']; ?></strong></p>
+                <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                <button type="button" class="btn btn-primary next-step">Next</button>
+            </div>
+
+            <!-- Step 3: Summary -->
+            <div class="step" id="step-3">
+                <h4>3. Summary</h4>
+                <p>Review your payment information before proceeding.</p>
+                <ul class="list-group">
+                    <li class="list-group-item">Amount to Pay: <strong>₱<?php echo number_format($latestBill['OutstandingBalance'], 2); ?></strong></li>
+                    <li class="list-group-item">Payment Method: <strong id="selectedMethod"></strong></li>
+                </ul>
+                <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                <button type="button" class="btn btn-primary next-step">Next</button>
+            </div>
+
+            <!-- Step 4: Payment -->
+            <div class="step" id="step-4">
+                <h4>4. Payment</h4>
+                <div class="form-group">
+                    <label>Enter Amount:</label>
+                    <input type="number" name="amount" class="form-control" required>
+                </div>
+                <div class="form-group gcash-attachment" style="display: none;">
+                    <label>Upload GCash Payment Screenshot:</label>
+                    <input type="file" name="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
+                </div>
+                <button type="button" class="btn btn-secondary prev-step">Previous</button>
+                <button type="submit" class="btn btn-success">Submit Payment</button>
+            </div>
+        </form>
     </div>
 
-    <form id="paymentForm" action="process_payment.php" method="post" enctype="multipart/form-data">
-        <!-- Step 1: Payment Information -->
-        <div class="step active" id="step-1">
-            <h4>1. Payment Information</h4>
-            <p>Monthly Bill: <strong>₱<?php echo number_format($latestBill['OutstandingBalance'], 2); ?></strong></p>
-            <input type="hidden" name="invoiceNo" value="<?php echo $latestBill['InvoiceNo']; ?>">
-            <input type="hidden" name="clientID" value="<?php echo $latestBill['ClientID']; ?>">
-            <input type="hidden" name="period" value="<?php echo $latestBill['Period']; ?>">
-            <input type="hidden" name="lastBill" value="<?php echo $latestBill['OutstandingBalance']; ?>">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let currentStep = 1;
 
-            <label class="mt-3">Select Payment Method:</label>
-            <div class="form-group">
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="gcash" name="paymentMethod" value="Gcash" class="custom-control-input" required>
-                    <label class="custom-control-label" for="gcash">GCash</label>
-                </div>
-                <div class="custom-control custom-radio">
-                    <input type="radio" id="homeCollector" name="paymentMethod" value="Home Collector" class="custom-control-input" required>
-                    <label class="custom-control-label" for="homeCollector">Home Collector</label>
-                </div>
-            </div>
-            <button type="button" class="btn btn-primary next-step">Next</button>
-        </div>
+            // Handle Next Step
+            $('.next-step').click(function() {
+                if (currentStep < 4) {
+                    $('#step-' + currentStep).removeClass('active');
+                    $('#indicator-' + currentStep).removeClass('active');
+                    currentStep++;
+                    $('#step-' + currentStep).addClass('active');
+                    $('#indicator-' + currentStep).addClass('active');
+                }
+            });
 
-        <!-- Step 2: Billing Details -->
-        <div class="step" id="step-2">
-            <h4>2. Billing Details</h4>
-            <p>Due Date: <strong><?php echo date('d F Y', strtotime($latestBill['DueDate'])); ?></strong></p>
-            <p>Status: <strong><?php echo $latestBill['Status']; ?></strong></p>
-            <button type="button" class="btn btn-secondary prev-step">Previous</button>
-            <button type="button" class="btn btn-primary next-step">Next</button>
-        </div>
+            // Handle Previous Step
+            $('.prev-step').click(function() {
+                if (currentStep > 1) {
+                    $('#step-' + currentStep).removeClass('active');
+                    $('#indicator-' + currentStep).removeClass('active');
+                    currentStep--;
+                    $('#step-' + currentStep).addClass('active');
+                    $('#indicator-' + currentStep).addClass('active');
+                }
+            });
 
-        <!-- Step 3: Summary -->
-        <div class="step" id="step-3">
-            <h4>3. Summary</h4>
-            <p>Review your payment information before proceeding.</p>
-            <ul class="list-group">
-                <li class="list-group-item">Amount to Pay: <strong>₱<?php echo number_format($latestBill['OutstandingBalance'], 2); ?></strong></li>
-                <li class="list-group-item">Payment Method: <strong id="selectedMethod"></strong></li>
-            </ul>
-            <button type="button" class="btn btn-secondary prev-step">Previous</button>
-            <button type="button" class="btn btn-primary next-step">Next</button>
-        </div>
-
-        <!-- Step 4: Payment -->
-        <div class="step" id="step-4">
-            <h4>4. Payment</h4>
-            <div class="form-group">
-                <label>Enter Amount:</label>
-                <input type="number" name="amount" class="form-control" required>
-            </div>
-            <div class="form-group gcash-attachment" style="display: none;">
-                <label>Upload GCash Payment Screenshot:</label>
-                <input type="file" name="fileToUpload" accept=".jpg, .jpeg, .png" class="form-control">
-            </div>
-            <button type="button" class="btn btn-secondary prev-step">Previous</button>
-            <button type="submit" class="btn btn-success">Submit Payment</button>
-        </div>
-    </form>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        let currentStep = 1;
-
-        // Handle Next Step
-        $('.next-step').click(function() {
-            if (currentStep < 4) {
-                $('#step-' + currentStep).removeClass('active');
-                $('#indicator-' + currentStep).removeClass('active');
-                currentStep++;
-                $('#step-' + currentStep).addClass('active');
-                $('#indicator-' + currentStep).addClass('active');
-            }
+            // Handle Payment Method Display
+            $('input[name="paymentMethod"]').change(function() {
+                $('#selectedMethod').text($(this).val());
+                if ($(this).val() === 'Gcash') {
+                    $('.gcash-attachment').show();
+                } else {
+                    $('.gcash-attachment').hide();
+                }
+            });
         });
-
-        // Handle Previous Step
-        $('.prev-step').click(function() {
-            if (currentStep > 1) {
-                $('#step-' + currentStep).removeClass('active');
-                $('#indicator-' + currentStep).removeClass('active');
-                currentStep--;
-                $('#step-' + currentStep).addClass('active');
-                $('#indicator-' + currentStep).addClass('active');
-            }
-        });
-
-        // Handle Payment Method Display
-        $('input[name="paymentMethod"]').change(function() {
-            $('#selectedMethod').text($(this).val());
-            if ($(this).val() === 'Gcash') {
-                $('.gcash-attachment').show();
-            } else {
-                $('.gcash-attachment').hide();
-            }
-        });
-    });
-</script>
+    </script>
 
 </body>
+
 </html>

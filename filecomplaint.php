@@ -50,7 +50,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>File Complaint</title>
+    <link rel="icon" href="Images/logo.ico"/>
+    <title>File Complaint - BMB Cell</title>
     <style>
         /* Reset and Global Styles */
         body {
@@ -240,6 +241,19 @@ $conn->close();
                 $('#reportSection, #instructionSection').addClass('hidden');
             }
         });
+        
+        let isSubmitting = false;
+
+        $('#saveComplaintForm').submit(function (e) {
+            if (isSubmitting) {
+                e.preventDefault();
+                return false; // Prevent duplicate submission
+            }
+            
+            isSubmitting = true;
+            $('#detailSection button[type="save"]').prop('disabled', true).text('Saving...');
+        });
+        
 
         // Show Instruction Section When Report is Selected
         $('#report').change(function () {

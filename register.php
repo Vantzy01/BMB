@@ -46,16 +46,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Generate a unique ClientID (e.g., CL-ID-000001)
-    $query = "SELECT ClientID FROM tblclient ORDER BY ClientID DESC LIMIT 1";
-    $result = $conn->query($query);
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $lastId = intval(substr($row['ClientID'], 6)) + 1;
-        $clientId = 'CL-ID-' . str_pad($lastId, 6, '0', STR_PAD_LEFT);
-    } else {
-        $clientId = 'CL-ID-000001';
-    }
+    do {
+        $randomNumber = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+        $clientId = 'CL-ID-' . $randomNumber;
+
+        $query = "SELECT ClientID FROM tblclient WHERE ClientID = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $clientId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    } while ($result->num_rows > 0);
 
     // Insert new client record
     $sql = "INSERT INTO tblclient (ClientID, FullName, MobileNumber, Email, Username, Password, Address, PlanID, Longitude, Latitude, Status) 
@@ -71,4 +71,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-?>

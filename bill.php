@@ -25,7 +25,7 @@ $bills = $result->fetch_all(MYSQLI_ASSOC);
 $announcementSql = "SELECT * FROM tblannouncements ORDER BY DateCreated DESC";
 $announcementResult = $conn->query($announcementSql);
 $announcements = $announcementResult->fetch_all(MYSQLI_ASSOC);
- 
+
 $stmt->close();
 $conn->close();
 ?>
@@ -35,10 +35,12 @@ $conn->close();
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Billing - BMB Cell</title>
+    <link rel="icon" href="Images/logo.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <style>
         body {
             display: flex;
@@ -64,7 +66,7 @@ $conn->close();
             position: fixed;
             left: -300px;
             transition: left 0.3s ease-in-out;
-            box-shadow: 3px 0 5px rgba(0,0,0,0.2);
+            box-shadow: 3px 0 5px rgba(0, 0, 0, 0.2);
             z-index: 1000;
         }
 
@@ -76,7 +78,7 @@ $conn->close();
             padding-left: 20px;
         }
 
-        .client-info i {  
+        .client-info i {
             margin-right: 10px;
         }
 
@@ -115,7 +117,7 @@ $conn->close();
             padding-left: 25px;
         }
 
-        .sidebar a i {  
+        .sidebar a i {
             margin-right: 10px;
         }
 
@@ -133,10 +135,18 @@ $conn->close();
             align-items: center;
         }
 
+        .top-navbar .notification-icon {
+            cursor: pointer;
+        }
+
+        .top-navbar .collapse-btn {
+            cursor: pointer;
+        }
+
         .main-content {
-            flex: 1;
+            margin: 30px 30px 80px 30px;
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: #ededf5;
         }
 
         .card {
@@ -172,6 +182,7 @@ $conn->close();
             text-align: center;
             padding: 10px 0;
         }
+
         .notification-dropdown {
             position: absolute;
             top: 60px;
@@ -186,13 +197,16 @@ $conn->close();
             display: none;
             z-index: 1050;
         }
+
         .notification-dropdown .list-group-item {
             cursor: pointer;
             transition: background 0.2s ease;
         }
+
         .notification-dropdown .list-group-item:hover {
             background: #f0f0f0;
         }
+
         .notification-dropdown-header {
             padding: 10px;
             border-bottom: 1px solid #ddd;
@@ -279,27 +293,36 @@ $conn->close();
 
         .main-content {
             flex: 1;
-            padding: 20px;
-            background-color: #f8f9fa;
+            padding: 30px;
+            background-color: #ededf5;
+        }
+
+        .table-header {
+            width: 95%;
+            display: flex;
         }
 
         h2 {
-            text-align: center;
             margin-bottom: 15px;
             color: #333;
         }
 
         .table-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             width: 100%;
         }
 
         .table-responsive {
             width: 100%;
             overflow-x: auto;
+            border-radius: 10px;
             box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
         }
 
-        .billing-table {    
+        .billing-table {
             width: 100%;
             border-collapse: collapse;
             background: #fff;
@@ -307,15 +330,17 @@ $conn->close();
         }
 
         thead {
+            width: 100%;
             background-color: #007bff;
             color: white;
         }
 
-        thead th:nth-child(7){
+        thead th:nth-child(7) {
             text-align: center;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             text-align: left;
             white-space: nowrap;
@@ -326,6 +351,7 @@ $conn->close();
         }
 
         tbody tr {
+            width: 100%;
             background-color: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             transition: background 0.3s;
@@ -385,7 +411,8 @@ $conn->close();
         /* Responsive Design */
         @media screen and (max-width: 600px) {
             .main-content {
-                padding: 10px;
+                margin: 0;
+                padding: 10px 0;
             }
 
             thead th:nth-child(1),
@@ -397,14 +424,17 @@ $conn->close();
 
             thead th:nth-child(7),
             tbody td:nth-child(7) {
-                font-size: 0.75rem;
+                font-size: 0.60rem;
             }
 
-            table{
-                display: block;
+            .table-responsive {
+                width: 95%;
+
             }
-            th, td {
-                width:auto;
+
+            th,
+            td {
+                width: auto;
                 padding: 5px;
                 font-size: 0.75rem;
             }
@@ -414,6 +444,16 @@ $conn->close();
                 font-size: 0.75em;
             }
         }
+
+        /* Responsive Design */
+        @media (max-width: 400px) {
+
+            th,
+            td {
+                font-size: 0.6rem;
+            }
+        }
+
 
 
         /* Fullscreen spinner overlay */
@@ -441,8 +481,9 @@ $conn->close();
             box-sizing: border-box;
             animation: rotation 1s linear infinite;
         }
+
         .loader::after {
-            content: '';  
+            content: '';
             box-sizing: border-box;
             position: absolute;
             left: 0;
@@ -454,19 +495,21 @@ $conn->close();
             border-bottom: 4px solid transparent;
             animation: rotation 0.5s linear infinite reverse;
         }
+
         @keyframes rotation {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* Responsive Design */
         @media (max-width: 600px) {
-            .modal-content {  
-                margin: 10px;  
+            .modal-content {
+                margin: 10px;
             }
 
             .bottom-navbar span {
@@ -475,7 +518,7 @@ $conn->close();
         }
     </style>
 </head>
- 
+
 <body>
     <div id="spinner" class="spinner" style="display: none;">
         <div class="loader"></div>
@@ -532,7 +575,9 @@ $conn->close();
         <!-- Main Content Area -->
         <main class="main-content">
             <div class="table-container">
-                <h2>Billing History</h2>
+                <div class="table-header">
+                    <h2>Billing History</h2>
+                </div>
                 <div class="table-responsive">
                     <table class="billing-table">
                         <thead>
@@ -540,7 +585,7 @@ $conn->close();
                                 <th>Invoice No</th>
                                 <th>Due Date</th>
                                 <th>Period</th>
-                                <th>Due Amount</th>
+                                <th>Amount</th>
                                 <th>Discount</th>
                                 <th>Payment</th>
                                 <th>Status</th>
@@ -583,8 +628,8 @@ $conn->close();
                                                     $statusClass = 'status-default';
                                             }
                                             ?>
-                                            <span class="status-badge <?php echo $statusClass; ?> payment-status" 
-                                                data-invoice-no="<?php echo htmlspecialchars($bill['InvoiceNo']); ?>" 
+                                            <span class="status-badge <?php echo $statusClass; ?> payment-status"
+                                                data-invoice-no="<?php echo htmlspecialchars($bill['InvoiceNo']); ?>"
                                                 style="cursor: pointer;">
                                                 <?php echo $status; ?>
                                             </span>
@@ -672,11 +717,11 @@ $conn->close();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        document.getElementById('toggleSidebar').addEventListener('click', function () {
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         });
-        document.getElementById('closeSidebarBtn').addEventListener('click', function () {
+        document.getElementById('closeSidebarBtn').addEventListener('click', function() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.remove('show');
         });
@@ -757,4 +802,5 @@ $conn->close();
         });
     </script>
 </body>
+
 </html>
