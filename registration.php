@@ -26,6 +26,7 @@ $options = fetchPackages($conn);
     <title> Registration Form - BMB Cell </title>
     <link rel="icon" href="Images/logo.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
     <script defer src="registration.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -34,7 +35,7 @@ $options = fetchPackages($conn);
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins';
         }
 
         body {
@@ -376,6 +377,8 @@ $options = fetchPackages($conn);
             L.control.fullscreen({
                 position: 'topleft'
             }).addTo(map);
+
+            var marker = null;
 
             map.on('click', function(e) {
                 var lat = e.latlng.lat;
