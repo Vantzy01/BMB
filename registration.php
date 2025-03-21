@@ -26,6 +26,7 @@ $options = fetchPackages($conn);
     <title> Registration Form - BMB Cell </title>
     <link rel="icon" href="Images/logo.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
     <link href='https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/leaflet.fullscreen.css' rel='stylesheet' />
     <script defer src="registration.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -34,7 +35,7 @@ $options = fetchPackages($conn);
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Poppins';
         }
 
         body {
@@ -145,8 +146,8 @@ $options = fetchPackages($conn);
         }
 
         #map {
-            height: 200px;
-            width: 100%;
+            height: 200px !important;
+            width: 100% !important;
             margin: auto;
             border-radius: 5px;
         }
@@ -331,9 +332,11 @@ $options = fetchPackages($conn);
                     <div class="instruction-text">
                         <p>Place the blue pin exactly where you live. Pinch or scroll to zoom the map. Click or tap to place it at the roof of your house.</p>
                     </div>
-                    <div id="map"></div>
+                    <div id="map">
+                    </div>
                     <input type="hidden" id="latitude" name="latitude">
                     <input type="hidden" id="longitude" name="longitude">
+
                 </div>
                 <!-- Submit button -->
                 <div class="link">
@@ -350,7 +353,7 @@ $options = fetchPackages($conn);
         <script>
             var map = L.map('map', {
                 center: [16.99088, 121.6358],
-                zoom: 13,
+                zoom: 14,
                 zoomControl: false
             });
 
@@ -376,6 +379,8 @@ $options = fetchPackages($conn);
             L.control.fullscreen({
                 position: 'topleft'
             }).addTo(map);
+
+            var marker = null;
 
             map.on('click', function(e) {
                 var lat = e.latlng.lat;

@@ -8,8 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const password2 = document.getElementById("password2");
     const address = document.getElementById("address");
     const packageSelect = document.getElementById("package");
-    const latitude = document.getElementById("latitude");
-    const longitude = document.getElementById("longitude");
+
 
     form.addEventListener("submit", (e) => {
         e.preventDefault();
@@ -119,6 +118,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         return isValid;
+
+        
+    }
+
+    function validateForm() {
+        let lat = document.getElementById('latitude').value.trim();
+        let lng = document.getElementById('longitude').value.trim();
+
+        if (!lat || !lng) {
+            alert("Please set your location before submitting.");
+            return false;
+        }
+
+        return true;
     }
 });
 
