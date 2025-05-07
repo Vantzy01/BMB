@@ -96,22 +96,25 @@ function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $
         $mail->addAddress('bmbcellaurora@gmail.com', 'Complaint Receiver');
         $mail->isHTML(true);
         $mail->Subject = "New Complaint Filed (ID: $complaintID)";
-        $mail->Body    = "
-            <h2 style='color: #007bff;'>New Complaint Received</h2>
-            <p>A new complaint has been submitted with the following details:</p>
-            <table style='width: 100%; border-collapse: collapse;'>
-                <tr><td><strong>Complaint ID:</strong></td><td>$complaintID</td></tr>
-                <tr><td><strong>Client ID:</strong></td><td>$clientID</td></tr>
-                <tr><td><strong>Full Name:</strong></td><td>$fullName</td></tr>
-                <tr><td><strong>Mobile Number:</strong></td><td>$mobileNumber</td></tr>
-                <tr><td><strong>Email:</strong></td><td>$clientEmail</td></tr>
-                <tr><td><strong>Address:</strong></td><td>$address</td></tr>
-                <tr><td><strong>Topic:</strong></td><td>$type</td></tr>
-                <tr><td><strong>Report:</strong></td><td>$report</td></tr>
-                <tr><td><strong>Details:</strong></td><td>$remark</td></tr>
-            </table>
-            <hr>
-            <p style='color: gray; font-size: 12px;'><em>This email is automatically generated. Please do not reply.</em></p>
+        $mail->Body = "
+            <div style='font-family: Arial, sans-serif; font-size: 14px; color: #333;'>
+                <h2 style='color: #0056b3; border-bottom: 2px solid #ccc;'>New Complaint Notification</h2>
+                <p style='margin-bottom: 10px;'>A new complaint has been submitted with the following details:</p>
+                <table style='width: 100%; border-collapse: collapse;'>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Complaint ID</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$complaintID</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Client ID</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$clientID</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Full Name</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$fullName</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Mobile Number</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$mobileNumber</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Email</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$clientEmail</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Address</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$address</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Topic</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$type</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Report</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$report</td></tr>
+                    <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Details</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$remark</td></tr>
+                </table>
+                <p style='font-size: 12px; color: #999; margin-top: 20px;'>
+                    <em>This is an automated message from the Complaint Management System. Please do not reply.</em>
+                </p>
+            </div>
         ";
         $mail->send();
 
@@ -119,21 +122,24 @@ function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $
         if (filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) {
             $mail->clearAddresses();
             $mail->addAddress($clientEmail, "Client $clientID");
-            $mail->Subject = "Acknowledgment of Your Complaint (ID: $complaintID)";
+            $mail->Subject = "Complaint Acknowledgment (ID: $complaintID)";
             $mail->Body = "
-                <h2 style='color: #28a745;'>Complaint Acknowledgment</h2>
-                <p>Dear <strong>$fullName</strong>,</p>
-                <p>We have received your complaint and will review it as soon as possible. Below are the details of your complaint:</p>
-                <table style='width: 100%; border-collapse: collapse;'>
-                    <tr><td><strong>Complaint ID:</strong></td><td>$complaintID</td></tr>
-                    <tr><td><strong>Client ID:</strong></td><td>$clientID</td></tr>
-                    <tr><td><strong>Topic:</strong></td><td>$type</td></tr>
-                    <tr><td><strong>Report:</strong></td><td>$report</td></tr>
-                    <tr><td><strong>Details:</strong></td><td>$remark</td></tr>
-                </table>
-                <p>We appreciate your patience. You will be notified once your complaint is processed.</p>
-                <hr>
-                <p style='color: gray; font-size: 12px;'><em>This email is automatically generated. Please do not reply.</em></p>
+                <div style='font-family: Arial, sans-serif; font-size: 14px; color: #333;'>
+                    <h2 style='color: #28a745; border-bottom: 2px solid #ccc;'>Complaint Received</h2>
+                    <p>Dear <strong>$fullName</strong>,</p>
+                    <p>Thank you for contacting <strong>BMB Cell Aurora</strong>. Your complaint has been successfully received and is now under review. Below are the details of your submission:</p>
+                    <table style='width: 100%; border-collapse: collapse; margin-top: 10px;'>
+                        <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Complaint ID</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$complaintID</td></tr>
+                        <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Client ID</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$clientID</td></tr>
+                        <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Topic</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$type</td></tr>
+                        <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Report</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$report</td></tr>
+                        <tr><td style='padding: 8px; border: 1px solid #ddd;'><strong>Details</strong></td><td style='padding: 8px; border: 1px solid #ddd;'>$remark</td></tr>
+                    </table>
+                    <p style='margin-top: 15px;'>We appreciate your patience and will notify you as soon as your complaint has been processed. Should you have further questions, feel free to contact us.</p>
+                    <p style='font-size: 12px; color: #999; margin-top: 20px;'>
+                        <em>This is an automated message from BMB Cell Aurora. Please do not reply to this email.</em>
+                    </p>
+                </div>
             ";
             $mail->send();
         }
