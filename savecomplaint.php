@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $report = $_POST['report'] ?? 'N/A';
     $remark = $_POST['detail'] ?? 'No details provided';
     $status = "Pending"; // Default status
-    $dateReported = date("Y-m-d H:i:s"); // Current date and time
+    $dateReported = date("Y-m-d"); // Current date and time
 
     // Get Client Details
     $stmt = $conn->prepare("SELECT FullName, MobileNumber, Email, Address FROM tblclient WHERE ClientID = ?");

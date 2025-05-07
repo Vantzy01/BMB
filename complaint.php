@@ -798,7 +798,7 @@ if (isset($_SESSION['error'])) {
                                         <td class="status <?php echo strtolower(htmlspecialchars($complaint['Status'])); ?>">
                                             <?php echo htmlspecialchars($complaint['Status']); ?>
                                         </td>
-                                        <td><?php echo date("M d, Y g:i A", strtotime($complaint['DateReported'])); ?></td>
+                                        <td><?php echo date("M d, Y", strtotime($complaint['DateReported'])); ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
