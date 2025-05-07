@@ -85,7 +85,7 @@ function sendComplaintEmail($complaintID, $clientID, $fullName, $mobileNumber, $
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'bmbcellaurora@gmail.com'; // Replace with your Gmail
-        $mail->Password   = 'hypl rkmr llcs mhmn';   // Replace with your App Password
+        $mail->Password   = 'fiyc zxef igpt sdbe';   // Replace with your App Password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
